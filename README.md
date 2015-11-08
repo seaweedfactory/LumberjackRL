@@ -1,2 +1,2 @@
 # LumberjackRL
-Lumberjackesque Rougelike created for the 2011 Annual Roguelike Release Party
+A Lumberjackesque Roguelike originally created for the 2011 Anual Roguelike Release Party
