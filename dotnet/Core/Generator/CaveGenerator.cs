@@ -358,56 +358,58 @@ namespace LumberjackRL.Core.Generator
             public void placeExits()
             {
                 List<Position> pos = getTerrainPositions(5, 5, region.getWidth() - 10, region.getHeight() - 10, TerrainCode.STONE_FLOOR);
+                if (pos != null && pos.Count > 0)
+                {
+                    //entrance
+                    Position here = pos[RandomNumber.RandomInteger(pos.Count - 1)];
+                    entrance.setX(here.x);
+                    entrance.setY(here.y);
 
-                //entrance
-                Position here = pos[RandomNumber.RandomInteger(pos.Count - 1)];
-                entrance.setX(here.x);
-                entrance.setY(here.y);
+                    region.getTerrain(here.x - 1, here.y - 1).setCode(TerrainCode.STONE_FLOOR);
+                    TerrainManager.removeParameters(region.getTerrain(here.x - 1, here.y - 1));
+                    region.getTerrain(here.x, here.y - 1).setCode(TerrainCode.STONE_FLOOR);
+                    TerrainManager.removeParameters(region.getTerrain(here.x, here.y - 1));
+                    region.getTerrain(here.x + 1, here.y - 1).setCode(TerrainCode.STONE_FLOOR);
+                    TerrainManager.removeParameters(region.getTerrain(here.x + 1, here.y - 1));
 
-                region.getTerrain(here.x - 1, here.y - 1).setCode(TerrainCode.STONE_FLOOR);
-                TerrainManager.removeParameters(region.getTerrain(here.x - 1, here.y - 1));
-                region.getTerrain(here.x, here.y - 1).setCode(TerrainCode.STONE_FLOOR);
-                TerrainManager.removeParameters(region.getTerrain(here.x, here.y - 1));
-                region.getTerrain(here.x + 1, here.y - 1).setCode(TerrainCode.STONE_FLOOR);
-                TerrainManager.removeParameters(region.getTerrain(here.x + 1, here.y - 1));
+                    region.getTerrain(here.x - 1, here.y).setCode(TerrainCode.STONE_FLOOR);
+                    TerrainManager.removeParameters(region.getTerrain(here.x - 1, here.y));
+                    region.getTerrain(here.x + 1, here.y).setCode(TerrainCode.STONE_FLOOR);
+                    TerrainManager.removeParameters(region.getTerrain(here.x + 1, here.y));
 
-                region.getTerrain(here.x - 1, here.y).setCode(TerrainCode.STONE_FLOOR);
-                TerrainManager.removeParameters(region.getTerrain(here.x - 1, here.y));
-                region.getTerrain(here.x + 1, here.y).setCode(TerrainCode.STONE_FLOOR);
-                TerrainManager.removeParameters(region.getTerrain(here.x + 1, here.y));
+                    region.getTerrain(here.x - 1, here.y + 1).setCode(TerrainCode.STONE_FLOOR);
+                    TerrainManager.removeParameters(region.getTerrain(here.x - 1, here.y + 1));
+                    region.getTerrain(here.x, here.y + 1).setCode(TerrainCode.STONE_FLOOR);
+                    TerrainManager.removeParameters(region.getTerrain(here.x, here.y + 1));
+                    region.getTerrain(here.x + 1, here.y + 1).setCode(TerrainCode.STONE_FLOOR);
+                    TerrainManager.removeParameters(region.getTerrain(here.x + 1, here.y + 1));
 
-                region.getTerrain(here.x - 1, here.y + 1).setCode(TerrainCode.STONE_FLOOR);
-                TerrainManager.removeParameters(region.getTerrain(here.x - 1, here.y + 1));
-                region.getTerrain(here.x, here.y + 1).setCode(TerrainCode.STONE_FLOOR);
-                TerrainManager.removeParameters(region.getTerrain(here.x, here.y + 1));
-                region.getTerrain(here.x + 1, here.y + 1).setCode(TerrainCode.STONE_FLOOR);
-                TerrainManager.removeParameters(region.getTerrain(here.x + 1, here.y + 1));
+                    pos.Remove(here);
 
-                pos.Remove(here);
+                    //exit
+                    here = pos[RandomNumber.RandomInteger(pos.Count - 1)];
+                    exit.setX(here.x);
+                    exit.setY(here.y);
 
-                //exit
-                here = pos[RandomNumber.RandomInteger(pos.Count - 1)];
-                exit.setX(here.x);
-                exit.setY(here.y);
+                    region.getTerrain(here.x - 1, here.y - 1).setCode(TerrainCode.STONE_FLOOR);
+                    TerrainManager.removeParameters(region.getTerrain(here.x - 1, here.y - 1));
+                    region.getTerrain(here.x, here.y - 1).setCode(TerrainCode.STONE_FLOOR);
+                    TerrainManager.removeParameters(region.getTerrain(here.x, here.y - 1));
+                    region.getTerrain(here.x + 1, here.y - 1).setCode(TerrainCode.STONE_FLOOR);
+                    TerrainManager.removeParameters(region.getTerrain(here.x + 1, here.y - 1));
 
-                region.getTerrain(here.x - 1, here.y - 1).setCode(TerrainCode.STONE_FLOOR);
-                TerrainManager.removeParameters(region.getTerrain(here.x - 1, here.y - 1));
-                region.getTerrain(here.x, here.y - 1).setCode(TerrainCode.STONE_FLOOR);
-                TerrainManager.removeParameters(region.getTerrain(here.x, here.y - 1));
-                region.getTerrain(here.x + 1, here.y - 1).setCode(TerrainCode.STONE_FLOOR);
-                TerrainManager.removeParameters(region.getTerrain(here.x + 1, here.y - 1));
+                    region.getTerrain(here.x - 1, here.y).setCode(TerrainCode.STONE_FLOOR);
+                    TerrainManager.removeParameters(region.getTerrain(here.x - 1, here.y));
+                    region.getTerrain(here.x + 1, here.y).setCode(TerrainCode.STONE_FLOOR);
+                    TerrainManager.removeParameters(region.getTerrain(here.x + 1, here.y));
 
-                region.getTerrain(here.x - 1, here.y).setCode(TerrainCode.STONE_FLOOR);
-                TerrainManager.removeParameters(region.getTerrain(here.x - 1, here.y));
-                region.getTerrain(here.x + 1, here.y).setCode(TerrainCode.STONE_FLOOR);
-                TerrainManager.removeParameters(region.getTerrain(here.x + 1, here.y));
-
-                region.getTerrain(here.x - 1, here.y + 1).setCode(TerrainCode.STONE_FLOOR);
-                TerrainManager.removeParameters(region.getTerrain(here.x - 1, here.y + 1));
-                region.getTerrain(here.x, here.y + 1).setCode(TerrainCode.STONE_FLOOR);
-                TerrainManager.removeParameters(region.getTerrain(here.x, here.y + 1));
-                region.getTerrain(here.x + 1, here.y + 1).setCode(TerrainCode.STONE_FLOOR);
-                TerrainManager.removeParameters(region.getTerrain(here.x + 1, here.y + 1));
+                    region.getTerrain(here.x - 1, here.y + 1).setCode(TerrainCode.STONE_FLOOR);
+                    TerrainManager.removeParameters(region.getTerrain(here.x - 1, here.y + 1));
+                    region.getTerrain(here.x, here.y + 1).setCode(TerrainCode.STONE_FLOOR);
+                    TerrainManager.removeParameters(region.getTerrain(here.x, here.y + 1));
+                    region.getTerrain(here.x + 1, here.y + 1).setCode(TerrainCode.STONE_FLOOR);
+                    TerrainManager.removeParameters(region.getTerrain(here.x + 1, here.y + 1));
+                }
             }
 
 
