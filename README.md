@@ -13,6 +13,7 @@ Your brother is missing and you need to find him! Explore the area to find him, 
 java -jar LumberjackRLv0.6.26.jar
 
 Or double-click on the file if it is properly associated.
+
 5. That's it, the program will only produce files in this folder.
 
 # Starting a New Game
