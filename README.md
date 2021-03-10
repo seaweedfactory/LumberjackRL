@@ -1,8 +1,6 @@
 # LumberjackRL
 A Lumberjackesque Roguelike originally created for the 2011 Anual Roguelike Release Party
 
-# LumberjackRL: A Lumerjackesque Roguelike
-
 # The Story So Far
 Your brother is missing and you need to find him! Explore the area to find him, while avoiding monsters and starvation yourself.
 
