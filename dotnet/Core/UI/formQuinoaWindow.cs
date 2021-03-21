@@ -10,10 +10,7 @@ using System.Windows.Forms;
 namespace LumberjackRL.Core.UI
 {
     public partial class formQuinoaWindow : Form, IQuinoaUI
-    {
-        public const int UI_PIXEL_WIDTH=1000;
-        public const int UI_PIXEL_HEIGHT=700;
-    
+    {   
         private Quinoa quinoa;  //reference to the main program
         private IScreen screen; //currently displayed screen
         private GraphicsManager graphicsManager;//holds tile graphics
@@ -22,11 +19,10 @@ namespace LumberjackRL.Core.UI
         {
             InitializeComponent();
 
-            this.Text = (Quinoa.PROGRAM_NAME + " " + Quinoa.VERISON);
-          
-            this.Size = new Size(UI_PIXEL_WIDTH, UI_PIXEL_HEIGHT);
+            this.Text = (Quinoa.PROGRAM_NAME + " " + Quinoa.VERSION);
+
             this.quinoa = null;
-            graphicsManager = new GraphicsManager();
+            graphicsManager = new GraphicsManager(this);
         }
 
         public void register(Quinoa quinoa)
@@ -39,11 +35,11 @@ namespace LumberjackRL.Core.UI
             switch(mode)
             {
                 case InterfaceMode.MENU:
-                setScreen(new MenuScreen(quinoa));
+                setScreen(new MenuScreen(quinoa, this));
                 break;
 
                 case InterfaceMode.ADVENTURE:
-                setScreen(new AdventureScreen(quinoa));
+                setScreen(new AdventureScreen(quinoa, this));
                 break;
             }
         }
@@ -66,8 +62,11 @@ namespace LumberjackRL.Core.UI
 
         public void refresh()
         {
-            pnlScreen.Invalidate();
-            pnlScreen.Update();
+            //pnlScreen.Invalidate();
+            //pnlScreen.Update();
+
+            Invalidate();
+            Update();
         }
 
         public Form getForm()
@@ -80,9 +79,8 @@ namespace LumberjackRL.Core.UI
             quinoa.processKey(e.KeyChar, false, false);
         }
 
-        private void pnlScreen_Paint(object sender, PaintEventArgs e)
+        private void formQuinoaWindow_Paint(object sender, PaintEventArgs e)
         {
-            base.OnPaint(e);
             screen.draw(e.Graphics);
         }
     }

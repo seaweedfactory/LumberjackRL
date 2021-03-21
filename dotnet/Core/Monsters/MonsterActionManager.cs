@@ -986,7 +986,7 @@ namespace LumberjackRL.Core.Monsters
                 DoorCode doorCode = (DoorCode)Enum.Parse(typeof(DoorCode), (TerrainManager.getParameter(region.getTerrain(x, y), TerrainParameter.HAS_DOOR)));
                 if(doorCode == DoorCode.CLOSED)
                 {
-                    region.getTerrain(x, y).getParameters().Add(TerrainParameter.HAS_DOOR, EnumUtil.EnumName<DoorCode>(DoorCode.OPEN));
+                    region.getTerrain(x, y).getParameters()[TerrainParameter.HAS_DOOR] = nameof(DoorCode.OPEN);
 
                     if(isPlayer(monster))
                     {
@@ -995,9 +995,9 @@ namespace LumberjackRL.Core.Monsters
                 }
                 else if(doorCode == DoorCode.OPEN)
                 {
-                    region.getTerrain(x, y).getParameters().Add(TerrainParameter.HAS_DOOR, EnumUtil.EnumName<DoorCode>(DoorCode.CLOSED));
+                    region.getTerrain(x, y).getParameters()[TerrainParameter.HAS_DOOR] = nameof(DoorCode.CLOSED);
 
-                    if(isPlayer(monster))
+                    if (isPlayer(monster))
                     {
                         quinoa.getMessageManager().addMessage("The door closes.");
                     }
@@ -1130,7 +1130,14 @@ namespace LumberjackRL.Core.Monsters
 
                     if(damage < TerrainManager.maxTreeDamage(tc))
                     {
-                        region.getTerrain(x,y).getParameters().Add(TerrainParameter.DAMAGE, damage + "");
+                        if(region.getTerrain(x, y).getParameters().ContainsKey(TerrainParameter.DAMAGE))
+                        {
+                            region.getTerrain(x, y).getParameters()[TerrainParameter.DAMAGE] = damage.ToString();
+                        }
+                        else
+                        {
+                            region.getTerrain(x, y).getParameters().Add(TerrainParameter.DAMAGE, damage.ToString());
+                        }
 
                         if(isPlayer(monster))
                         {
@@ -1428,7 +1435,15 @@ namespace LumberjackRL.Core.Monsters
         {
             if(TerrainManager.flammable(region.getTerrain(x,y), x, y, quinoa))
                 {
-                    region.getTerrain(x,y).getParameters().Add(TerrainParameter.FIRE, TerrainManager.BASE_FLAME_RATE+"");
+                    if (region.getTerrain(x, y).getParameters().ContainsKey(TerrainParameter.FIRE))
+                    {
+                        region.getTerrain(x, y).getParameters()[TerrainParameter.FIRE] = TerrainManager.BASE_FLAME_RATE.ToString();
+                    }
+                    else
+                    {
+                        region.getTerrain(x, y).getParameters().Add(TerrainParameter.FIRE, TerrainManager.BASE_FLAME_RATE.ToString());
+                    }
+
                     if(ItemManager.decreaseUse(item))
                     {
                         item.RemoveObject();

@@ -7,6 +7,7 @@ using LumberjackRL.Core.Monsters;
 using LumberjackRL.Core.Map;
 using LumberjackRL.Core.Utilities;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace LumberjackRL.Core.UI
 {
@@ -29,10 +30,12 @@ namespace LumberjackRL.Core.UI
 
     public class AdventureScreen : IScreen
     {
+        public Form Parent { get; set; }
+
         public const int MAP_PIXEL_X_OFFSET = 12;
         public const int MAP_PIXEL_Y_OFFSET = 46;
-        public const int MAP_WINDOW_TILE_SIZE_X = 37;
-        public const int MAP_WINDOW_TILE_SIZE_Y = 33;
+        public const int MAP_WINDOW_TILE_SIZE_X = 30;
+        public const int MAP_WINDOW_TILE_SIZE_Y = 15;
         public const int MESSAGES_PIXEL_Y_OFFSET = 583;
         public const int TIME_DISPLAY_OFFSET = 465;
         public const int MESSAGES_LINE_NUMBER = 3;
@@ -76,8 +79,9 @@ namespace LumberjackRL.Core.UI
         private AdventureScreenMode mode;
         private int regionCycleCounter;
     
-        public AdventureScreen(Quinoa quinoa)
+        public AdventureScreen(Quinoa quinoa, Form parent)
         {
+            Parent = parent;
             dtm = new DrawManager();
             this.quinoa = quinoa;
             this.tileOffsetX = 0;
@@ -236,7 +240,7 @@ namespace LumberjackRL.Core.UI
         public void draw(Graphics g)
         {
             //clear the screen
-            g.FillRectangle(Brushes.Black, 0, 0, formQuinoaWindow.UI_PIXEL_WIDTH, formQuinoaWindow.UI_PIXEL_HEIGHT); 
+            g.FillRectangle(Brushes.Black, 0, 0, Parent.Size.Width, Parent.Size.Height); 
                 
             switch (mode)
             {
@@ -324,7 +328,12 @@ namespace LumberjackRL.Core.UI
             {
                 for(int y=0; y < MAP_WINDOW_TILE_SIZE_Y; y++)
                 {
-                    dtm.drawTerrain(region.getTerrain(tileOffsetX + x, tileOffsetY + y), g, MAP_PIXEL_X_OFFSET + x*quinoa.getUI().getGraphicsManager().getTileSize(), MAP_PIXEL_Y_OFFSET + y*quinoa.getUI().getGraphicsManager().getTileSize(), quinoa.getUI().getGraphicsManager());
+                    dtm.drawTerrain(
+                        region.getTerrain(tileOffsetX + x, tileOffsetY + y), 
+                        g, 
+                        MAP_PIXEL_X_OFFSET + x*quinoa.getUI().getGraphicsManager().getTileSize(), 
+                        MAP_PIXEL_Y_OFFSET + y*quinoa.getUI().getGraphicsManager().getTileSize(), 
+                        quinoa.getUI().getGraphicsManager());
                 }
             }
 
@@ -467,8 +476,8 @@ namespace LumberjackRL.Core.UI
             g.DrawRectangle(Pens.DarkGray, MAP_PIXEL_X_OFFSET - 1, MAP_PIXEL_Y_OFFSET - 1, (MAP_WINDOW_TILE_SIZE_X * quinoa.getUI().getGraphicsManager().getTileSize()) + 1, (MAP_WINDOW_TILE_SIZE_Y * quinoa.getUI().getGraphicsManager().getTileSize()) + 1);
             
             //Draw map region name and time
-            dtm.drawString(quinoa.getCurrentRegionHeader().getName(), 2, g, MAP_PIXEL_X_OFFSET, MAP_PIXEL_Y_OFFSET - 16 , quinoa.getUI().getGraphicsManager());
-            dtm.drawString(quinoa.getTime(), 2, g, MAP_PIXEL_X_OFFSET + TIME_DISPLAY_OFFSET, MAP_PIXEL_Y_OFFSET - 16 , quinoa.getUI().getGraphicsManager());
+            dtm.drawString(quinoa.getCurrentRegionHeader().getName(), 2, g, MAP_PIXEL_X_OFFSET, MAP_PIXEL_Y_OFFSET - quinoa.getUI().getGraphicsManager().getTileSize(), quinoa.getUI().getGraphicsManager());
+            dtm.drawString(quinoa.getTime(), 2, g, MAP_PIXEL_X_OFFSET + TIME_DISPLAY_OFFSET, MAP_PIXEL_Y_OFFSET - quinoa.getUI().getGraphicsManager().getTileSize(), quinoa.getUI().getGraphicsManager());
         
         }
 
@@ -486,10 +495,10 @@ namespace LumberjackRL.Core.UI
 
         public void drawHelpSideBar(Graphics g)
         {
-            g.FillRectangle(Brushes.Black, formQuinoaWindow.UI_PIXEL_WIDTH / 2 - 225, 30, 450, formQuinoaWindow.UI_PIXEL_HEIGHT - 50);
-            g.DrawRectangle(Pens.LightGray, formQuinoaWindow.UI_PIXEL_WIDTH / 2 - 225, 30, 450, formQuinoaWindow.UI_PIXEL_HEIGHT - 50);
+            g.FillRectangle(Brushes.Black, Parent.Size.Width / 2 - 225, 30, 450, Parent.Size.Height - 50);
+            g.DrawRectangle(Pens.LightGray, Parent.Size.Width / 2 - 225, 30, 450, Parent.Size.Height - 50);
         
-            int XOffset = formQuinoaWindow.UI_PIXEL_WIDTH / 2 - 225 + 10;
+            int XOffset = Parent.Size.Width / 2 - 225 + 10;
             int YOffset = 35;
             dtm.drawString("KEYS", 2, g, XOffset + 180, (0 * 20) + YOffset, quinoa.getUI().getGraphicsManager());
         
@@ -701,7 +710,7 @@ namespace LumberjackRL.Core.UI
                 int lineCounter=2;
                 foreach(ItemAttribute attribute in selectedItem.attributes)
                 {
-                    String description = (EnumUtil.EnumName<ItemAttribute>(attribute).Replace("_", " ")) + " " + attribute.parameter;
+                    String description = (nameof(attribute).Replace("_", " ")) + " " + attribute.parameter;
                     dtm.drawString(description, 2.0, g, itemInfoX + 5, itemHeaderOffsetY + itemInfoY + 7 + (20 *lineCounter), quinoa.getUI().getGraphicsManager());
                     lineCounter++;
                 }
@@ -796,8 +805,8 @@ namespace LumberjackRL.Core.UI
 
         public void drawDialog(Graphics g)
         {
-            int dx = (formQuinoaWindow.UI_PIXEL_WIDTH / 2) - ((MAP_WINDOW_TILE_SIZE_X * quinoa.getUI().getGraphicsManager().getTileSize()) / 2);
-            int dy = (formQuinoaWindow.UI_PIXEL_HEIGHT / 2) - (((quinoa.getMessageManager().getDialogSize() + 4) * quinoa.getUI().getGraphicsManager().getTileSize() + 5) / 2) - 20;
+            int dx = (Parent.Size.Width / 2) - ((MAP_WINDOW_TILE_SIZE_X * quinoa.getUI().getGraphicsManager().getTileSize()) / 2);
+            int dy = (Parent.Size.Height / 2) - (((quinoa.getMessageManager().getDialogSize() + 4) * quinoa.getUI().getGraphicsManager().getTileSize() + 5) / 2) - 20;
             g.FillRectangle(Brushes.Black, dx + MAP_PIXEL_X_OFFSET, dy + MAP_PIXEL_Y_OFFSET, MAP_WINDOW_TILE_SIZE_X * quinoa.getUI().getGraphicsManager().getTileSize(), (quinoa.getMessageManager().getDialogSize() + 2) * quinoa.getUI().getGraphicsManager().getTileSize() + 7);
             g.DrawRectangle(Pens.LightGray, dx + MAP_PIXEL_X_OFFSET-1, dy + MAP_PIXEL_Y_OFFSET-1, MAP_WINDOW_TILE_SIZE_X * quinoa.getUI().getGraphicsManager().getTileSize() + 2, (quinoa.getMessageManager().getDialogSize() + 2) * quinoa.getUI().getGraphicsManager().getTileSize() + 7);
             for(int i=0; i < quinoa.getMessageManager().getDialogSize(); i++)
@@ -812,8 +821,8 @@ namespace LumberjackRL.Core.UI
             List<ItemVerb> itemVerbs = ItemManager.getVerbs(verbItem);
             int vWidth = 200;
             int vHeight = ((itemVerbs.Count) * 20) + 20;
-            int dx = (formQuinoaWindow.UI_PIXEL_WIDTH / 2) - (vWidth / 2);
-            int dy = (formQuinoaWindow.UI_PIXEL_HEIGHT / 2) - (vHeight / 2) -20;
+            int dx = (Parent.Size.Width / 2) - (vWidth / 2);
+            int dy = (Parent.Size.Height / 2) - (vHeight / 2) -20;
 
             g.FillRectangle(Brushes.Black, dx, dy, vWidth, vHeight);
             g.DrawRectangle(Pens.LightGray,dx, dy, vWidth, vHeight);

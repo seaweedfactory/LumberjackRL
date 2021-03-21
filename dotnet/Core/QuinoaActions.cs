@@ -38,9 +38,9 @@ namespace LumberjackRL.Core
                     quinoa.getMessageManager().addMessage("Saved game.");
                 }
             }
-            catch (Exception e)
+            catch (Exception exc)
             {
-                throw new Exception("could not save game");
+                throw new Exception("could not save game: " + exc.Message);
             }
         }
 
@@ -54,9 +54,9 @@ namespace LumberjackRL.Core
                     quinoa.getMessageManager().addMessage("Loaded game.");
                 }
             }
-            catch (Exception e)
+            catch (Exception exc)
             {
-                throw new Exception("could not load game");
+                throw new Exception("could not load game: " + exc.Message);
             }
         }
 
@@ -400,7 +400,14 @@ namespace LumberjackRL.Core
                         }
                         else
                         {
-                            terrain.getParameters().Add(TerrainParameter.GROW_COUNTER, growCount+"");
+                            if (terrain.getParameters().ContainsKey(TerrainParameter.GROW_COUNTER))
+                            {
+                                terrain.getParameters()[TerrainParameter.GROW_COUNTER] = growCount.ToString();
+                            }
+                            else
+                            {
+                                terrain.getParameters().Add(TerrainParameter.GROW_COUNTER, growCount.ToString());
+                            }
                         }
                     }
 
@@ -478,7 +485,14 @@ namespace LumberjackRL.Core
                         if(cloverCount > 0)
                         {
                             cloverCount = cloverCount - 1;
-                            terrain.getParameters().Add(TerrainParameter.HAS_CLOVER, cloverCount+"");
+                            if (terrain.getParameters().ContainsKey(TerrainParameter.HAS_CLOVER))
+                            {
+                                terrain.getParameters()[TerrainParameter.HAS_CLOVER] = cloverCount.ToString();
+                            }
+                            else
+                            {
+                                terrain.getParameters().Add(TerrainParameter.HAS_CLOVER, cloverCount.ToString());
+                            }
                         }
 
                         if(RandomNumber.RandomDouble() < TerrainManager.CLOVER_SPREAD_RATE)
@@ -533,7 +547,15 @@ namespace LumberjackRL.Core
             {
                 Terrain targetTerrain = terrains[(int)(RandomNumber.RandomDouble() * terrains.Count)];
                 int cloverCount = (int)(RandomNumber.RandomDouble() * (TerrainManager.CLOVER_GROW_COUNT / 4)) + TerrainManager.CLOVER_GROW_COUNT;
-                targetTerrain.getParameters().Add(TerrainParameter.HAS_CLOVER, cloverCount+"");
+
+                if (targetTerrain.getParameters().ContainsKey(TerrainParameter.HAS_CLOVER))
+                {
+                    targetTerrain.getParameters()[TerrainParameter.HAS_CLOVER] = cloverCount.ToString();
+                }
+                else
+                {
+                    targetTerrain.getParameters().Add(TerrainParameter.HAS_CLOVER, cloverCount.ToString());
+                }
             }
 
 
@@ -676,7 +698,14 @@ namespace LumberjackRL.Core
                     }
                     else if(fireMap[x,y] > 0)
                     {
-                        terrain.getParameters().Add(TerrainParameter.FIRE, fireMap[x,y].ToString());
+                        if (terrain.getParameters().ContainsKey(TerrainParameter.FIRE))
+                        {
+                            terrain.getParameters()[TerrainParameter.FIRE] = fireMap[x, y].ToString();
+                        }
+                        else
+                        {
+                            terrain.getParameters().Add(TerrainParameter.FIRE, fireMap[x, y].ToString());
+                        }
                     }
                 }
             }
@@ -1191,7 +1220,7 @@ namespace LumberjackRL.Core
                                     MonsterActionManager.initialize(newMon);
                                     newMon.setPosition(x, y);
                                     quinoa.getActions().addMonster(newMon);
-                                    monsterCount.Add(MonsterCode.GHOST, monsterCount[MonsterCode.GHOST] + 1);
+                                    IncrementMonsterCount(monsterCount, MonsterCode.GHOST);
                                 }
                             }
                         }
@@ -1209,7 +1238,7 @@ namespace LumberjackRL.Core
                                 MonsterActionManager.initialize(newMon);
                                 newMon.setPosition(x, y);
                                 quinoa.getActions().addMonster(newMon);
-                                monsterCount.Add(MonsterCode.SPONGE, monsterCount[MonsterCode.SPONGE] + 1);
+                                IncrementMonsterCount(monsterCount, MonsterCode.SPONGE);
                             }
                         }
 
@@ -1225,7 +1254,7 @@ namespace LumberjackRL.Core
                                 MonsterActionManager.initialize(newMon);
                                 newMon.setPosition(x, y);
                                 quinoa.getActions().addMonster(newMon);
-                                monsterCount.Add(MonsterCode.SLIME, monsterCount[MonsterCode.SLIME] + 1);
+                                IncrementMonsterCount(monsterCount, MonsterCode.SLIME);
                             }
                         }
                     
@@ -1246,7 +1275,7 @@ namespace LumberjackRL.Core
                                 MonsterActionManager.initialize(newMon);
                                 newMon.setPosition(x, y);
                                 quinoa.getActions().addMonster(newMon);
-                                monsterCount.Add(MonsterCode.TINY_SLIME, monsterCount[MonsterCode.TINY_SLIME] + 1);
+                                IncrementMonsterCount(monsterCount, MonsterCode.TINY_SLIME);
                             }
                         }
 
@@ -1262,7 +1291,7 @@ namespace LumberjackRL.Core
                                 MonsterActionManager.initialize(newMon);
                                 newMon.setPosition(x, y);
                                 quinoa.getActions().addMonster(newMon);
-                                monsterCount.Add(MonsterCode.PIG, monsterCount[MonsterCode.PIG] + 1);
+                                IncrementMonsterCount(monsterCount, MonsterCode.PIG);
                             }
                         }
 
@@ -1278,7 +1307,7 @@ namespace LumberjackRL.Core
                                 MonsterActionManager.initialize(newMon);
                                 newMon.setPosition(x, y);
                                 quinoa.getActions().addMonster(newMon);
-                                monsterCount.Add(MonsterCode.DEER, monsterCount[MonsterCode.DEER] + 1);
+                                IncrementMonsterCount(monsterCount, MonsterCode.DEER);
                             }
                         }
                     }
@@ -1301,6 +1330,23 @@ namespace LumberjackRL.Core
             else
             {
                 return "a";
+            }
+        }
+
+        /// <summary>
+        /// Increment the monster count dictionary.
+        /// </summary>
+        /// <param name="dictionary">Dictionary to increment.</param>
+        /// <param name="monsterCode">Monster code.</param>
+        public void IncrementMonsterCount(Dictionary<MonsterCode, Int32> dictionary, MonsterCode monsterCode)
+        {
+            if(dictionary.ContainsKey(monsterCode))
+            {
+                dictionary[monsterCode] = dictionary[monsterCode] + 1;
+            }
+            else
+            {
+                dictionary.Add(monsterCode, 1);
             }
         }
     

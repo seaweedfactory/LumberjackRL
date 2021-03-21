@@ -12,7 +12,7 @@ namespace LumberjackRL.Core
 {
     public class Quinoa: IStoreObject
     {
-        public static String VERISON = "v 0.7.00";
+        public static String VERSION = "v 0.7.00";
         public static String PROGRAM_NAME = "Lumberjack RL";
 
         public const int TICKS_PER_SECOND = 100;

@@ -28,38 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pnlScreen = new System.Windows.Forms.Panel();
             this.SuspendLayout();
-            // 
-            // pnlScreen
-            // 
-            this.pnlScreen.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlScreen.Location = new System.Drawing.Point(0, 0);
-            this.pnlScreen.Name = "pnlScreen";
-            this.pnlScreen.Size = new System.Drawing.Size(617, 398);
-            this.pnlScreen.TabIndex = 0;
-            this.pnlScreen.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlScreen_Paint);
             // 
             // formQuinoaWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(617, 398);
-            this.Controls.Add(this.pnlScreen);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(1096, 746);
+            this.DoubleBuffered = true;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "formQuinoaWindow";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "formQuinoaWindow";
+            this.Text = "LumberjackRL";
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.formQuinoaWindow_Paint);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.formQuinoaWindow_KeyPress);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel pnlScreen;
     }
 }

@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace LumberjackRL.Core.UI
 {
     public class GraphicsManager
     {
+        public Form Parent { get; set; }
+
         public GraphicsPack[] images;
         public FontPack font;
+
+        private int _tileSize = 16;
     
         public const int TRANSPARENT=0;
         public const int GRASS=1;
@@ -59,8 +64,13 @@ namespace LumberjackRL.Core.UI
         public const int BONES=46;
         public const int EXIT=47;
 
-        public GraphicsManager()
+        public GraphicsManager(Form parent)
         {
+            Parent = parent;
+
+            //TODO: Determine tile size from scaling
+            _tileSize = 32;
+
             images = new GraphicsPack[64];
             this.loadPack(GraphicsManager.GRASS, "graphics/grass");
             this.loadPack(GraphicsManager.STONE_FLOOR, "graphics/stone_floor");
@@ -240,7 +250,7 @@ namespace LumberjackRL.Core.UI
 
         public int getTileSize()
         {
-            return 16;
+            return _tileSize;
         }
     }
 }

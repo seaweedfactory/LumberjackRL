@@ -5,17 +5,22 @@ using System.Text;
 using System.Drawing;
 using LumberjackRL.Core.Monsters;
 using System.IO;
+using System.Windows.Forms;
 
 namespace LumberjackRL.Core.UI
 {
     public class MenuScreen : IScreen
     {
+        public Form Parent { get; set; }
+
         private DrawManager dtm;
         private Quinoa quinoa;
         private bool savedGameExists;
 
-        public MenuScreen(Quinoa quinoa)
+        public MenuScreen(Quinoa quinoa, Form parent)
         {
+            Parent = parent;
+
             dtm = new DrawManager();
             this.quinoa = quinoa;
             this.savedGameExists = File.Exists(QuinoaActions.SAVED_GAME_FILENAME);
@@ -29,7 +34,7 @@ namespace LumberjackRL.Core.UI
             g.Clear(Color.Black);
             
             //Draw messages
-            dtm.drawString(Quinoa.PROGRAM_NAME + " " + Quinoa.VERISON, 3, g, 20, 40, quinoa.getUI().getGraphicsManager());
+            dtm.drawString(Quinoa.PROGRAM_NAME + " " + Quinoa.VERSION, 3, g, 20, 40, quinoa.getUI().getGraphicsManager());
             dtm.drawString("Press n to start a new game", 2, g, 20, 80, quinoa.getUI().getGraphicsManager());
 
             if (savedGameExists)
