@@ -24,6 +24,7 @@ namespace LumberjackRL.Core.Map
         private List<Light> lights; //Point light sources
         private Quinoa quinoa; //Reference to main structure
         private LightingModelType lightingModel; //Current lighting model
+        private RandomNumberGenerator rng = new RandomNumberGenerator();
 
 
         public LightMap(Quinoa quinoa)
@@ -71,7 +72,7 @@ namespace LumberjackRL.Core.Map
                 {
                     if(TerrainManager.hasParameter(region.getTerrain(x, y), TerrainParameter.FIRE))
                     {
-                        calc[x,y] = ((MAX_LIGHT / 2) * RandomNumber.RandomDouble()) + (MAX_LIGHT / 2);
+                        calc[x,y] = ((MAX_LIGHT / 2) * rng.RandomDouble()) + (MAX_LIGHT / 2);
                         lights.Add(new Light(x,y,calc[x,y]));
                     }
                     else

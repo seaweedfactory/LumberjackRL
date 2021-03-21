@@ -26,10 +26,11 @@ namespace LumberjackRL.Core.Generator
 
         public static String makeFoodName()
         {
+            RandomNumberGenerator rng = new RandomNumberGenerator();
             AdjectivePlaceType ap = EnumUtil.RandomEnumValue<AdjectivePlaceType>();
             NounFoodType np = EnumUtil.RandomEnumValue<NounFoodType>();
             NicknameFoodType nick = EnumUtil.RandomEnumValue<NicknameFoodType>();
-            if(RandomNumber.RandomDouble() > 0.05)
+            if(rng.RandomDouble() > 0.05)
             {
                 return "The " + easyCase(ap.ToString()) + " " + easyCase(np.ToString());
             }
@@ -41,7 +42,8 @@ namespace LumberjackRL.Core.Generator
 
         public static String makeBankName()
         {
-            double rnd = RandomNumber.RandomDouble();
+            RandomNumberGenerator rng = new RandomNumberGenerator();
+            double rnd = rng.RandomDouble();
             if(rnd < 0.25)
             {
                 return NameMaker.makeTrivialPlaceName() + " Bank";

@@ -62,7 +62,8 @@ namespace LumberjackRL.Core.UI
         private AdvenureScreenMapSelectAction mapSelectAction;
         private AdventureScreenModeType mode;
         private int regionCycleCounter;
-    
+        private RandomNumberGenerator rng = new RandomNumberGenerator();
+
         public AdventureScreen(Quinoa quinoa, Form parent)
         {
             Parent = parent;
@@ -448,7 +449,7 @@ namespace LumberjackRL.Core.UI
                             break;
 
                             case RegionExitDecoratorType.NONE:
-                            g.DrawImage(quinoa.getUI().getGraphicsManager().getImage(GraphicsManager.SPARKLE, RandomNumber.RandomInteger(3)), drawX, drawY, quinoa.getUI().getGraphicsManager().getTileSize(), quinoa.getUI().getGraphicsManager().getTileSize());
+                            g.DrawImage(quinoa.getUI().getGraphicsManager().getImage(GraphicsManager.SPARKLE, rng.RandomInteger(3)), drawX, drawY, quinoa.getUI().getGraphicsManager().getTileSize(), quinoa.getUI().getGraphicsManager().getTileSize());
                             break;
                         }
                     }

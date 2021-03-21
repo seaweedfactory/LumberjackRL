@@ -5,21 +5,26 @@ using System.Text;
 
 namespace LumberjackRL.Core.Utilities
 {
-    public class RandomNumber
+    public class RandomNumberGenerator
     {
-        public static int RandomInteger(int maxValue)
+        private Random tmpRandom = new Random();
+
+        public RandomNumberGenerator()
         {
-            Random tmpRandom = new Random();
+
+        }
+
+        public int RandomInteger(int maxValue)
+        {
             return (maxValue > 0) ? tmpRandom.Next(maxValue) : 0;
         }
 
-        public static double RandomDouble()
+        public double RandomDouble()
         {
-            Random tmpRandom = new Random();
             return tmpRandom.NextDouble();
         }
 
-        public static Guid RandomUUID()
+        public Guid RandomUUID()
         {
             return Guid.NewGuid();
         }

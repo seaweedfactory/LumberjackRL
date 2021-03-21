@@ -16,6 +16,7 @@ namespace LumberjackRL.Core
         private Quinoa quinoa;  //reference to main class
         private List<Monster> monsterQueue; //used to add monsters during the game to avoid concurrent mod
         public static String SAVED_GAME_FILENAME="save_game";
+        RandomNumberGenerator rng = new RandomNumberGenerator();
 
         public QuinoaActions(Quinoa quinoa)
         {
@@ -111,10 +112,10 @@ namespace LumberjackRL.Core
                         TreeCode tc = (TreeCode)Enum.Parse(typeof(TreeCode),  TerrainManager.getParameter(terrain, TerrainParameter.HAS_TREE));
                         if(tc == TreeCode.APPLE_TREE)
                         {
-                            if(RandomNumber.RandomDouble() < TerrainManager.APPLE_TREE_PRODUCTION_RATE)
+                            if(rng.RandomDouble() < TerrainManager.APPLE_TREE_PRODUCTION_RATE)
                             {
-                                int dx = x + RandomNumber.RandomInteger(5) - 2;
-                                int dy = y + RandomNumber.RandomInteger(5) - 2;
+                                int dx = x + rng.RandomInteger(5) - 2;
+                                int dy = y + rng.RandomInteger(5) - 2;
 
                                 if(dx == x)
                                 {
@@ -136,7 +137,7 @@ namespace LumberjackRL.Core
                                     apple.itemClass = ItemClassType.APPLE;
                                     apple.setPosition(dx, dy);
                                     apple.itemState = ItemState.GROUND;
-                                    apple.stackSize = RandomNumber.RandomInteger(apple.maxStackSize - 1) + 1;
+                                    apple.stackSize = rng.RandomInteger(apple.maxStackSize - 1) + 1;
                                     region.getItems().Add(apple);
                                 }
                             }
@@ -304,7 +305,7 @@ namespace LumberjackRL.Core
         
             //Refresh cycle
             bool doEvaporation = false;
-            if(RandomNumber.RandomDouble() < TerrainManager.EVAPORATION_RATE)
+            if(rng.RandomDouble() < TerrainManager.EVAPORATION_RATE)
             {
                 doEvaporation = true;
             }
@@ -345,7 +346,7 @@ namespace LumberjackRL.Core
                                 canGrow = true;
                             }
 
-                            if(canGrow && RandomNumber.RandomDouble() < TerrainManager.MOSS_GROW_RATE)
+                            if(canGrow && rng.RandomDouble() < TerrainManager.MOSS_GROW_RATE)
                             {
                                 region.getTerrain(x,y).getParameters().Add(TerrainParameter.HAS_MOSS,"");
                             }
@@ -424,7 +425,7 @@ namespace LumberjackRL.Core
                         {
                             if(terrain.getWater() < TerrainManager.DEEP_WATER)
                             {
-                                if(RandomNumber.RandomDouble() < TerrainManager.MUSHROOM_GROW_RATE_WET_GROUND)
+                                if(rng.RandomDouble() < TerrainManager.MUSHROOM_GROW_RATE_WET_GROUND)
                                 {
                                     growMushroom = true;
                                 }
@@ -433,7 +434,7 @@ namespace LumberjackRL.Core
                         else
                         {
                             //slight chance to grow on dry ground
-                            if(RandomNumber.RandomDouble() < TerrainManager.MUSHROOM_GROW_RATE_DRY_GROUND)
+                            if(rng.RandomDouble() < TerrainManager.MUSHROOM_GROW_RATE_DRY_GROUND)
                             {
                                 growMushroom = true;
                             }
@@ -453,7 +454,7 @@ namespace LumberjackRL.Core
                                 region.getItems().Add(newMushroom);
 
                                 //slight chance to remove spore
-                                if(RandomNumber.RandomDouble() < TerrainManager.MUSHROOM_REMOVAL_RATE)
+                                if(rng.RandomDouble() < TerrainManager.MUSHROOM_REMOVAL_RATE)
                                 {
                                     terrain.getParameters().Remove(TerrainParameter.HAS_MUSHROOM_SPORES);
                                 }
@@ -462,13 +463,13 @@ namespace LumberjackRL.Core
                         }
 
                         //slight chance of spreading spores
-                        if(RandomNumber.RandomDouble() < TerrainManager.MUSHROOM_SPREAD_RATE)
+                        if(rng.RandomDouble() < TerrainManager.MUSHROOM_SPREAD_RATE)
                         {
                         
                             this.spreadSpore(x, y, msc);
                         
                             //slight chance to remove spore
-                            if(RandomNumber.RandomDouble() < (TerrainManager.MUSHROOM_REMOVAL_RATE * 2.0d))
+                            if(rng.RandomDouble() < (TerrainManager.MUSHROOM_REMOVAL_RATE * 2.0d))
                             {
                                 terrain.getParameters().Remove(TerrainParameter.HAS_MUSHROOM_SPORES);
                             }
@@ -495,7 +496,7 @@ namespace LumberjackRL.Core
                             }
                         }
 
-                        if(RandomNumber.RandomDouble() < TerrainManager.CLOVER_SPREAD_RATE)
+                        if(rng.RandomDouble() < TerrainManager.CLOVER_SPREAD_RATE)
                         {
                             spreadClover(x,y);
                         }
@@ -506,7 +507,7 @@ namespace LumberjackRL.Core
                     {
                         if(TerrainManager.spreadingCrop((SeedType)Enum.Parse(typeof(SeedType), TerrainManager.getParameter(terrain, TerrainParameter.HAS_SEED))))
                         {
-                            if(RandomNumber.RandomDouble() < TerrainManager.CROP_SPREAD_RATE)
+                            if(rng.RandomDouble() < TerrainManager.CROP_SPREAD_RATE)
                             {
                                 spreadCrops(x,y);
                             }
@@ -545,8 +546,8 @@ namespace LumberjackRL.Core
 
             if(terrains.Count > 0)
             {
-                Terrain targetTerrain = terrains[(int)(RandomNumber.RandomDouble() * terrains.Count)];
-                int cloverCount = (int)(RandomNumber.RandomDouble() * (TerrainManager.CLOVER_GROW_COUNT / 4)) + TerrainManager.CLOVER_GROW_COUNT;
+                Terrain targetTerrain = terrains[(int)(rng.RandomDouble() * terrains.Count)];
+                int cloverCount = (int)(rng.RandomDouble() * (TerrainManager.CLOVER_GROW_COUNT / 4)) + TerrainManager.CLOVER_GROW_COUNT;
 
                 if (targetTerrain.getParameters().ContainsKey(TerrainParameter.HAS_CLOVER))
                 {
@@ -593,7 +594,7 @@ namespace LumberjackRL.Core
 
             if(terrains.Count > 0)
             {
-                Terrain targetTerrain = terrains[(int)(RandomNumber.RandomDouble() * terrains.Count)];
+                Terrain targetTerrain = terrains[(int)(rng.RandomDouble() * terrains.Count)];
 
                 targetTerrain.getParameters().Add(TerrainParameter.HAS_SEED, seedType.ToString());
                 targetTerrain.getParameters().Add(TerrainParameter.GROW_COUNTER, TerrainManager.getGrowCount(seedType).ToString());
@@ -627,7 +628,7 @@ namespace LumberjackRL.Core
 
             if(terrains.Count > 0)
             {
-                Terrain targetTerrain = terrains[((int)(RandomNumber.RandomDouble() * terrains.Count))];
+                Terrain targetTerrain = terrains[((int)(rng.RandomDouble() * terrains.Count))];
                 targetTerrain.getParameters().Add(TerrainParameter.HAS_MUSHROOM_SPORES, msc.ToString());
             }
         }
@@ -658,7 +659,7 @@ namespace LumberjackRL.Core
                         int fireValue = Int32.Parse(TerrainManager.getParameter(terrain, TerrainParameter.FIRE));
 
                         //Allow fire to die if not feed
-                        fireValue = fireValue - (int)(RandomNumber.RandomDouble() * 3);
+                        fireValue = fireValue - (int)(rng.RandomDouble() * 3);
 
                         fireMap[x,y] = fireValue;
 
@@ -1209,9 +1210,9 @@ namespace LumberjackRL.Core
                         if(TerrainManager.hasParameter(terrain, TerrainParameter.HAS_GRAVE))
                         {
                             GraveCode gc = (GraveCode)Enum.Parse(typeof(GraveCode),(TerrainManager.getParameter(terrain, TerrainParameter.HAS_GRAVE)));
-                            if(gc == GraveCode.BROKEN || (gc == GraveCode.SPECIAL && RandomNumber.RandomDouble() < 0.1))
+                            if(gc == GraveCode.BROKEN || (gc == GraveCode.SPECIAL && rng.RandomDouble() < 0.1))
                             {
-                                if(RandomNumber.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterClassType.GHOST)
+                                if(rng.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterClassType.GHOST)
                                 && monsterCount[MonsterClassType.GHOST] < MonsterActionManager.getMaxMonsterPerRegion(MonsterClassType.GHOST))
                                 {
                                     //spawn a ghost
@@ -1229,7 +1230,7 @@ namespace LumberjackRL.Core
                         if(terrain.getWater() > 0)
                         {
                             if(terrain.getWater() > TerrainManager.DEEP_WATER
-                            && RandomNumber.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterClassType.SPONGE)
+                            && rng.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterClassType.SPONGE)
                             && monsterCount[MonsterClassType.SPONGE] < MonsterActionManager.getMaxMonsterPerRegion(MonsterClassType.SPONGE))
                             {
                                 //spawn a sponge
@@ -1245,7 +1246,7 @@ namespace LumberjackRL.Core
                         //SLIME spawn
                         if(TerrainManager.hasParameter(terrain, TerrainParameter.HAS_MOSS))
                         {
-                            if(RandomNumber.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterClassType.SLIME)
+                            if(rng.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterClassType.SLIME)
                             && monsterCount[MonsterClassType.SLIME] < MonsterActionManager.getMaxMonsterPerRegion(MonsterClassType.SLIME))
                             {
                                 //spawn a slime
@@ -1266,7 +1267,7 @@ namespace LumberjackRL.Core
                         //TINY_SLIME spawn
                         if(TerrainManager.hasParameter(terrain, TerrainParameter.HAS_MOSS))
                         {
-                            if(RandomNumber.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterClassType.TINY_SLIME)
+                            if(rng.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterClassType.TINY_SLIME)
                             && monsterCount[MonsterClassType.TINY_SLIME] < MonsterActionManager.getMaxMonsterPerRegion(MonsterClassType.TINY_SLIME))
                             {
                                 //spawn a tiny slime
@@ -1282,7 +1283,7 @@ namespace LumberjackRL.Core
                         //PIG spawn
                         if(TerrainManager.hasParameter(terrain, TerrainParameter.HAS_MUSHROOM_SPORES) && region.getLightingModel() == LightingModelType.ABOVE_GROUND)
                         {
-                            if(RandomNumber.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterClassType.PIG)
+                            if(rng.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterClassType.PIG)
                             && monsterCount[MonsterClassType.PIG] < MonsterActionManager.getMaxMonsterPerRegion(MonsterClassType.PIG))
                             {
                                 //spawn a pig
@@ -1298,7 +1299,7 @@ namespace LumberjackRL.Core
                         //DEER spawn
                         if(TerrainManager.hasParameter(terrain, TerrainParameter.HAS_CLOVER) && region.getLightingModel() == LightingModelType.ABOVE_GROUND)
                         {
-                            if(RandomNumber.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterClassType.DEER)
+                            if(rng.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterClassType.DEER)
                             && monsterCount[MonsterClassType.DEER] < MonsterActionManager.getMaxMonsterPerRegion(MonsterClassType.DEER))
                             {
                                 //spawn a deer

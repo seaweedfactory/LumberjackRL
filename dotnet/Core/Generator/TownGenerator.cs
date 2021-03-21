@@ -17,6 +17,7 @@ namespace LumberjackRL.Core.Generator
         public OverworldCell overworldCell;
 
         private Quinoa quinoa;
+        private RandomNumberGenerator rng = new RandomNumberGenerator();
 
         public TownGenerator(int width, int height, String name, int wiggle, double radius, double treeDensity, OverworldCell overworldCell, Quinoa quinoa)
         {
@@ -44,7 +45,7 @@ namespace LumberjackRL.Core.Generator
                 {
                     region.setTerrain(x, y, new Terrain());
                     int distance = (int)(Math.Sqrt(((x - centerX) * (x - centerX)) + ((y - centerY) * (y - centerY))));
-                    if (distance > distanceCutoff + RandomNumber.RandomInteger(wiggle))
+                    if (distance > distanceCutoff + rng.RandomInteger(wiggle))
                     {
                         region.getTerrain(x, y).setCode(TerrainCode.GRASS);
                     }

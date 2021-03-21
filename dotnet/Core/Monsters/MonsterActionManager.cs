@@ -18,6 +18,7 @@ namespace LumberjackRL.Core.Monsters
                                         5172276, 7758414, 11637621, 17456432, 26184648, 39276973, 58915459, 88373189, 132559784, 198839676, //times 1.5
                                         248549595, 310686993, 388358742, 485448428, 606810535, 758513168, 948141460, 1185176826, 1481471032, 1851838791}; //times 1.25
 
+
         public static void initialize(Monster monster)
         {
             switch(monster.monsterCode)
@@ -182,16 +183,17 @@ namespace LumberjackRL.Core.Monsters
         public static void addDrops(Monster monster)
         {
             Item tempItem = null;
-            switch(monster.monsterCode)
+            RandomNumberGenerator rng = new RandomNumberGenerator();
+            switch (monster.monsterCode)
             {
                 case MonsterClassType.SLIME:
                 case MonsterClassType.GHOST:
                 case MonsterClassType.SPONGE:
-                if(RandomNumber.RandomDouble() > 0.75)
+                if(rng.RandomDouble() > 0.75d)
                 {
                     tempItem = new Item();
                     tempItem.itemClass = ItemClassType.COINS;
-                    tempItem.stackSize = (1 + (int)(RandomNumber.RandomDouble() * 15));
+                    tempItem.stackSize = (1 + (int)(rng.RandomDouble() * 15d));
                     monster.inventory.addItem(tempItem);
                 }
                 break;
@@ -199,7 +201,7 @@ namespace LumberjackRL.Core.Monsters
                 case MonsterClassType.PIG:
                 tempItem = new Item();
                 tempItem.itemClass = ItemClassType.BACON;
-                tempItem.stackSize = (1 + (int)(RandomNumber.RandomDouble() * (tempItem.maxStackSize - 1)));
+                tempItem.stackSize = (1 + (int)(rng.RandomDouble() * (tempItem.maxStackSize - 1)));
                 monster.inventory.addItem(tempItem);
 
                 tempItem = new Item();
@@ -288,7 +290,8 @@ namespace LumberjackRL.Core.Monsters
 
         public static void waterDamage(Monster monster, double points)
         {
-            switch(monster.monsterCode)
+            RandomNumberGenerator rng = new RandomNumberGenerator();
+            switch (monster.monsterCode)
             {
                 case MonsterClassType.TINY_SLIME:
                 //kills small slimes
@@ -297,7 +300,7 @@ namespace LumberjackRL.Core.Monsters
 
                 case MonsterClassType.SPONGE:
                 //heals sponges
-                if(RandomNumber.RandomDouble() > 0.75)
+                if(rng.RandomDouble() > 0.75)
                 {
                     monster.stats.setCurrentHealth(monster.stats.getCurrentHealth() + 0.001);
                 }
@@ -355,10 +358,11 @@ namespace LumberjackRL.Core.Monsters
 
         public static void leaveWaterTrail(Monster monster, Quinoa quinoa, double strength)
         {
+            RandomNumberGenerator rng = new RandomNumberGenerator();
             Terrain terrain = quinoa.getCurrentRegionHeader().getRegion().getTerrain(monster.x, monster.y);
 
             //leave water trails
-            if (RandomNumber.RandomDouble() > (1.0 - strength))
+            if (rng.RandomDouble() > (1.0 - strength))
             {
                 if(TerrainManager.wetable(terrain, monster.x, monster.y, quinoa))
                 {
@@ -374,6 +378,8 @@ namespace LumberjackRL.Core.Monsters
 
         public static void monsterKilled(Monster killer, Monster victim, Quinoa quinoa)
         {
+            RandomNumberGenerator rng = new RandomNumberGenerator();
+
             String playerFeedback="The " + victim.monsterCode.ToString() + " is gone.";
 
             //Give experience
@@ -408,7 +414,7 @@ namespace LumberjackRL.Core.Monsters
                     Monster newMon = new Monster();
                     newMon.monsterCode = MonsterClassType.SMALL_SLIME;
                     MonsterActionManager.initialize(newMon);
-                    newMon.setPosition(victim.x + RandomNumber.RandomInteger(5) - 2, victim.y + RandomNumber.RandomInteger(5) - 2);
+                    newMon.setPosition(victim.x + rng.RandomInteger(5) - 2, victim.y + rng.RandomInteger(5) - 2);
                     quinoa.getActions().addMonster(newMon);
                 }
                 playerFeedback = "The " + victim.monsterCode.ToString() + " splits!";
@@ -420,7 +426,7 @@ namespace LumberjackRL.Core.Monsters
                     Monster newMon = new Monster();
                     newMon.monsterCode = MonsterClassType.TINY_SLIME;
                     MonsterActionManager.initialize(newMon);
-                    newMon.setPosition(victim.x + RandomNumber.RandomInteger(7) - 4, victim.y + RandomNumber.RandomInteger(7) - 4);
+                    newMon.setPosition(victim.x + rng.RandomInteger(7) - 4, victim.y + rng.RandomInteger(7) - 4);
                     quinoa.getActions().addMonster(newMon);
                 }
                 playerFeedback = "The " + victim.monsterCode.ToString() + " splits!";
@@ -587,26 +593,28 @@ namespace LumberjackRL.Core.Monsters
 
         public static void combat(Monster attacker, Monster defender, Quinoa quinoa)
         {
+            RandomNumberGenerator rng = new RandomNumberGenerator();
+
             //Wake on being hit
             defender.sleeping = 0;
 
             //Hit if rnd() < ATK / (ATK + DEF).
             double atk = MonsterActionManager.getAttackRating(attacker);
             double def = MonsterActionManager.getDefenseRating(defender);
-            if (RandomNumber.RandomDouble() < atk / (atk + def))
+            if (rng.RandomDouble() < atk / (atk + def))
             {
 
                 double damage = 0.0;
                 if(atk > def)
                 {
                     //damage = rnd() * (ATK - DEF)
-                    damage = ((RandomNumber.RandomDouble() / 2) + 0.5) * (atk - def);
+                    damage = ((rng.RandomDouble() / 2) + 0.5) * (atk - def);
                 
                 }
                 else
                 {
                     //damage = rnd()
-                    damage = RandomNumber.RandomDouble();
+                    damage = rng.RandomDouble();
                 }
 
                 defender.stats.setCurrentHealth(defender.stats.getCurrentHealth() - damage);
@@ -1005,6 +1013,8 @@ namespace LumberjackRL.Core.Monsters
 
         public static bool place(Monster monster, Item item, int x, int y, Region region, Quinoa quinoa)
         {
+            RandomNumberGenerator rng = new RandomNumberGenerator();
+
             Terrain terrain = region.getTerrain(x,y);
             switch(item.itemClass)
             {
@@ -1045,7 +1055,7 @@ namespace LumberjackRL.Core.Monsters
 
 
                 case ItemClassType.APPLE:
-                if(RandomNumber.RandomDouble() < TerrainManager.APPLE_TREE_FROM_APPLE_CHANCE
+                if(rng.RandomDouble() < TerrainManager.APPLE_TREE_FROM_APPLE_CHANCE
                 && !TerrainManager.hasParameter(terrain, TerrainParameter.HAS_TREE)
                 && !TerrainManager.hasParameter(terrain, TerrainParameter.HAS_SIGN)
                 && !TerrainManager.hasParameter(terrain, TerrainParameter.HAS_DOOR)
@@ -1082,6 +1092,8 @@ namespace LumberjackRL.Core.Monsters
 
         public static bool use(Monster monster, Item item, int x, int y, Region region, Quinoa quinoa)
         {
+            RandomNumberGenerator rng = new RandomNumberGenerator();
+
             Terrain terrain = region.getTerrain(x,y);
             switch(item.itemClass)
             {
@@ -1142,7 +1154,7 @@ namespace LumberjackRL.Core.Monsters
                 {
                     MushroomSporeCode msc = (MushroomSporeCode)Enum.Parse(typeof(MushroomSporeCode), TerrainManager.getParameter(terrain, TerrainParameter.HAS_MUSHROOM_SPORES));
 
-                    if(RandomNumber.RandomDouble() > 0.25)
+                    if(rng.RandomDouble() > 0.25)
                     {
                         //Grow a mushroom
                         Item newMushroom = new Item();
@@ -1167,7 +1179,7 @@ namespace LumberjackRL.Core.Monsters
                     }
 
                     //Slight chance to remove the spores
-                    if (RandomNumber.RandomDouble() < 0.02)
+                    if (rng.RandomDouble() < 0.02)
                     {
                         terrain.getParameters().Remove(TerrainParameter.HAS_MUSHROOM_SPORES);
                         if(isPlayer(monster))
@@ -1643,6 +1655,8 @@ namespace LumberjackRL.Core.Monsters
         //Update role specific features of a monster
         public static void updateRole(Monster monster, Quinoa quinoa)
         {
+            RandomNumberGenerator rng = new RandomNumberGenerator();
+
             int stockSize = 0;
             int hour = quinoa.getHour();
             switch(monster.role)
@@ -1676,7 +1690,7 @@ namespace LumberjackRL.Core.Monsters
                 if(hour == 5 || hour == 11 || hour == 17)
                 {
                     monster.inventory.getItems().Clear();
-                    stockSize = 15 + RandomNumber.RandomInteger(5);
+                    stockSize = 15 + rng.RandomInteger(5);
                     for(int i=0; i < stockSize; i++)
                     {
                         Item newItem = ItemManager.getRandomItem(ItemCategory.FOOD, true);
@@ -1713,33 +1727,33 @@ namespace LumberjackRL.Core.Monsters
                 {
                     monster.inventory.getItems().Clear();
                 
-                    stockSize = 6 + RandomNumber.RandomInteger(5);
+                    stockSize = 6 + rng.RandomInteger(5);
                     for(int i=0; i < stockSize; i++)
                     {
                         Item newItem = ItemManager.getRandomItem(ItemCategory.TOOL, true);
-                        newItem.stackSize = 1 + RandomNumber.RandomInteger(newItem.maxStackSize - 1);
+                        newItem.stackSize = 1 + rng.RandomInteger(newItem.maxStackSize - 1);
                         newItem.itemState = ItemState.INVENTORY;
                         if(!monster.inventory.Full)
                         {
                             monster.inventory.addItem(newItem);
                         }
                     }
-                    stockSize = 1 + RandomNumber.RandomInteger(3);
+                    stockSize = 1 + rng.RandomInteger(3);
                     for(int i=0; i < stockSize; i++)
                     {
                         Item newItem = ItemManager.getRandomItem(ItemCategory.LIGHT, true);
-                        newItem.stackSize = 1 + RandomNumber.RandomInteger(newItem.maxStackSize - 1);
+                        newItem.stackSize = 1 + rng.RandomInteger(newItem.maxStackSize - 1);
                         newItem.itemState = ItemState.INVENTORY;
                         if(!monster.inventory.Full)
                         {
                             monster.inventory.addItem(newItem);
                         }
                     }
-                    stockSize = 3 + RandomNumber.RandomInteger(2);
+                    stockSize = 3 + rng.RandomInteger(2);
                     for(int i=0; i < stockSize; i++)
                     {
                         Item newItem = ItemManager.getRandomItem(ItemCategory.MATERIAL, true);
-                        newItem.stackSize = 1 + RandomNumber.RandomInteger(newItem.maxStackSize - 1);
+                        newItem.stackSize = 1 + rng.RandomInteger(newItem.maxStackSize - 1);
                         newItem.itemState = ItemState.INVENTORY;
                         if(!monster.inventory.Full)
                         {

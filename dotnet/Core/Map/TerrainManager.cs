@@ -60,7 +60,8 @@ namespace LumberjackRL.Core.Map
 
         public static TreeCode getRandomTree()
         {
-            int rnd = RandomNumber.RandomInteger(1000);
+            RandomNumberGenerator rng = new RandomNumberGenerator();
+            int rnd = rng.RandomInteger(1000);
             if(rnd <= 5)
             {
                 return TreeCode.APPLE_TREE;
@@ -83,12 +84,13 @@ namespace LumberjackRL.Core.Map
 
         public static void step(Terrain terrain, int x, int y, Region region, Quinoa quinoa)
         {
+            RandomNumberGenerator rng = new RandomNumberGenerator();
             //moss is destroyed if stepped upon
-            if(TerrainManager.hasParameter(region.getTerrain(x, y), TerrainParameter.HAS_MOSS))
+            if (TerrainManager.hasParameter(region.getTerrain(x, y), TerrainParameter.HAS_MOSS))
             {
                 region.getTerrain(x, y).getParameters().Remove(TerrainParameter.HAS_MOSS);
 
-                if(RandomNumber.RandomDouble() < MOSS_DROP_RATE)
+                if(rng.RandomDouble() < MOSS_DROP_RATE)
                 {
                     Item moss = new Item();
                     moss.itemClass = ItemClassType.MOSS;
@@ -119,19 +121,20 @@ namespace LumberjackRL.Core.Map
         //Return the default grow count, plus a small variation
         public static int getGrowCount(SeedType seedType)
         {
-            if(seedType == SeedType.NULL)
+            RandomNumberGenerator rng = new RandomNumberGenerator();
+            if (seedType == SeedType.NULL)
             {
-                return GRASS_GROW_COUNT + RandomNumber.RandomInteger((GRASS_GROW_COUNT / 10));
+                return GRASS_GROW_COUNT + rng.RandomInteger((GRASS_GROW_COUNT / 10));
             }
             else
             {
                 switch(seedType)
                 {
                     case SeedType.CORN:
-                    return CORN_GROW_COUNT + RandomNumber.RandomInteger((CORN_GROW_COUNT / 20));
+                    return CORN_GROW_COUNT + rng.RandomInteger((CORN_GROW_COUNT / 20));
 
                     case SeedType.PUMPKIN:
-                    return PUMPKIN_GROW_COUNT + RandomNumber.RandomInteger((PUMPKIN_GROW_COUNT / 4));
+                    return PUMPKIN_GROW_COUNT + rng.RandomInteger((PUMPKIN_GROW_COUNT / 4));
 
                     default:
                     return 1;
@@ -158,7 +161,9 @@ namespace LumberjackRL.Core.Map
         //Grow crops on this tile
         public static void growCrops(Terrain terrain, int x, int y, Quinoa quinoa)
         {
-            if(TerrainManager.hasParameter(terrain, TerrainParameter.HAS_SEED))
+            RandomNumberGenerator rng = new RandomNumberGenerator();
+
+            if (TerrainManager.hasParameter(terrain, TerrainParameter.HAS_SEED))
             {
                 if(quinoa.getLightMap().getCalc(x, y) >= TerrainManager.PLANT_LIGHT_LEVEL_MIN)
                 {
@@ -171,18 +176,18 @@ namespace LumberjackRL.Core.Map
 
                         if(quinoa.getCurrentRegionHeader().getRegion().getItem(x, y) == null)
                         {
-                            if(RandomNumber.RandomDouble() < 0.50)
+                            if(rng.RandomDouble() < 0.50)
                             {
                                 Item cornSeed = new Item();
                                 cornSeed.itemClass = ItemClassType.CORN_SEED;
-                                cornSeed.stackSize = RandomNumber.RandomInteger(9) + 1;
+                                cornSeed.stackSize = rng.RandomInteger(9) + 1;
                                 cornSeed.setPosition(x, y);
                                 quinoa.getCurrentRegionHeader().getRegion().getItems().Add(cornSeed);
                             }
 
                             Item corn = new Item();
                             corn.itemClass = ItemClassType.CORN;
-                            corn.stackSize = RandomNumber.RandomInteger(3) + 1;
+                            corn.stackSize = rng.RandomInteger(3) + 1;
                             corn.setPosition(x, y);
                             quinoa.getCurrentRegionHeader().getRegion().getItems().Add(corn);
                         }
@@ -195,11 +200,11 @@ namespace LumberjackRL.Core.Map
                         //chance to produce a pumpkin
                         if(quinoa.getCurrentRegionHeader().getRegion().getItem(x, y) == null)
                         {
-                            if(RandomNumber.RandomDouble() < TerrainManager.PUMPKIN_PRODUCTION_RATE)
+                            if(rng.RandomDouble() < TerrainManager.PUMPKIN_PRODUCTION_RATE)
                             {
                                 Item pumpkinSeed = new Item();
                                 pumpkinSeed.itemClass = ItemClassType.PUMPKIN_SEED;
-                                pumpkinSeed.stackSize = RandomNumber.RandomInteger(3) + 1;
+                                pumpkinSeed.stackSize = rng.RandomInteger(3) + 1;
                                 pumpkinSeed.setPosition(x, y);
                                 quinoa.getCurrentRegionHeader().getRegion().getItems().Add(pumpkinSeed);
 
@@ -220,7 +225,7 @@ namespace LumberjackRL.Core.Map
                 terrain.getParameters().Remove(TerrainParameter.GROW_COUNTER);
                 terrain.setCode(TerrainCode.GRASS);
 
-                if (RandomNumber.RandomDouble() < TerrainManager.TREE_REGROWTH_RATE)
+                if (rng.RandomDouble() < TerrainManager.TREE_REGROWTH_RATE)
                 {
                     terrain.getParameters().Add(TerrainParameter.HAS_TREE, TerrainManager.getRandomTree().ToString());
                 }
@@ -247,6 +252,8 @@ namespace LumberjackRL.Core.Map
     
         public static ItemClassType mushroomSporeToItemClass(MushroomSporeCode msc)
         {
+            RandomNumberGenerator rng = new RandomNumberGenerator();
+
             List<ItemClassType> choices = new List<ItemClassType>();
             switch(msc)
             {
@@ -272,14 +279,14 @@ namespace LumberjackRL.Core.Map
                 choices.Add(ItemClassType.DEATH_CAP);
                 choices.Add(ItemClassType.FLY_AGARIC);
                 choices.Add(ItemClassType.GHOST_FUNGUS);
-                return choices[RandomNumber.RandomInteger(choices.Count)];
+                return choices[rng.RandomInteger(choices.Count)];
 
                 case MushroomSporeCode.EDIBLE:
                 default:
                 choices.Add(ItemClassType.PUFFBALL);
                 choices.Add(ItemClassType.MOREL);
                 choices.Add(ItemClassType.BUTTON_MUSHROOM);
-                return choices[RandomNumber.RandomInteger(choices.Count)];
+                return choices[rng.RandomInteger(choices.Count)];
             }
         }
 
@@ -509,7 +516,9 @@ namespace LumberjackRL.Core.Map
 
         public static void mine(Terrain terrain, int x, int y, Quinoa quinoa)
         {
-            switch(terrain.getCode())
+            RandomNumberGenerator rng = new RandomNumberGenerator();
+
+            switch (terrain.getCode())
             {
                 case TerrainCode.ROCK:
                 terrain.setCode(TerrainCode.STONE_FLOOR);
@@ -520,7 +529,7 @@ namespace LumberjackRL.Core.Map
                     switch(mineralCode)
                     {
                         case 1:
-                        if(RandomNumber.RandomDouble() > 0.5)
+                        if(rng.RandomDouble() > 0.5)
                         {
                             Item gem = new Item();
                             gem.itemClass = ItemClassType.AMETHYST;
@@ -534,7 +543,7 @@ namespace LumberjackRL.Core.Map
                         break;
 
                         case 2:
-                        if(RandomNumber.RandomDouble() > 0.5)
+                        if(rng.RandomDouble() > 0.5)
                         {
                             Item gem = new Item();
                             gem.itemClass = ItemClassType.SAPPHIRE;
@@ -551,7 +560,7 @@ namespace LumberjackRL.Core.Map
                         break;
 
                         case 3:
-                        if(RandomNumber.RandomDouble() > 0.33)
+                        if(rng.RandomDouble() > 0.33)
                         {
                             Item gem = new Item();
                             gem.itemClass = ItemClassType.RUBY;
@@ -598,13 +607,15 @@ namespace LumberjackRL.Core.Map
 
         public static void dig(Terrain terrain, int x, int y, Quinoa quinoa)
         {
+            RandomNumberGenerator rng = new RandomNumberGenerator();
+
             //check for graves
-            if(TerrainManager.hasParameter(terrain, TerrainParameter.HAS_GRAVE))
+            if (TerrainManager.hasParameter(terrain, TerrainParameter.HAS_GRAVE))
             {
                 GraveCode gc = (GraveCode)Enum.Parse(typeof(GraveCode), TerrainManager.getParameter(terrain, TerrainParameter.HAS_GRAVE));
-                if(gc == GraveCode.NORMAL && RandomNumber.RandomDouble() < TerrainManager.GRAVE_ROB_CHANCE)
+                if(gc == GraveCode.NORMAL && rng.RandomDouble() < TerrainManager.GRAVE_ROB_CHANCE)
                 {
-                    Item reward = ItemManager.getTreasure(RandomNumber.RandomDouble());
+                    Item reward = ItemManager.getTreasure(rng.RandomDouble());
                     reward.setPosition(x, y);
                     quinoa.getCurrentRegionHeader().getRegion().getItems().Add(reward);
                 }
@@ -656,6 +667,8 @@ namespace LumberjackRL.Core.Map
 
         public static void burn(Terrain terrain, int x, int y, Quinoa quinoa)
         {
+            RandomNumberGenerator rng = new RandomNumberGenerator();
+
             bool dropAsh = false;
 
             //Look for items on this squares and remove them
@@ -676,7 +689,7 @@ namespace LumberjackRL.Core.Map
             if(TerrainManager.hasParameter(terrain, TerrainParameter.HAS_TREE))
             {
                 terrain.getParameters().Remove(TerrainParameter.HAS_TREE);
-                if(RandomNumber.RandomDouble() < 0.125)
+                if(rng.RandomDouble() < 0.125)
                 {
                     dropAsh = true;
                 }
@@ -705,20 +718,20 @@ namespace LumberjackRL.Core.Map
             switch(terrain.getCode())
             {
                 case TerrainCode.GRASS:
-                if(RandomNumber.RandomDouble() < 0.98)
+                if(rng.RandomDouble() < 0.98)
                 {
                     terrain.setCode(TerrainCode.FERTILE_LAND);
                     terrain.getParameters().Add(TerrainParameter.GROW_COUNTER, TerrainManager.GRASS_GROW_COUNT+"");
 
 
-                    if(RandomNumber.RandomDouble() < 0.001)
+                    if(rng.RandomDouble() < 0.001)
                     {
-                        int cloverCount = (int)(RandomNumber.RandomDouble() * (TerrainManager.CLOVER_GROW_COUNT / 4)) + TerrainManager.CLOVER_GROW_COUNT;
+                        int cloverCount = (int)(rng.RandomDouble() * (TerrainManager.CLOVER_GROW_COUNT / 4)) + TerrainManager.CLOVER_GROW_COUNT;
                         terrain.getParameters().Add(TerrainParameter.HAS_CLOVER, cloverCount+"");
                     }
                     else
                     {
-                        if(RandomNumber.RandomDouble() < 0.001)
+                        if(rng.RandomDouble() < 0.001)
                         {
                             MushroomSporeCode msc = EnumUtil.RandomEnumValue<MushroomSporeCode>();
                             terrain.getParameters().Add(TerrainParameter.HAS_MUSHROOM_SPORES, msc.ToString());

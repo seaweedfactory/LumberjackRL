@@ -12,6 +12,8 @@ namespace LumberjackRL.Core.UI
 {
     public class DrawManager
     {
+        RandomNumberGenerator rng = new RandomNumberGenerator();
+
         public void drawMonster(Monster monster, Graphics g, int x, int y, GraphicsManager gm)
         {
             switch(monster.monsterCode)
@@ -270,11 +272,11 @@ namespace LumberjackRL.Core.UI
                 break;
 
                 case ItemClassType.TORCH:
-                if(RandomNumber.RandomDouble() < 0.33)
+                if(rng.RandomDouble() < 0.33)
                 {
                     g.DrawImage(gm.getImage(GraphicsManager.TORCH, 0), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 }
-                else if(RandomNumber.RandomDouble() < 0.66)
+                else if(rng.RandomDouble() < 0.66)
                 {
                     g.DrawImage(gm.getImage(GraphicsManager.TORCH, 1), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 }
@@ -489,7 +491,7 @@ namespace LumberjackRL.Core.UI
 
             if(TerrainManager.hasParameter(terrain, TerrainParameter.FIRE))
             {
-                g.DrawImage(gm.getImage(GraphicsManager.FIRE, RandomNumber.RandomInteger(3)), x, y);
+                g.DrawImage(gm.getImage(GraphicsManager.FIRE, rng.RandomInteger(3)), x, y);
             }
 
         
@@ -524,7 +526,7 @@ namespace LumberjackRL.Core.UI
                 }
                 else if(waterValue >= TerrainManager.DEEP_WATER)
                 {
-                    if(RandomNumber.RandomDouble() > 0.5)
+                    if(rng.RandomDouble() > 0.5)
                     {
                         g.DrawImage(gm.getImage(GraphicsManager.WATER, 4), x, y);
                     }
@@ -538,7 +540,7 @@ namespace LumberjackRL.Core.UI
 
             if(TerrainManager.hasParameter(terrain, TerrainParameter.HAS_SPRING))
             {
-                int springFrame = RandomNumber.RandomInteger(3);
+                int springFrame = rng.RandomInteger(3);
                 g.DrawImage(gm.getImage(GraphicsManager.WATER, 6 + springFrame), x, y);
             }
 

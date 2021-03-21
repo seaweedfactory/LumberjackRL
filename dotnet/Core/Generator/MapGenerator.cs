@@ -12,6 +12,7 @@ namespace LumberjackRL.Core.Generator
     public class MapGenerator : IMapGenerator
     {
         public List<String> caveBottomIDs;
+        private RandomNumberGenerator rng = new RandomNumberGenerator();
 
         public MapGenerator()
         {
@@ -20,7 +21,7 @@ namespace LumberjackRL.Core.Generator
 
         public void placeBrother(Quinoa quinoa)
         {
-            String caveID = caveBottomIDs[RandomNumber.RandomInteger(caveBottomIDs.Count)];
+            String caveID = caveBottomIDs[rng.RandomInteger(caveBottomIDs.Count)];
 
             RegionHeader header = quinoa.getMap().getRegionHeaderByID(caveID);
             header.recallRegion();
@@ -29,7 +30,7 @@ namespace LumberjackRL.Core.Generator
             List<Position> tempPos = MapGenerator.getTerrainPositions(TerrainCode.STONE_FLOOR, header.getRegion(), false);
             if (tempPos.Count > 0)
             {
-                pos = tempPos[RandomNumber.RandomInteger(tempPos.Count)];
+                pos = tempPos[rng.RandomInteger(tempPos.Count)];
             }
 
             Monster monster = new Monster();
@@ -106,6 +107,8 @@ namespace LumberjackRL.Core.Generator
         public static void addGraveyard(int width, int height, int stx, int sty, Region region)
         {
             int treesPlaced = 0;
+            RandomNumberGenerator grng = new RandomNumberGenerator();
+
 
             region.getTerrain(stx, sty).setCode(TerrainCode.ROCK);
             TerrainManager.removeParameters(region.getTerrain(stx, sty));
@@ -125,9 +128,9 @@ namespace LumberjackRL.Core.Generator
                     {
                         if(x % 2 == 0 && y % 3 == 0)
                         {
-                            if(RandomNumber.RandomDouble() < 0.75)
+                            if(grng.RandomDouble() < 0.75)
                             {
-                                if(RandomNumber.RandomDouble() < 0.01)
+                                if(grng.RandomDouble() < 0.01)
                                 {
                                     region.getTerrain(x, y).getParameters().Add(TerrainParameter.HAS_GRAVE, GraveCode.SPECIAL.ToString());
                                 }
@@ -140,7 +143,7 @@ namespace LumberjackRL.Core.Generator
                             {
                                 if(region.getTerrain(x, y).getCode() == TerrainCode.GRASS)
                                 {
-                                    if(RandomNumber.RandomDouble() < 0.25 && treesPlaced < 2)
+                                    if(grng.RandomDouble() < 0.25 && treesPlaced < 2)
                                     {
                                         region.getTerrain(x, y).getParameters().Add(TerrainParameter.HAS_TREE, TreeCode.APPLE_TREE.ToString());
                                         treesPlaced++;
@@ -149,7 +152,7 @@ namespace LumberjackRL.Core.Generator
                                 }
                                 else if(region.getTerrain(x, y).getCode() == TerrainCode.STONE_FLOOR)
                                 {
-                                    if(RandomNumber.RandomDouble() < 0.25 && treesPlaced < 5)
+                                    if(grng.RandomDouble() < 0.25 && treesPlaced < 5)
                                     {
                                         region.getTerrain(x, y).getParameters().Add(TerrainParameter.HAS_MOSS, "");
                                         treesPlaced++;
@@ -169,13 +172,14 @@ namespace LumberjackRL.Core.Generator
 
         public static void addTrees(Region region, double treeDensity)
         {
+            RandomNumberGenerator grng = new RandomNumberGenerator();
             List<Position> grassTiles = MapGenerator.getTerrainPositions(TerrainCode.GRASS, region, false);
-            int treeCount = (int)(grassTiles.Count * treeDensity);
+            int treeCount = (int)((double)grassTiles.Count * treeDensity);
             for(int i=0; i < treeCount; i++)
             {
                 if(grassTiles.Count > 0)
                 {
-                    Position pos = grassTiles[RandomNumber.RandomInteger(grassTiles.Count)];
+                    Position pos = grassTiles[grng.RandomInteger(grassTiles.Count)];
                     region.getTerrain(pos.x, pos.y).getParameters().Add(TerrainParameter.HAS_TREE, TerrainManager.getRandomTree().ToString());
                     region.getTerrain(pos.x, pos.y).getParameters().Add(TerrainParameter.DAMAGE, "0");
                     grassTiles.Remove(pos);
@@ -186,12 +190,13 @@ namespace LumberjackRL.Core.Generator
 
         public static void addMushroomSpores(Region region, int sporeCount)
         {
+            RandomNumberGenerator grng = new RandomNumberGenerator();
             List<Position> grassTiles = MapGenerator.getTerrainPositions(TerrainCode.GRASS, region, false);
             for(int i=0; i < sporeCount; i++)
             {
                 if(grassTiles.Count > 0)
                 {
-                    Position pos = grassTiles[RandomNumber.RandomInteger(grassTiles.Count)];
+                    Position pos = grassTiles[grng.RandomInteger(grassTiles.Count)];
                     Terrain terrain = region.getTerrain(pos.x, pos.y);
                     MushroomSporeCode msc = EnumUtil.RandomEnumValue<MushroomSporeCode>();
                     if(!terrain.getParameters().ContainsKey(TerrainParameter.HAS_MUSHROOM_SPORES))
@@ -205,14 +210,15 @@ namespace LumberjackRL.Core.Generator
 
         public static void addClover(Region region, int cloverCount)
         {
+            RandomNumberGenerator grng = new RandomNumberGenerator();
             List<Position> grassTiles = MapGenerator.getTerrainPositions(TerrainCode.GRASS, region, false);
             for(int i=0; i < cloverCount; i++)
             {
                 if(grassTiles.Count > 0)
                 {
-                    Position pos = grassTiles[RandomNumber.RandomInteger(grassTiles.Count)];
+                    Position pos = grassTiles[grng.RandomInteger(grassTiles.Count)];
                     Terrain terrain = region.getTerrain(pos.x, pos.y);
-                    int cloverGrowCount = (int)(RandomNumber.RandomDouble() * (TerrainManager.CLOVER_GROW_COUNT / 4)) + TerrainManager.CLOVER_GROW_COUNT;
+                    int cloverGrowCount = (int)(grng.RandomDouble() * (TerrainManager.CLOVER_GROW_COUNT / 4)) + TerrainManager.CLOVER_GROW_COUNT;
                     if (!terrain.getParameters().ContainsKey(TerrainParameter.HAS_CLOVER))
                     {
                         terrain.getParameters().Add(TerrainParameter.HAS_CLOVER, cloverGrowCount.ToString());
@@ -406,8 +412,8 @@ namespace LumberjackRL.Core.Generator
             }
 
             //choose a random spot to be town, set as cross
-            int townX = owWidth / 2 + ((int)(RandomNumber.RandomDouble() * 3) - 1);
-            int townY = owHeight / 2 + ((int)(RandomNumber.RandomDouble() * 3) - 1);
+            int townX = owWidth / 2 + ((int)(rng.RandomDouble() * 3) - 1);
+            int townY = owHeight / 2 + ((int)(rng.RandomDouble() * 3) - 1);
             owc[townX,townY].cellType = OverworldCellType.MAIN_TOWN;
             owc[townX,townY].nExit = true;
             owc[townX,townY].eExit = true;
@@ -431,12 +437,12 @@ namespace LumberjackRL.Core.Generator
                         townGen.generate();
                         owc[x,y].header = townGen.header;
                         townGen.header.storeRegion(true);
-                        this.addCaveBranch(townGen.header, 14, 14, 3 + (int)(RandomNumber.RandomDouble() * 3), quinoa);
+                        this.addCaveBranch(townGen.header, 14, 14, 3 + (int)(rng.RandomDouble() * 3), quinoa);
                         quinoa.getMap().addRegionHeader(owc[x,y].header);
                     }
                     else if(owc[x,y].cellType == OverworldCellType.TOWN)
                     {
-                        TownGenerator townGen = new TownGenerator(100, 100, "town" + RandomNumber.RandomUUID().ToString(), 3, 0.75, 0.01, owc[x,y], quinoa);
+                        TownGenerator townGen = new TownGenerator(100, 100, "town" + rng.RandomUUID().ToString(), 3, 0.75, 0.01, owc[x,y], quinoa);
                         townGen.generate();
                         owc[x,y].header = townGen.header;
                         townGen.header.storeRegion(true);
@@ -444,7 +450,7 @@ namespace LumberjackRL.Core.Generator
                     }
                     else if(owc[x,y].cellType == OverworldCellType.FOREST)
                     {
-                        String forestName = "forest" + RandomNumber.RandomUUID().ToString();
+                        String forestName = "forest" + rng.RandomUUID().ToString();
 
                         int depthCount = 0;
                         int depthTotal = 0;
@@ -478,7 +484,7 @@ namespace LumberjackRL.Core.Generator
                             treeDensity = 0.55;
                         }
                         ForestGenerator forGen = new ForestGenerator(100, 100, forestName, treeDensity, quinoa);
-                        double waterDensity = 0.15 + (RandomNumber.RandomDouble() * 0.35);
+                        double waterDensity = 0.15 + (rng.RandomDouble() * 0.35);
                         if(waterDensity > 0.65)
                         {
                             waterDensity = 0.65;
@@ -495,9 +501,9 @@ namespace LumberjackRL.Core.Generator
                         if(owc[x,y].eExit) {exitCount++;}
                         if(owc[x,y].sExit) {exitCount++;}
                         if(owc[x,y].wExit) {exitCount++;}
-                        if(exitCount == 1 && RandomNumber.RandomDouble() < 0.50)
+                        if(exitCount == 1 && rng.RandomDouble() < 0.50)
                         {
-                            this.addCaveBranch(owc[x,y].header, owc[x,y].header.getRegion().getWidth() / 2, owc[x,y].header.getRegion().getHeight() / 2, 2 + (int)(RandomNumber.RandomDouble() * (depthTotal / depthCount)), quinoa);
+                            this.addCaveBranch(owc[x,y].header, owc[x,y].header.getRegion().getWidth() / 2, owc[x,y].header.getRegion().getHeight() / 2, 2 + (int)(rng.RandomDouble() * (depthTotal / depthCount)), quinoa);
                         }
 
                         forGen.header.storeRegion(true);
@@ -596,11 +602,11 @@ namespace LumberjackRL.Core.Generator
                 if(townCountdown == 0)
                 {
                     owc[x,y].cellType = OverworldCellType.TOWN;
-                    townCountdown = 6 + (int)(RandomNumber.RandomDouble() * 3);
+                    townCountdown = 6 + (int)(rng.RandomDouble() * 3);
                 }
 
                 branchCountdown = branchCountdown - 1;
-                int branchMax = 2 + (int)(RandomNumber.RandomDouble() * 4);
+                int branchMax = 2 + (int)(rng.RandomDouble() * 4);
                 if(branchCountdown > 0)
                 {
                     if(owc[x,y].nExit && y < height - 1)
@@ -636,28 +642,28 @@ namespace LumberjackRL.Core.Generator
                     int exitCutoff = 2;
                     double branchChance = 0.35;
                 
-                    if(exitCount < exitCutoff && y > 0 && owc[x,y].nExit == false && RandomNumber.RandomDouble() < branchChance)
+                    if(exitCount < exitCutoff && y > 0 && owc[x,y].nExit == false && rng.RandomDouble() < branchChance)
                     {
                         owc[x,y].nExit = true;
                         owc[x,y-1].sExit = true;
                         this.addPathBranch(x, y-1, width, height, owc, depth + 1, branchMax, townCountdown - 1);
                     }
 
-                    if(exitCount < exitCutoff && y < height-1 && owc[x,y].sExit == false && RandomNumber.RandomDouble() < branchChance)
+                    if(exitCount < exitCutoff && y < height-1 && owc[x,y].sExit == false && rng.RandomDouble() < branchChance)
                     {
                         owc[x,y].sExit = true;
                         owc[x,y+1].nExit = true;
                         this.addPathBranch(x, y+1, width, height, owc, depth + 1, branchMax, townCountdown - 1);
                     }
 
-                    if(exitCount < exitCutoff && x > 0 && owc[x,y].wExit == false && RandomNumber.RandomDouble() < branchChance)
+                    if(exitCount < exitCutoff && x > 0 && owc[x,y].wExit == false && rng.RandomDouble() < branchChance)
                     {
                         owc[x,y].wExit = true;
                         owc[x - 1,y].eExit = true;
                         this.addPathBranch(x - 1, y, width, height, owc, depth + 1, branchMax, townCountdown - 1);
                     }
 
-                    if(exitCount < exitCutoff && x < width-1 && owc[x,y].eExit == false && RandomNumber.RandomDouble() < branchChance)
+                    if(exitCount < exitCutoff && x < width-1 && owc[x,y].eExit == false && rng.RandomDouble() < branchChance)
                     {
                         owc[x,y].eExit = true;
                         owc[x + 1,y].wExit = true;
@@ -674,21 +680,21 @@ namespace LumberjackRL.Core.Generator
 
             for(int deep=0; deep < depth; deep++)
             {
-                int width = 80 + (int)(RandomNumber.RandomDouble() * 40);
-                int height = 80 + (int)(RandomNumber.RandomDouble() * 40);
-                int chamberCount = 3 + (int)(RandomNumber.RandomDouble() * 4);
-                int smoothness = (int)(RandomNumber.RandomDouble() * 2);
-                double fillPercentage = 0.45 + (RandomNumber.RandomDouble() * 0.20);
+                int width = 80 + (int)(rng.RandomDouble() * 40);
+                int height = 80 + (int)(rng.RandomDouble() * 40);
+                int chamberCount = 3 + (int)(rng.RandomDouble() * 4);
+                int smoothness = (int)(rng.RandomDouble() * 2);
+                double fillPercentage = 0.45 + (rng.RandomDouble() * 0.20);
 
                 CaveGenerator caveGen = new CaveGenerator(width, height, topLevel.getId() + "-cave" + deep, fillPercentage, smoothness, quinoa);
                 caveGen.addChamber(new Chamber(5,5,caveGen.region.getWidth() - 10,caveGen.region.getHeight() - 10, ChamberType.OPEN));
                 for(int i=0; i < chamberCount; i++)
                 {
-                    int caveX = 5 + (int)(RandomNumber.RandomDouble() * (caveGen.region.getWidth() - 41));
-                    int caveY = 5 + (int)(RandomNumber.RandomDouble() * (caveGen.region.getHeight() - 41));
+                    int caveX = 5 + (int)(rng.RandomDouble() * (caveGen.region.getWidth() - 41));
+                    int caveY = 5 + (int)(rng.RandomDouble() * (caveGen.region.getHeight() - 41));
 
                     ChamberType type = ChamberType.NULL;
-                    if(RandomNumber.RandomDouble() < 0.20)
+                    if(rng.RandomDouble() < 0.20)
                     {
                         type = ChamberType.MUSHROOM;
                     }
@@ -696,7 +702,7 @@ namespace LumberjackRL.Core.Generator
                     {
                         type = ChamberType.FLOODED;
                     }
-                    caveGen.addChamber(new Chamber(caveX,caveY,(int)(RandomNumber.RandomDouble() * 20) + 10,(int)(RandomNumber.RandomDouble() * 20) + 10, type));
+                    caveGen.addChamber(new Chamber(caveX,caveY,(int)(rng.RandomDouble() * 20) + 10,(int)(rng.RandomDouble() * 20) + 10, type));
                 }
                 caveGen.smoothWater();
                 caveGen.placeExits();

@@ -18,7 +18,7 @@ namespace LumberjackRL.Core.Generator
         public int smoothness;
         public List<Chamber> chambers;
         private Quinoa quinoa;
-
+        RandomNumberGenerator rng = new RandomNumberGenerator();
 
         public CaveGenerator(int width, int height, String name, double fillPercentage, int smoothness, Quinoa quinoa)
         {
@@ -55,10 +55,10 @@ namespace LumberjackRL.Core.Generator
             {
                 if (waterSide.Count > 0)
                 {
-                    Position pos = waterSide[RandomNumber.RandomInteger(waterSide.Count - 1)];
+                    Position pos = waterSide[rng.RandomInteger(waterSide.Count - 1)];
 
                     Item tempItem = ItemManager.getRandomItem(ItemCategory.MONEY, false);
-                    tempItem.stackSize = ((int)(tempItem.maxStackSize * ((RandomNumber.RandomDouble() * 0.70) + 0.20)));
+                    tempItem.stackSize = ((int)(tempItem.maxStackSize * ((rng.RandomDouble() * 0.70) + 0.20)));
                     tempItem.itemState = ItemState.GROUND;
                     tempItem.setPosition(pos.x, pos.y);
                     region.getItems().Add(tempItem);
@@ -70,7 +70,7 @@ namespace LumberjackRL.Core.Generator
             {
                 if (waterSide.Count > 0)
                 {
-                    Position pos = waterSide[RandomNumber.RandomInteger(waterSide.Count - 1)];
+                    Position pos = waterSide[rng.RandomInteger(waterSide.Count - 1)];
 
                     Item tempItem = ItemManager.getRandomItem(ItemCategory.MATERIAL, false);
                     tempItem.itemState = ItemState.GROUND;
@@ -99,7 +99,7 @@ namespace LumberjackRL.Core.Generator
                 {
                     if(chamber.type == ChamberType.OPEN)
                     {
-                        if(RandomNumber.RandomDouble() < fillPercentage)
+                        if(rng.RandomDouble() < fillPercentage)
                         {
                             region.getTerrain(x, y).setCode(TerrainCode.STONE_FLOOR);
                         }
@@ -110,7 +110,7 @@ namespace LumberjackRL.Core.Generator
                     }
                     else if(chamber.type == ChamberType.MUSHROOM)
                     {
-                        if(RandomNumber.RandomDouble() < (fillPercentage * 0.80))
+                        if(rng.RandomDouble() < (fillPercentage * 0.80))
                         {
                             region.getTerrain(x, y).setCode(TerrainCode.STONE_FLOOR);
                         }
@@ -121,7 +121,7 @@ namespace LumberjackRL.Core.Generator
                     }
                     else if(chamber.type == ChamberType.FLOODED)
                     {
-                        if(RandomNumber.RandomDouble() < fillPercentage)
+                        if(rng.RandomDouble() < fillPercentage)
                         {
                             region.getTerrain(x, y).setCode(TerrainCode.STREAM_BED);
                         }
@@ -205,7 +205,7 @@ namespace LumberjackRL.Core.Generator
                 {
                     for(int i=0; i < springCount; i++)
                     {
-                        Position pos = positions[(int)(RandomNumber.RandomDouble() * (positions.Count - 1))];
+                        Position pos = positions[(int)(rng.RandomDouble() * (positions.Count - 1))];
                         if (!region.getTerrain(pos.x, pos.y).getParameters().ContainsKey(TerrainParameter.HAS_SPRING))
                         {
                             region.getTerrain(pos.x, pos.y).getParameters().Add(TerrainParameter.HAS_SPRING, TerrainManager.SPRING_RATE + "");
@@ -227,7 +227,7 @@ namespace LumberjackRL.Core.Generator
                     int mushCount = (int)(positions.Count / 10) + 1;
                     for(int i=0; i < mushCount; i++)
                     {
-                        Position pos = positions[(int)(RandomNumber.RandomDouble() * (positions.Count- 1))];
+                        Position pos = positions[(int)(rng.RandomDouble() * (positions.Count- 1))];
                         MushroomSporeCode msc = EnumUtil.RandomEnumValue<MushroomSporeCode>();
                         if (!region.getTerrain(pos.x, pos.y).getParameters().ContainsKey(TerrainParameter.HAS_MUSHROOM_SPORES))
                         {
@@ -249,7 +249,7 @@ namespace LumberjackRL.Core.Generator
                 {
                     if (rockFloor.Count > 0)
                     {
-                        Position pos = rockFloor[RandomNumber.RandomInteger(rockFloor.Count - 1)];
+                        Position pos = rockFloor[rng.RandomInteger(rockFloor.Count - 1)];
 
                         Item tempItem = new Item();
                         tempItem.itemClass = ItemClassType.TORCH;
@@ -270,9 +270,9 @@ namespace LumberjackRL.Core.Generator
                 {
                     if (waterSideRocks.Count > 0)
                     {
-                        Position pos = waterSideRocks[RandomNumber.RandomInteger(waterSideRocks.Count - 1)];
+                        Position pos = waterSideRocks[rng.RandomInteger(waterSideRocks.Count - 1)];
 
-                        region.getTerrain(pos.x, pos.y).getParameters().Add(TerrainParameter.HAS_MINERALS, RandomNumber.RandomInteger(4).ToString());
+                        region.getTerrain(pos.x, pos.y).getParameters().Add(TerrainParameter.HAS_MINERALS, rng.RandomInteger(4).ToString());
 
                         waterSideRocks.Remove(pos);
                     }
@@ -361,7 +361,7 @@ namespace LumberjackRL.Core.Generator
                 if (pos != null && pos.Count > 0)
                 {
                     //entrance
-                    Position here = pos[RandomNumber.RandomInteger(pos.Count - 1)];
+                    Position here = pos[rng.RandomInteger(pos.Count - 1)];
                     entrance.setX(here.x);
                     entrance.setY(here.y);
 
@@ -387,7 +387,7 @@ namespace LumberjackRL.Core.Generator
                     pos.Remove(here);
 
                     //exit
-                    here = pos[RandomNumber.RandomInteger(pos.Count - 1)];
+                    here = pos[rng.RandomInteger(pos.Count - 1)];
                     exit.setX(here.x);
                     exit.setY(here.y);
 

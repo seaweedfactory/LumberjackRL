@@ -284,6 +284,7 @@ namespace LumberjackRL.Core.Items
         /// <returns></returns>
         public static Item getRandomItem(ItemCategory itemCategory, bool shop)
         {
+            RandomNumberGenerator rng = new RandomNumberGenerator();
             List<ItemClassType> ics = new List<ItemClassType>();
             switch (itemCategory)
             {
@@ -358,13 +359,14 @@ namespace LumberjackRL.Core.Items
 
             //Make and return the item
             Item newItem = new Item();
-            newItem.itemClass = ics[RandomNumber.RandomInteger(ics.Count)];
+            newItem.itemClass = ics[rng.RandomInteger(ics.Count)];
             ItemManager.initialize(newItem);
             return newItem;
         }
 
         public static Item getTreasure(double scale)
         {
+            RandomNumberGenerator rng = new RandomNumberGenerator();
             Item newItem = new Item();
 
             if (scale < 0.01)
@@ -378,12 +380,12 @@ namespace LumberjackRL.Core.Items
             else if (scale < 0.25)
             {
                 newItem.itemClass = ItemClassType.COINS;
-                newItem.stackSize = ((int)(RandomNumber.RandomDouble() * (newItem.maxStackSize / 2)) + (newItem.maxStackSize / 2));
+                newItem.stackSize = ((int)(rng.RandomDouble() * (newItem.maxStackSize / 2)) + (newItem.maxStackSize / 2));
             }
             else
             {
                 newItem.itemClass = ItemClassType.COINS;
-                newItem.stackSize = ((int)(RandomNumber.RandomDouble() * (newItem.maxStackSize - 1)) + 1);
+                newItem.stackSize = ((int)(rng.RandomDouble() * (newItem.maxStackSize - 1)) + 1);
             }
 
             return newItem;

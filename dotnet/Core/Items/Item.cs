@@ -10,6 +10,7 @@ namespace LumberjackRL.Core.Items
     public class Item : IRemoveObject, IStoreObject, ICopyObject
     {
         private ItemClassType m_itemClass;
+        private RandomNumberGenerator rng = new RandomNumberGenerator();
 
         public ItemCategory itemCategory
         {
@@ -93,7 +94,7 @@ namespace LumberjackRL.Core.Items
             y = 0;
             itemState = ItemState.GROUND;
             itemCategory = ItemCategory.TOOL;
-            ID = RandomNumber.RandomUUID().ToString();
+            ID = rng.RandomUUID().ToString();
             maxStackSize = 1;
             stackSize = 1;
             worth = 0.01;
@@ -106,7 +107,7 @@ namespace LumberjackRL.Core.Items
         /// </summary>
         public void refreshID()
         {
-            ID = RandomNumber.RandomUUID().ToString();
+            ID = rng.RandomUUID().ToString();
         }
 
         public void setPosition(int x, int y)

@@ -13,6 +13,7 @@ namespace LumberjackRL.Core.Generator
         public Region region;
         public double treeDensity;
         private Quinoa quinoa;
+        private RandomNumberGenerator rng = new RandomNumberGenerator();
 
         public ForestGenerator(int width, int height, String name, double treeDensity, Quinoa quinoa)
         {
@@ -38,7 +39,7 @@ namespace LumberjackRL.Core.Generator
         public void addWater(double waterDensity, int smoothness)
         {
             List<Position> grassTiles = MapGenerator.getTerrainPositions(TerrainCode.GRASS, region, false, false);
-            int waterCount = (int)(grassTiles.Count * waterDensity);
+            int waterCount = (int)((double)grassTiles.Count * waterDensity);
 
             if (waterCount <= 0)
             {
@@ -47,7 +48,7 @@ namespace LumberjackRL.Core.Generator
 
             for (int j = 0; j < waterCount; j++)
             {
-                Position pos = grassTiles[RandomNumber.RandomInteger(grassTiles.Count)];
+                Position pos = grassTiles[rng.RandomInteger(grassTiles.Count)];
                 region.getTerrain(pos.x, pos.y).setCode(TerrainCode.STREAM_BED);
                 grassTiles.Remove(pos);
             }
@@ -117,8 +118,8 @@ namespace LumberjackRL.Core.Generator
             {
                 for(int i=0; i < springCount; i++)
                 {
-                    Position pos = positions[RandomNumber.RandomInteger(positions.Count - 1)];
-                    region.getTerrain(pos.x, pos.y).getParameters().Add(TerrainParameter.HAS_SPRING, TerrainManager.SPRING_RATE + "");
+                    Position pos = positions[rng.RandomInteger(positions.Count - 1)];
+                    region.getTerrain(pos.x, pos.y).getParameters().Add(TerrainParameter.HAS_SPRING, ((int)TerrainManager.SPRING_RATE).ToString());
                     positions.Remove(pos);
                 }
 

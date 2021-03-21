@@ -135,7 +135,7 @@
     <Compile Include="Core\UI\AdvenureScreenMapSelectAction.cs" />
     <Compile Include="Core\UI\MenuScreen.cs" />
     <Compile Include="Core\Utilities\EnumUtil.cs" />
-    <Compile Include="Core\Utilities\RandomNumber.cs" />
+    <Compile Include="Core\Utilities\RandomNumberGenerator.cs" />
     <Compile Include="StartForm.cs">
       <SubType>Form</SubType>
     </Compile>

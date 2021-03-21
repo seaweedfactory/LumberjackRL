@@ -9,6 +9,8 @@ using System.IO;
 namespace LumberjackRL.Core.Monsters
 {    public class Monster : IStoreObject, ICopyObject, IRemoveObject
     {
+        private RandomNumberGenerator rng = new RandomNumberGenerator();
+
         /// <summary>
         /// X position within the region
         /// </summary>
@@ -118,7 +120,7 @@ namespace LumberjackRL.Core.Monsters
             state = MonsterState.ACTIVE;
             monsterCode = MonsterClassType.HUMAN;
             role = MonsterRoleType.NULL;
-            ID = RandomNumber.RandomUUID().ToString();
+            ID = rng.RandomUUID().ToString();
             AIParameters = new Dictionary<String,String>();
             stats = new MonsterStats();
             inventory = new MonsterInventory();
@@ -134,12 +136,23 @@ namespace LumberjackRL.Core.Monsters
 
         public String getAIParameter(String key)
         {
+            if(!AIParameters.ContainsKey(key))
+            {
+                AIParameters.Add(key, "");
+            }
             return AIParameters[key];
         }
 
         public void setAIParameter(String key, String value)
         {
-            AIParameters.Add(key, value);
+            if(!AIParameters.ContainsKey(key))
+            {
+                AIParameters.Add(key, value);
+            }
+            else
+            {
+                AIParameters[key] = value;
+            }
         }
 
         public bool hasAIParameter(String key)
