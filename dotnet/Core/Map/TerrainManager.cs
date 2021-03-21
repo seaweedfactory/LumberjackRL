@@ -293,7 +293,7 @@ namespace LumberjackRL.Core.Map
 
                 if (RandomNumber.RandomDouble() < TerrainManager.TREE_REGROWTH_RATE)
                 {
-                    terrain.getParameters().Add(TerrainParameter.HAS_TREE, EnumUtil.EnumName<TreeCode>(TerrainManager.getRandomTree()));
+                    terrain.getParameters().Add(TerrainParameter.HAS_TREE, TerrainManager.getRandomTree().ToString());
                 }
             }
         }
@@ -681,7 +681,7 @@ namespace LumberjackRL.Core.Map
                 }
 
                 //open the grave
-                terrain.getParameters().Add(TerrainParameter.HAS_GRAVE, EnumUtil.EnumName<GraveCode>(GraveCode.BROKEN));
+                terrain.getParameters().Add(TerrainParameter.HAS_GRAVE, GraveCode.BROKEN.ToString());
 
                 //drop bones
                 Item bones = new Item();
@@ -792,7 +792,7 @@ namespace LumberjackRL.Core.Map
                         if(RandomNumber.RandomDouble() < 0.001)
                         {
                             MushroomSporeCode msc = EnumUtil.RandomEnumValue<MushroomSporeCode>();
-                            terrain.getParameters().Add(TerrainParameter.HAS_MUSHROOM_SPORES, EnumUtil.EnumName<MushroomSporeCode>(msc));
+                            terrain.getParameters().Add(TerrainParameter.HAS_MUSHROOM_SPORES, msc.ToString());
                         }
                     }
 

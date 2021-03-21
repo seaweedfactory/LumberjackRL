@@ -29,8 +29,6 @@ namespace LumberjackRL.Core.Monsters
         private Item beltSlot2;
         private Item beltSlot3;
         private Item beltSlot4;
-        private Item rightHandSlot;
-        private Item leftHandSlot;
         private Item headSlot;
         private Item bodySlot;
         private Item feetSlot;

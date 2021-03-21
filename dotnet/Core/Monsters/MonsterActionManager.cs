@@ -406,7 +406,7 @@ namespace LumberjackRL.Core.Monsters
 
         public static void monsterKilled(Monster killer, Monster victim, Quinoa quinoa)
         {
-            String playerFeedback="The " + EnumUtil.EnumName<MonsterCode>(victim.monsterCode) + " is gone.";
+            String playerFeedback="The " + victim.monsterCode.ToString() + " is gone.";
 
             //Give experience
             MonsterActionManager.giveExperience(killer, victim.stats.getExperienceGiven(), quinoa);
@@ -427,11 +427,11 @@ namespace LumberjackRL.Core.Monsters
                 break;
 
                 case MonsterCode.GHOST:
-                playerFeedback = "The " + EnumUtil.EnumName<MonsterCode>(victim.monsterCode) + " fades away...";
+                playerFeedback = "The " + victim.monsterCode.ToString() + " fades away...";
                 break;
 
                 case MonsterCode.SPONGE:
-                playerFeedback = "The " + EnumUtil.EnumName<MonsterCode>(victim.monsterCode) + " crumbles.";
+                playerFeedback = "The " + victim.monsterCode.ToString() + " crumbles.";
                 break;
 
                 case MonsterCode.SLIME:
@@ -443,7 +443,7 @@ namespace LumberjackRL.Core.Monsters
                     newMon.setPosition(victim.x + RandomNumber.RandomInteger(5) - 2, victim.y + RandomNumber.RandomInteger(5) - 2);
                     quinoa.getActions().addMonster(newMon);
                 }
-                playerFeedback = "The " + EnumUtil.EnumName<MonsterCode>(victim.monsterCode) + " splits!";
+                playerFeedback = "The " + victim.monsterCode.ToString() + " splits!";
                 break;
 
                 case MonsterCode.SMALL_SLIME:
@@ -455,16 +455,16 @@ namespace LumberjackRL.Core.Monsters
                     newMon.setPosition(victim.x + RandomNumber.RandomInteger(7) - 4, victim.y + RandomNumber.RandomInteger(7) - 4);
                     quinoa.getActions().addMonster(newMon);
                 }
-                playerFeedback = "The " + EnumUtil.EnumName<MonsterCode>(victim.monsterCode) + " splits!";
+                playerFeedback = "The " + victim.monsterCode.ToString() + " splits!";
                 break;
 
                 case MonsterCode.TINY_SLIME:
-                playerFeedback = "The " + EnumUtil.EnumName<MonsterCode>(victim.monsterCode) + " evaporates!";
+                playerFeedback = "The " + victim.monsterCode.ToString() + " evaporates!";
                 break;
 
                 case MonsterCode.DEER:
                 case MonsterCode.PIG:
-                playerFeedback = "The " + EnumUtil.EnumName<MonsterCode>(victim.monsterCode) + " collapses.";
+                playerFeedback = "The " + victim.monsterCode.ToString() + " collapses.";
                 break;
 
                 default:
@@ -645,12 +645,12 @@ namespace LumberjackRL.Core.Monsters
 
                 if(MonsterActionManager.isPlayer(attacker))
                 {
-                    quinoa.getMessageManager().addMessage("You hit the " + EnumUtil.EnumName<MonsterCode>(defender.monsterCode) + " for " + damage + ".");
+                    quinoa.getMessageManager().addMessage("You hit the " + defender.monsterCode.ToString() + " for " + damage + ".");
 
                 }
                 else if(MonsterActionManager.isPlayer(defender))
                 {
-                    quinoa.getMessageManager().addMessage("The " + EnumUtil.EnumName<MonsterCode>(defender.monsterCode) + " hits for " + damage + ".");
+                    quinoa.getMessageManager().addMessage("The " + defender.monsterCode.ToString() + " hits for " + damage + ".");
                 }
 
             }
@@ -658,11 +658,11 @@ namespace LumberjackRL.Core.Monsters
             {
                 if(MonsterActionManager.isPlayer(attacker))
                 {
-                    quinoa.getMessageManager().addMessage("You missed the " + EnumUtil.EnumName<MonsterCode>(defender.monsterCode) + ".");
+                    quinoa.getMessageManager().addMessage("You missed the " + defender.monsterCode.ToString() + ".");
                 }
                 else if(MonsterActionManager.isPlayer(defender))
                 {
-                    quinoa.getMessageManager().addMessage("The " + EnumUtil.EnumName<MonsterCode>(defender.monsterCode) + " missed you.");
+                    quinoa.getMessageManager().addMessage("The " + defender.monsterCode.ToString() + " missed you.");
                 }
             }
         }
@@ -726,7 +726,7 @@ namespace LumberjackRL.Core.Monsters
             MonsterCommand newCommand = new MonsterCommand();
             newCommand.commandCode = MonsterCommandCode.MOVE;
             newCommand.counter = MonsterActionManager.getSpeed(monster);
-            newCommand.addParameter("direction", EnumUtil.EnumName<Direction>(direction));
+            newCommand.addParameter("direction", direction.ToString());
             monster.setCommand(newCommand);
         }
 
@@ -743,7 +743,7 @@ namespace LumberjackRL.Core.Monsters
             {
                 newCommand.addParameter("itemID", "");
             }
-            newCommand.addParameter("verb", EnumUtil.EnumName<ItemVerb>(verb));
+            newCommand.addParameter("verb", verb.ToString());
             newCommand.addParameter("x", x+"");
             newCommand.addParameter("y", y+"");
             monster.setCommand(newCommand);
@@ -860,7 +860,7 @@ namespace LumberjackRL.Core.Monsters
 
                             if(isPlayer(monster))
                             {
-                                quinoa.getMessageManager().addMessage("Ate " + EnumUtil.EnumName<ItemClass>(item.itemClass) + ".");
+                                quinoa.getMessageManager().addMessage("Ate " + item.itemClass.ToString() + ".");
                             }
                         }
 
@@ -1008,7 +1008,7 @@ namespace LumberjackRL.Core.Monsters
                 DoorCode doorCode = (DoorCode)Enum.Parse(typeof(DoorCode), (TerrainManager.getParameter(region.getTerrain(x, y), TerrainParameter.HAS_FLOODGATE)));
                 if(doorCode == DoorCode.CLOSED)
                 {
-                    region.getTerrain(x, y).getParameters().Add(TerrainParameter.HAS_FLOODGATE, EnumUtil.EnumName<DoorCode>(DoorCode.OPEN));
+                    region.getTerrain(x, y).getParameters().Add(TerrainParameter.HAS_FLOODGATE, DoorCode.OPEN.ToString());
 
                     if(isPlayer(monster))
                     {
@@ -1017,7 +1017,7 @@ namespace LumberjackRL.Core.Monsters
                 }
                 else if(doorCode == DoorCode.OPEN)
                 {
-                    region.getTerrain(x, y).getParameters().Add(TerrainParameter.HAS_FLOODGATE, EnumUtil.EnumName<DoorCode>(DoorCode.CLOSED));
+                    region.getTerrain(x, y).getParameters().Add(TerrainParameter.HAS_FLOODGATE, DoorCode.CLOSED.ToString());
 
                     if(isPlayer(monster))
                     {
@@ -1043,7 +1043,7 @@ namespace LumberjackRL.Core.Monsters
                 case ItemClass.FLOODGATE:
                 if(terrain.getCode() == TerrainCode.STREAM_BED)
                 {
-                    terrain.getParameters().Add(TerrainParameter.HAS_FLOODGATE, EnumUtil.EnumName<DoorCode>(DoorCode.CLOSED));
+                    terrain.getParameters().Add(TerrainParameter.HAS_FLOODGATE, DoorCode.CLOSED.ToString());
                     return true;
                 }
                 else
@@ -1061,7 +1061,7 @@ namespace LumberjackRL.Core.Monsters
                     GraveCode gc = (GraveCode)Enum.Parse(typeof(GraveCode), TerrainManager.getParameter(terrain, TerrainParameter.HAS_GRAVE));
                     if(gc == GraveCode.BROKEN)
                     {
-                        terrain.getParameters().Add(TerrainParameter.HAS_GRAVE, EnumUtil.EnumName<GraveCode>(GraveCode.SPECIAL));
+                        terrain.getParameters().Add(TerrainParameter.HAS_GRAVE, GraveCode.SPECIAL.ToString());
                         if(isPlayer(monster))
                         {
                             quinoa.getMessageManager().addMessage("You restore the bones to the grave.");
@@ -1083,7 +1083,7 @@ namespace LumberjackRL.Core.Monsters
                 && !TerrainManager.hasParameter(terrain, TerrainParameter.HAS_DOOR)
                 && terrain.getCode() == TerrainCode.GRASS)
                 {
-                    terrain.getParameters().Add(TerrainParameter.HAS_TREE, EnumUtil.EnumName<TreeCode>(TreeCode.APPLE_TREE));
+                    terrain.getParameters().Add(TerrainParameter.HAS_TREE, TreeCode.APPLE_TREE.ToString());
 
                     if(isPlayer(monster))
                     {
@@ -1141,7 +1141,7 @@ namespace LumberjackRL.Core.Monsters
 
                         if(isPlayer(monster))
                         {
-                            quinoa.getMessageManager().addMessage("You chop the " + EnumUtil.EnumName<TreeCode>(tc) + ".");
+                            quinoa.getMessageManager().addMessage("You chop the " + tc.ToString() + ".");
                         }
                     }
                     else
@@ -1367,7 +1367,7 @@ namespace LumberjackRL.Core.Monsters
                 {
                     if(!TerrainManager.hasParameter(terrain, TerrainParameter.HAS_SEED))
                     {
-                        terrain.getParameters().Add(TerrainParameter.HAS_SEED, EnumUtil.EnumName<SeedType>(SeedType.CORN));
+                        terrain.getParameters().Add(TerrainParameter.HAS_SEED, SeedType.CORN.ToString());
                         terrain.getParameters().Add(TerrainParameter.GROW_COUNTER,TerrainManager.CORN_GROW_COUNT+"");
 
                         if(isPlayer(monster))
@@ -1390,7 +1390,7 @@ namespace LumberjackRL.Core.Monsters
                 {
                     if(!TerrainManager.hasParameter(terrain, TerrainParameter.HAS_SEED))
                     {
-                        terrain.getParameters().Add(TerrainParameter.HAS_SEED,EnumUtil.EnumName<SeedType>(SeedType.PUMPKIN));
+                        terrain.getParameters().Add(TerrainParameter.HAS_SEED,SeedType.PUMPKIN.ToString());
                         terrain.getParameters().Add(TerrainParameter.GROW_COUNTER,TerrainManager.PUMPKIN_GROW_COUNT+"");
 
                         if(isPlayer(monster))
@@ -1489,7 +1489,7 @@ namespace LumberjackRL.Core.Monsters
                     //Attack misses automatically
                     if(monster.ID.Equals(MonsterActionManager.PLAYER_ID))
                     {
-                        quinoa.getMessageManager().addMessage("You miss the " + EnumUtil.EnumName<MonsterCode>(monsterToAttack.monsterCode) + ".");
+                        quinoa.getMessageManager().addMessage("You miss the " + monsterToAttack.monsterCode.ToString() + ".");
                     }
                 }
             }
@@ -1521,7 +1521,7 @@ namespace LumberjackRL.Core.Monsters
                     
                         if(isPlayer(monster))
                         {
-                            quinoa.getMessageManager().addMessage("Got " + EnumUtil.EnumName<ItemClass>(tempItem.itemClass) + ".");
+                            quinoa.getMessageManager().addMessage("Got " + tempItem.itemClass.ToString() + ".");
                         }
                     }
                     else
@@ -1534,7 +1534,7 @@ namespace LumberjackRL.Core.Monsters
                         
                             if(isPlayer(monster))
                             {
-                                quinoa.getMessageManager().addMessage("Got " + EnumUtil.EnumName<ItemClass>(tempItem.itemClass) + ".");
+                                quinoa.getMessageManager().addMessage("Got " + tempItem.itemClass.ToString() + ".");
                             }
                         }
                         else
@@ -1594,7 +1594,7 @@ namespace LumberjackRL.Core.Monsters
                 
                     if(isPlayer(monster))
                     {
-                        quinoa.getMessageManager().addMessage("Equiped " + EnumUtil.EnumName<ItemClass>(newItem.itemClass) + ".");
+                        quinoa.getMessageManager().addMessage("Equiped " + newItem.itemClass.ToString() + ".");
                     }
                 }
                 else
@@ -1636,7 +1636,7 @@ namespace LumberjackRL.Core.Monsters
 
                     if(isPlayer(monster))
                     {
-                        quinoa.getMessageManager().addMessage("Unequiped " + EnumUtil.EnumName<ItemClass>(newItem.itemClass) + ".");
+                        quinoa.getMessageManager().addMessage("Unequiped " + newItem.itemClass.ToString() + ".");
                     }
                 }
                 else

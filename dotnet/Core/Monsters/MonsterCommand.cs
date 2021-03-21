@@ -59,7 +59,7 @@ namespace LumberjackRL.Core.Monsters
 
         public void SaveObject(StreamWriter outStream)
         {
-            outStream.WriteLine(EnumUtil.EnumName<MonsterCommandCode>(commandCode));
+            outStream.WriteLine(commandCode.ToString());
             outStream.WriteLine(counter + "");
             outStream.WriteLine(parameters.Count + "");
             foreach(String parameterKey in parameters.Keys)

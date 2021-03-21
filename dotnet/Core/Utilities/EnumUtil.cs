@@ -17,10 +17,5 @@ namespace LumberjackRL.Core.Utilities
                 .OrderBy(x => tmpRnd.Next())
                 .FirstOrDefault();
         }
-
-        public static String EnumName<T>(T tmpEnum)
-        {
-            return Enum.GetName(typeof(T), tmpEnum);
-        }
     }
 }

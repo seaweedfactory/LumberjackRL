@@ -131,7 +131,7 @@ namespace LumberjackRL.Core.Map
                     return NameMaker.makeFoodName();
 
             }
-            return EnumUtil.EnumName<BuildingType>(building.getBuildingType());
+            return building.getBuildingType().ToString();
         }
 
 

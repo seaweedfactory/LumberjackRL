@@ -45,7 +45,7 @@ namespace LumberjackRL.Core.Map
             outStream.WriteLine(door.y + "");
             outStream.WriteLine(isLit() + "");
             outStream.WriteLine(getRoofType()+"");
-            outStream.WriteLine(EnumUtil.EnumName<BuildingType>(buildingType));
+            outStream.WriteLine(buildingType.ToString());
         }
 
         public void LoadObject(StreamReader inStream)

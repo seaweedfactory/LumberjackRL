@@ -52,7 +52,7 @@ namespace LumberjackRL.Core.Items
 
         public void SaveObject(StreamWriter outStream)
         {
-            outStream.WriteLine(EnumUtil.EnumName<ItemAttributeType>(type));
+            outStream.WriteLine(type.ToString());
             outStream.WriteLine(parameter);
         }
 

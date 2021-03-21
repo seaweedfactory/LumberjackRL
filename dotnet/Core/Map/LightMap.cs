@@ -188,7 +188,7 @@ namespace LumberjackRL.Core.Map
                     Terrain doorTerrain = quinoa.getCurrentRegionHeader().getRegion().getTerrain(tempBuild.getDoor().x, tempBuild.getDoor().y);
                     if(TerrainManager.hasParameter(doorTerrain, TerrainParameter.HAS_DOOR))
                     {
-                        if(TerrainManager.getParameter(doorTerrain, TerrainParameter.HAS_DOOR).Equals(EnumUtil.EnumName<DoorCode>(DoorCode.OPEN)))
+                        if(TerrainManager.getParameter(doorTerrain, TerrainParameter.HAS_DOOR).Equals(DoorCode.OPEN.ToString()))
                         {
                             calc[tempBuild.getDoor().x,tempBuild.getDoor().y] = BUILDING_BASE_LIGHT;
                             lights.Add(new Light(tempBuild.getDoor().x, tempBuild.getDoor().y, BUILDING_BASE_LIGHT));

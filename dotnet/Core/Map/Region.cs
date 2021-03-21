@@ -141,7 +141,7 @@ namespace LumberjackRL.Core.Map
             {
                 tempBuild.SaveObject(outStream);
             }
-            outStream.WriteLine(EnumUtil.EnumName<LightingModel>(this.getLightingModel()));
+            outStream.WriteLine(getLightingModel().ToString());
         }
 
         public void LoadObject(StreamReader inStream)

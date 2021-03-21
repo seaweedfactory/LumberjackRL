@@ -49,7 +49,7 @@ namespace LumberjackRL.Core.Map
             outStream.WriteLine(getDx()+"");
             outStream.WriteLine(getDy()+"");
             outStream.WriteLine(getDestinationRegionID());
-            outStream.WriteLine(EnumUtil.EnumName<ExitDecorator>(exitDecorator));
+            outStream.WriteLine(exitDecorator.ToString());
         }
 
         public void LoadObject(StreamReader inStream)

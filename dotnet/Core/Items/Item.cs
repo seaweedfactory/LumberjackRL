@@ -122,9 +122,9 @@ namespace LumberjackRL.Core.Items
 
         public void SaveObject(StreamWriter outStream)
         {
-            outStream.WriteLine(EnumUtil.EnumName<ItemCategory>(itemCategory));
-            outStream.WriteLine(EnumUtil.EnumName<ItemClass>(itemClass));
-            outStream.WriteLine(EnumUtil.EnumName<ItemState>(itemState));
+            outStream.WriteLine(itemCategory.ToString());
+            outStream.WriteLine(itemClass.ToString());
+            outStream.WriteLine(itemState.ToString());
             outStream.WriteLine(this.x + "");
             outStream.WriteLine(this.y + "");
             outStream.WriteLine(this.ID);

@@ -693,7 +693,7 @@ namespace LumberjackRL.Core.UI
             if(inventoryTargetY == -1)
             {
                 selectedItem = quinoa.getPlayer().inventory.getItem((ItemSlot)Enum.GetValues(typeof(ItemSlot)).GetValue(inventoryTargetX));
-                String slotName = EnumUtil.EnumName<ItemSlot>((ItemSlot)Enum.GetValues(typeof(ItemSlot)).GetValue(inventoryTargetX));
+                String slotName = ((ItemSlot)Enum.GetValues(typeof(ItemSlot)).GetValue(inventoryTargetX)).ToString();
                 dtm.drawString(slotName, 2.0, g, itemInfoX + 5, itemHeaderOffsetY + itemInfoY + 7, quinoa.getUI().getGraphicsManager());
                 itemHeaderOffsetY = 16;
             }
@@ -704,8 +704,8 @@ namespace LumberjackRL.Core.UI
 
             if(selectedItem != null)
             {
-                dtm.drawString(EnumUtil.EnumName<ItemClass>(selectedItem.itemClass), 2.0, g, itemInfoX + 5, itemHeaderOffsetY + itemInfoY + 7, quinoa.getUI().getGraphicsManager());
-                dtm.drawString("Type:" + EnumUtil.EnumName<ItemCategory>(selectedItem.itemCategory), 2.0, g, itemInfoX + 5, itemHeaderOffsetY + itemInfoY + 7 + (20 *1), quinoa.getUI().getGraphicsManager());
+                dtm.drawString(selectedItem.itemClass.ToString(), 2.0, g, itemInfoX + 5, itemHeaderOffsetY + itemInfoY + 7, quinoa.getUI().getGraphicsManager());
+                dtm.drawString("Type:" + selectedItem.itemCategory.ToString(), 2.0, g, itemInfoX + 5, itemHeaderOffsetY + itemInfoY + 7 + (20 *1), quinoa.getUI().getGraphicsManager());
                 //draw all attributes
                 int lineCounter=2;
                 foreach(ItemAttribute attribute in selectedItem.attributes)
@@ -767,13 +767,13 @@ namespace LumberjackRL.Core.UI
 
             if(selectedItem != null)
             {
-                dtm.drawString(EnumUtil.EnumName<ItemClass>(selectedItem.itemClass), 2.0, g, itemInfoX + 5, itemHeaderOffsetY + itemInfoY + 7, quinoa.getUI().getGraphicsManager());
-                dtm.drawString("Type:" + EnumUtil.EnumName<ItemCategory>(selectedItem.itemCategory), 2.0, g, itemInfoX + 5, itemHeaderOffsetY + itemInfoY + 7 + (20 *1), quinoa.getUI().getGraphicsManager());
+                dtm.drawString(selectedItem.itemClass.ToString(), 2.0, g, itemInfoX + 5, itemHeaderOffsetY + itemInfoY + 7, quinoa.getUI().getGraphicsManager());
+                dtm.drawString("Type:" + selectedItem.itemCategory.ToString(), 2.0, g, itemInfoX + 5, itemHeaderOffsetY + itemInfoY + 7 + (20 *1), quinoa.getUI().getGraphicsManager());
                 //draw all attributes
                 int lineCounter=2;
                 foreach(ItemAttribute attribute in selectedItem.attributes)
                 {
-                    String description = (EnumUtil.EnumName<ItemAttributeType>(attribute.type).Replace("_", " ")) + " " + attribute.parameter;
+                    String description = (attribute.type.ToString().Replace("_", " ")) + " " + attribute.parameter;
                     dtm.drawString(description, 2.0, g, itemInfoX + 5, itemHeaderOffsetY + itemInfoY + 7 + (20 *lineCounter), quinoa.getUI().getGraphicsManager());
                     lineCounter++;
                 }
@@ -831,7 +831,7 @@ namespace LumberjackRL.Core.UI
             foreach(ItemVerb iv in itemVerbs)
             {
                 g.FillRectangle((ivCounter == verbIndex) ? Brushes.White : Brushes.LightGray, dx + 10, dy + (ivCounter * 20) + 10, 10, 10);
-                dtm.drawString(EnumUtil.EnumName<ItemVerb>(iv), 2.0, g, dx + 25, dy + 10 + (ivCounter * 20), quinoa.getUI().getGraphicsManager());
+                dtm.drawString(iv.ToString(), 2.0, g, dx + 25, dy + 10 + (ivCounter * 20), quinoa.getUI().getGraphicsManager());
                 ivCounter++;
             }
 
@@ -871,14 +871,14 @@ namespace LumberjackRL.Core.UI
                 dtm.drawItem(tempItem, g, tradeXOffset + (tempItem.x * ts * 2) + (ts/2), tradeYOffset + (tempItem.y * ts * 2) + (ts/2), 1.0, quinoa.getUI().getGraphicsManager());
             }
 
-            String name = EnumUtil.EnumName<MonsterCode>(monster.monsterCode);
+            String name = monster.monsterCode.ToString();
             if(monster.ID.Equals(MonsterActionManager.PLAYER_ID))
             {
                 name = "YOU";
             }
             else if(monster.role != MonsterRole.NULL)
             {
-                name = EnumUtil.EnumName<MonsterRole>(monster.role);
+                name = monster.role.ToString();
             }
             dtm.drawString(name, 2.0, g, tradeXOffset, tradeYOffset - 16, quinoa.getUI().getGraphicsManager());
             String formattedMoney = monster.inventory.wealth.ToString("0.##");

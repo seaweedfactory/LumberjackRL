@@ -22,12 +22,12 @@ namespace LumberjackRL.Core.Map
 
         public void SaveObject(StreamWriter outStream)
         {
-            outStream.WriteLine(EnumUtil.EnumName<TerrainCode>(code));
+            outStream.WriteLine(code.ToString());
             outStream.WriteLine(getWater().ToString());
             outStream.WriteLine(getParameters().Count.ToString());
             foreach(TerrainParameter tempKey in getParameters().Keys)
             {
-                outStream.WriteLine(EnumUtil.EnumName<TerrainParameter>(tempKey));
+                outStream.WriteLine(tempKey.ToString());
                 outStream.WriteLine(parameters[tempKey]);
             }
         }

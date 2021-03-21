@@ -129,11 +129,11 @@ namespace LumberjackRL.Core.Generator
                             {
                                 if(RandomNumber.RandomDouble() < 0.01)
                                 {
-                                    region.getTerrain(x, y).getParameters().Add(TerrainParameter.HAS_GRAVE, EnumUtil.EnumName<GraveCode>(GraveCode.SPECIAL));
+                                    region.getTerrain(x, y).getParameters().Add(TerrainParameter.HAS_GRAVE, GraveCode.SPECIAL.ToString());
                                 }
                                 else
                                 {
-                                    region.getTerrain(x, y).getParameters().Add(TerrainParameter.HAS_GRAVE, EnumUtil.EnumName<GraveCode>(GraveCode.NORMAL));
+                                    region.getTerrain(x, y).getParameters().Add(TerrainParameter.HAS_GRAVE, GraveCode.NORMAL.ToString());
                                 }
                             }
                             else
@@ -142,7 +142,7 @@ namespace LumberjackRL.Core.Generator
                                 {
                                     if(RandomNumber.RandomDouble() < 0.25 && treesPlaced < 2)
                                     {
-                                        region.getTerrain(x, y).getParameters().Add(TerrainParameter.HAS_TREE, EnumUtil.EnumName<TreeCode>(TreeCode.APPLE_TREE));
+                                        region.getTerrain(x, y).getParameters().Add(TerrainParameter.HAS_TREE, TreeCode.APPLE_TREE.ToString());
                                         treesPlaced++;
                                     }
 
@@ -176,7 +176,7 @@ namespace LumberjackRL.Core.Generator
                 if(grassTiles.Count > 0)
                 {
                     Position pos = grassTiles[RandomNumber.RandomInteger(grassTiles.Count)];
-                    region.getTerrain(pos.x, pos.y).getParameters().Add(TerrainParameter.HAS_TREE, EnumUtil.EnumName<TreeCode>(TerrainManager.getRandomTree()));
+                    region.getTerrain(pos.x, pos.y).getParameters().Add(TerrainParameter.HAS_TREE, TerrainManager.getRandomTree().ToString());
                     region.getTerrain(pos.x, pos.y).getParameters().Add(TerrainParameter.DAMAGE, "0");
                     grassTiles.Remove(pos);
                 }
@@ -196,7 +196,7 @@ namespace LumberjackRL.Core.Generator
                     MushroomSporeCode msc = EnumUtil.RandomEnumValue<MushroomSporeCode>();
                     if(!terrain.getParameters().ContainsKey(TerrainParameter.HAS_MUSHROOM_SPORES))
                     {
-                        terrain.getParameters().Add(TerrainParameter.HAS_MUSHROOM_SPORES, EnumUtil.EnumName<MushroomSporeCode>(msc));
+                        terrain.getParameters().Add(TerrainParameter.HAS_MUSHROOM_SPORES, msc.ToString());
                     }
                 }
             }

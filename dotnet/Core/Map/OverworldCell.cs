@@ -40,7 +40,7 @@ namespace LumberjackRL.Core.Map
 
         public void SaveObject(StreamWriter outStream)
         {
-            outStream.WriteLine(EnumUtil.EnumName<CellType>(cellType));
+            outStream.WriteLine(cellType.ToString());
             outStream.WriteLine(nExit.ToString());
             outStream.WriteLine(eExit.ToString());
             outStream.WriteLine(sExit.ToString());

@@ -595,7 +595,7 @@ namespace LumberjackRL.Core
             {
                 Terrain targetTerrain = terrains[(int)(RandomNumber.RandomDouble() * terrains.Count)];
 
-                targetTerrain.getParameters().Add(TerrainParameter.HAS_SEED, EnumUtil.EnumName<SeedType>(seedType));
+                targetTerrain.getParameters().Add(TerrainParameter.HAS_SEED, seedType.ToString());
                 targetTerrain.getParameters().Add(TerrainParameter.GROW_COUNTER, TerrainManager.getGrowCount(seedType).ToString());
             }
         }
@@ -628,7 +628,7 @@ namespace LumberjackRL.Core
             if(terrains.Count > 0)
             {
                 Terrain targetTerrain = terrains[((int)(RandomNumber.RandomDouble() * terrains.Count))];
-                targetTerrain.getParameters().Add(TerrainParameter.HAS_MUSHROOM_SPORES, EnumUtil.EnumName<MushroomSporeCode>(msc));
+                targetTerrain.getParameters().Add(TerrainParameter.HAS_MUSHROOM_SPORES, msc.ToString());
             }
         }
 
@@ -744,12 +744,12 @@ namespace LumberjackRL.Core
                     if(TerrainManager.hasParameter(targetTerrain, TerrainParameter.HAS_TREE))
                     {
                         TreeCode tc = (TreeCode)Enum.Parse(typeof(TreeCode), TerrainManager.getParameter(targetTerrain, TerrainParameter.HAS_TREE));
-                        whatGrows.Add(article(EnumUtil.EnumName<TreeCode>(tc) + " " + EnumUtil.EnumName<TreeCode>(tc)));
+                        whatGrows.Add(article(tc.ToString() + " " + tc.ToString()));
                     }
                     if(TerrainManager.hasParameter(targetTerrain, TerrainParameter.HAS_SEED))
                     {
                         SeedType st = (SeedType)Enum.Parse(typeof(SeedType), TerrainManager.getParameter(targetTerrain, TerrainParameter.HAS_SEED));
-                        whatGrows.Add("a patch of " + EnumUtil.EnumName<SeedType>(st) + " " + TerrainManager.getStemType(st));
+                        whatGrows.Add("a patch of " + st.ToString() + " " + st.ToString());
                     }
 
                     if(whatGrows.Count > 0)
@@ -920,7 +920,7 @@ namespace LumberjackRL.Core
                 }
                 else
                 {
-                    message = "The " + EnumUtil.EnumName<MonsterCode>(tempMon.monsterCode) + " doesn't have much to say yet.";
+                    message = "The " + tempMon.monsterCode.ToString() + " doesn't have much to say yet.";
                 }
             }
             else

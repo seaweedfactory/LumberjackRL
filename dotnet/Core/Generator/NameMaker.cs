@@ -91,7 +91,7 @@ namespace LumberjackRL.Core.Generator
         {
             AdjectivePlace ap = EnumUtil.RandomEnumValue<AdjectivePlace>();
             NounPlace np = EnumUtil.RandomEnumValue <NounPlace>();
-            return easyCase(EnumUtil.EnumName<AdjectivePlace>(ap) + " " + easyCase(EnumUtil.EnumName<NounPlace>(np)));
+            return easyCase(ap.ToString() + " " + easyCase(np.ToString()));
         }
 
         public static String makeFoodName()
@@ -101,11 +101,11 @@ namespace LumberjackRL.Core.Generator
             NicknameFood nick = EnumUtil.RandomEnumValue<NicknameFood>();
             if(RandomNumber.RandomDouble() > 0.05)
             {
-                return "The " + easyCase(EnumUtil.EnumName<AdjectivePlace>(ap)) + " " + easyCase(EnumUtil.EnumName<NounFood>(np));
+                return "The " + easyCase(ap.ToString()) + " " + easyCase(np.ToString());
             }
             else
             {
-                return easyCase(EnumUtil.EnumName<NicknameFood>(nick)) + "'s " + easyCase(EnumUtil.EnumName<AdjectivePlace>(ap)) + " " + easyCase(EnumUtil.EnumName<NounFood>(np));
+                return easyCase(nick.ToString()) + "'s " + easyCase(ap.ToString()) + " " + easyCase(np.ToString());
             }
         }
 

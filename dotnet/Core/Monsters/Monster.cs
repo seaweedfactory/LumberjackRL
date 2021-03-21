@@ -308,10 +308,10 @@ namespace LumberjackRL.Core.Monsters
         {
             outStream.WriteLine(x + "");
             outStream.WriteLine(y + "");
-            outStream.WriteLine(EnumUtil.EnumName<Direction>(facing));
-            outStream.WriteLine(EnumUtil.EnumName<MonsterState>(state));
-            outStream.WriteLine(EnumUtil.EnumName<MonsterCode>(monsterCode));
-            outStream.WriteLine(EnumUtil.EnumName<MonsterRole>(role));
+            outStream.WriteLine(facing.ToString());
+            outStream.WriteLine(state.ToString());
+            outStream.WriteLine(monsterCode.ToString());
+            outStream.WriteLine(role.ToString());
             outStream.WriteLine(ID);
             outStream.WriteLine(sleeping + "");
             outStream.WriteLine(AIParameters.Count + "");

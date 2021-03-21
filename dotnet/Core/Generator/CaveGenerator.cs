@@ -231,7 +231,7 @@ namespace LumberjackRL.Core.Generator
                         MushroomSporeCode msc = EnumUtil.RandomEnumValue<MushroomSporeCode>();
                         if (!region.getTerrain(pos.x, pos.y).getParameters().ContainsKey(TerrainParameter.HAS_MUSHROOM_SPORES))
                         {
-                            region.getTerrain(pos.x, pos.y).getParameters().Add(TerrainParameter.HAS_MUSHROOM_SPORES, EnumUtil.EnumName<MushroomSporeCode>(msc));
+                            region.getTerrain(pos.x, pos.y).getParameters().Add(TerrainParameter.HAS_MUSHROOM_SPORES, msc.ToString());
                         }
                         positions.Remove(pos);
                     }
