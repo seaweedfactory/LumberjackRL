@@ -40,6 +40,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LumberjackRL";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.formQuinoaWindow_Paint);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.formQuinoaWindow_KeyPress);
             this.ResumeLayout(false);

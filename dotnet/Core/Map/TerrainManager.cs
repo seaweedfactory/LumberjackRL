@@ -8,77 +8,6 @@ using LumberjackRL.Core.Utilities;
 
 namespace LumberjackRL.Core.Map
 {
-    public enum TerrainCode 
-    {
-        PATH, 
-        DIRT, 
-        GRASS, 
-        STONE_WALL,
-        STONE_FLOOR, 
-        FERTILE_LAND, 
-        ROCK, 
-        STREAM_BED
-    }
-
-    public enum TerrainParameter 
-    {
-        HAS_TREE, 
-        HAS_DOOR, 
-        HAS_SIGN, 
-        FIRE, 
-        GROW_COUNTER, 
-        HAS_SPRING, 
-        HAS_DRAIN, 
-        HAS_MINERALS, 
-        HAS_MUSHROOM_SPORES,
-        HAS_BED, 
-        HAS_GRAVE, 
-        DAMAGE, 
-        HAS_CLOVER, 
-        HAS_SEED, 
-        HAS_FLOODGATE, 
-        HAS_MOSS
-    }
-
-    public enum MushroomSporeCode 
-    {
-        DEATH_CAP, 
-        PUFFBALL, 
-        FLY_AGARIC, 
-        MOREL, 
-        BUTTON_MUSHROOM, 
-        GHOST_FUNGUS, 
-        POISON, 
-        EDIBLE
-    }
-    
-    public enum TreeCode 
-    {
-        PINE_TREE, 
-        BIRCH_TREE, 
-        OAK_TREE, 
-        APPLE_TREE
-    }
-    
-    public enum GraveCode 
-    {
-        NORMAL, 
-        SPECIAL, 
-        BROKEN
-    }
-    
-    public enum SeedType 
-    {
-        NULL,
-        CORN, 
-        PUMPKIN
-    }
-    
-    public enum DoorCode 
-    {
-        OPEN, 
-        CLOSED
-    }
 
     public class TerrainManager
     {
@@ -116,7 +45,7 @@ namespace LumberjackRL.Core.Map
         }
 
 
-        public static int getMonsterCount(Region region, MonsterCode monsterCode)
+        public static int getMonsterCount(Region region, MonsterClassType monsterCode)
         {
             int total = 0;
             foreach(Monster tempMonster in region.getMonsters())
@@ -162,7 +91,7 @@ namespace LumberjackRL.Core.Map
                 if(RandomNumber.RandomDouble() < MOSS_DROP_RATE)
                 {
                     Item moss = new Item();
-                    moss.itemClass = ItemClass.MOSS;
+                    moss.itemClass = ItemClassType.MOSS;
                     moss.setPosition(x, y);
                     moss.itemState = ItemState.GROUND;
                     region.getItems().Add(moss);
@@ -245,14 +174,14 @@ namespace LumberjackRL.Core.Map
                             if(RandomNumber.RandomDouble() < 0.50)
                             {
                                 Item cornSeed = new Item();
-                                cornSeed.itemClass = ItemClass.CORN_SEED;
+                                cornSeed.itemClass = ItemClassType.CORN_SEED;
                                 cornSeed.stackSize = RandomNumber.RandomInteger(9) + 1;
                                 cornSeed.setPosition(x, y);
                                 quinoa.getCurrentRegionHeader().getRegion().getItems().Add(cornSeed);
                             }
 
                             Item corn = new Item();
-                            corn.itemClass = ItemClass.CORN;
+                            corn.itemClass = ItemClassType.CORN;
                             corn.stackSize = RandomNumber.RandomInteger(3) + 1;
                             corn.setPosition(x, y);
                             quinoa.getCurrentRegionHeader().getRegion().getItems().Add(corn);
@@ -269,13 +198,13 @@ namespace LumberjackRL.Core.Map
                             if(RandomNumber.RandomDouble() < TerrainManager.PUMPKIN_PRODUCTION_RATE)
                             {
                                 Item pumpkinSeed = new Item();
-                                pumpkinSeed.itemClass = ItemClass.PUMPKIN_SEED;
+                                pumpkinSeed.itemClass = ItemClassType.PUMPKIN_SEED;
                                 pumpkinSeed.stackSize = RandomNumber.RandomInteger(3) + 1;
                                 pumpkinSeed.setPosition(x, y);
                                 quinoa.getCurrentRegionHeader().getRegion().getItems().Add(pumpkinSeed);
 
                                 Item pumpkin = new Item();
-                                pumpkin.itemClass = ItemClass.PUMPKIN;
+                                pumpkin.itemClass = ItemClassType.PUMPKIN;
                                 pumpkin.stackSize = 1;
                                 pumpkin.setPosition(x, y);
                                 quinoa.getCurrentRegionHeader().getRegion().getItems().Add(pumpkin);
@@ -316,40 +245,40 @@ namespace LumberjackRL.Core.Map
             }
         }
     
-        public static ItemClass mushroomSporeToItemClass(MushroomSporeCode msc)
+        public static ItemClassType mushroomSporeToItemClass(MushroomSporeCode msc)
         {
-            List<ItemClass> choices = new List<ItemClass>();
+            List<ItemClassType> choices = new List<ItemClassType>();
             switch(msc)
             {
                 case MushroomSporeCode.DEATH_CAP:
-                return ItemClass.DEATH_CAP;
+                return ItemClassType.DEATH_CAP;
 
                 case MushroomSporeCode.PUFFBALL:
-                return ItemClass.PUFFBALL;
+                return ItemClassType.PUFFBALL;
 
                 case MushroomSporeCode.FLY_AGARIC:
-                return ItemClass.FLY_AGARIC;
+                return ItemClassType.FLY_AGARIC;
 
                 case MushroomSporeCode.MOREL:
-                return ItemClass.MOREL;
+                return ItemClassType.MOREL;
 
                 case MushroomSporeCode.BUTTON_MUSHROOM:
-                return ItemClass.BUTTON_MUSHROOM;
+                return ItemClassType.BUTTON_MUSHROOM;
 
                 case MushroomSporeCode.GHOST_FUNGUS:
-                return ItemClass.GHOST_FUNGUS;
+                return ItemClassType.GHOST_FUNGUS;
 
                 case MushroomSporeCode.POISON:
-                choices.Add(ItemClass.DEATH_CAP);
-                choices.Add(ItemClass.FLY_AGARIC);
-                choices.Add(ItemClass.GHOST_FUNGUS);
+                choices.Add(ItemClassType.DEATH_CAP);
+                choices.Add(ItemClassType.FLY_AGARIC);
+                choices.Add(ItemClassType.GHOST_FUNGUS);
                 return choices[RandomNumber.RandomInteger(choices.Count)];
 
                 case MushroomSporeCode.EDIBLE:
                 default:
-                choices.Add(ItemClass.PUFFBALL);
-                choices.Add(ItemClass.MOREL);
-                choices.Add(ItemClass.BUTTON_MUSHROOM);
+                choices.Add(ItemClassType.PUFFBALL);
+                choices.Add(ItemClassType.MOREL);
+                choices.Add(ItemClassType.BUTTON_MUSHROOM);
                 return choices[RandomNumber.RandomInteger(choices.Count)];
             }
         }
@@ -428,7 +357,7 @@ namespace LumberjackRL.Core.Map
             }
         }
 
-        public static Item containsItem(ItemClass itemClass, int x, int y, Quinoa quinoa)
+        public static Item containsItem(ItemClassType itemClass, int x, int y, Quinoa quinoa)
         {
             foreach(Item tempItem in quinoa.getCurrentRegionHeader().getRegion().getItems())
             {
@@ -462,7 +391,7 @@ namespace LumberjackRL.Core.Map
 
         public static int fuelsFire(Terrain terrain, int x, int y, Quinoa quinoa)
         {
-            if(containsItem(ItemClass.LOG, x, y, quinoa) != null)
+            if(containsItem(ItemClassType.LOG, x, y, quinoa) != null)
             {
                 return 10;
             }
@@ -594,7 +523,7 @@ namespace LumberjackRL.Core.Map
                         if(RandomNumber.RandomDouble() > 0.5)
                         {
                             Item gem = new Item();
-                            gem.itemClass = ItemClass.AMETHYST;
+                            gem.itemClass = ItemClassType.AMETHYST;
                             gem.setPosition(x, y);
                             quinoa.getCurrentRegionHeader().getRegion().getItems().Add(gem);
                         }
@@ -608,14 +537,14 @@ namespace LumberjackRL.Core.Map
                         if(RandomNumber.RandomDouble() > 0.5)
                         {
                             Item gem = new Item();
-                            gem.itemClass = ItemClass.SAPPHIRE;
+                            gem.itemClass = ItemClassType.SAPPHIRE;
                             gem.setPosition(x, y);
                             quinoa.getCurrentRegionHeader().getRegion().getItems().Add(gem);
                         }
                         else
                         {
                             Item gem = new Item();
-                            gem.itemClass = ItemClass.EMERALD;
+                            gem.itemClass = ItemClassType.EMERALD;
                             gem.setPosition(x, y);
                             quinoa.getCurrentRegionHeader().getRegion().getItems().Add(gem);
                         }
@@ -625,14 +554,14 @@ namespace LumberjackRL.Core.Map
                         if(RandomNumber.RandomDouble() > 0.33)
                         {
                             Item gem = new Item();
-                            gem.itemClass = ItemClass.RUBY;
+                            gem.itemClass = ItemClassType.RUBY;
                             gem.setPosition(x, y);
                             quinoa.getCurrentRegionHeader().getRegion().getItems().Add(gem);
                         }
                         else
                         {
                             Item gem = new Item();
-                            gem.itemClass = ItemClass.DIAMOND;
+                            gem.itemClass = ItemClassType.DIAMOND;
                             gem.setPosition(x, y);
                             quinoa.getCurrentRegionHeader().getRegion().getItems().Add(gem);
                         }
@@ -685,7 +614,7 @@ namespace LumberjackRL.Core.Map
 
                 //drop bones
                 Item bones = new Item();
-                bones.itemClass = ItemClass.BONES;
+                bones.itemClass = ItemClassType.BONES;
                 bones.setPosition(x, y);
                 bones.itemState = ItemState.GROUND;
                 quinoa.getCurrentRegionHeader().getRegion().getItems().Add(bones);
@@ -736,7 +665,7 @@ namespace LumberjackRL.Core.Map
                 {
                     switch(tempItem.itemClass)
                     {
-                        case ItemClass.LOG: dropAsh=true; break;
+                        case ItemClassType.LOG: dropAsh=true; break;
                         default: dropAsh= false; break;
                     }
                     tempItem.RemoveObject();
@@ -812,7 +741,7 @@ namespace LumberjackRL.Core.Map
             if(dropAsh)
             {
                 Item ash = new Item();
-                ash.itemClass = ItemClass.ASH;
+                ash.itemClass = ItemClassType.ASH;
                 ash.setPosition(x, y);
                 quinoa.getCurrentRegionHeader().getRegion().getItems().Add(ash);
             }
@@ -826,7 +755,7 @@ namespace LumberjackRL.Core.Map
                 return false;
             }
 
-            if(containsItem(ItemClass.LOG, x, y, quinoa) != null)
+            if(containsItem(ItemClassType.LOG, x, y, quinoa) != null)
             {
                 return true;
             }
@@ -915,14 +844,14 @@ namespace LumberjackRL.Core.Map
             {
                 switch(monster.monsterCode)
                 {
-                    case MonsterCode.HUMAN: return false;
-                    case MonsterCode.SPONGE: return false;
-                    case MonsterCode.GHOST: return true;
-                    case MonsterCode.SLIME: return false;
-                    case MonsterCode.SMALL_SLIME: return false;
-                    case MonsterCode.TINY_SLIME: return false;
-                    case MonsterCode.DEER: return false;
-                    case MonsterCode.PIG: return false;
+                    case MonsterClassType.HUMAN: return false;
+                    case MonsterClassType.SPONGE: return false;
+                    case MonsterClassType.GHOST: return true;
+                    case MonsterClassType.SLIME: return false;
+                    case MonsterClassType.SMALL_SLIME: return false;
+                    case MonsterClassType.TINY_SLIME: return false;
+                    case MonsterClassType.DEER: return false;
+                    case MonsterClassType.PIG: return false;
                     default: return false;
                 }
             }
@@ -935,14 +864,14 @@ namespace LumberjackRL.Core.Map
                 {
                     switch(monster.monsterCode)
                     {
-                        case MonsterCode.HUMAN: return false;
-                        case MonsterCode.SPONGE: return false;
-                        case MonsterCode.GHOST: return true;
-                        case MonsterCode.SLIME: return false;
-                        case MonsterCode.SMALL_SLIME: return false;
-                        case MonsterCode.TINY_SLIME: return false;
-                        case MonsterCode.DEER: return false;
-                        case MonsterCode.PIG: return false;
+                        case MonsterClassType.HUMAN: return false;
+                        case MonsterClassType.SPONGE: return false;
+                        case MonsterClassType.GHOST: return true;
+                        case MonsterClassType.SLIME: return false;
+                        case MonsterClassType.SMALL_SLIME: return false;
+                        case MonsterClassType.TINY_SLIME: return false;
+                        case MonsterClassType.DEER: return false;
+                        case MonsterClassType.PIG: return false;
                         default: return false;
                     }
                 }
@@ -953,8 +882,8 @@ namespace LumberjackRL.Core.Map
             {
                 switch(monster.monsterCode)
                 {
-                    case MonsterCode.GHOST: return false;
-                    case MonsterCode.TINY_SLIME: return false;
+                    case MonsterClassType.GHOST: return false;
+                    case MonsterClassType.TINY_SLIME: return false;
                     default: break; //do nothing
                 }
             }
@@ -966,112 +895,112 @@ namespace LumberjackRL.Core.Map
                 case TerrainCode.PATH:
                 switch (monster.monsterCode)
                 {
-                    case MonsterCode.HUMAN: return true;
-                    case MonsterCode.SPONGE: return true;
-                    case MonsterCode.GHOST: return true;
-                    case MonsterCode.SLIME: return true;
-                    case MonsterCode.SMALL_SLIME: return true;
-                    case MonsterCode.TINY_SLIME: return true;
-                    case MonsterCode.DEER: return true;
-                    case MonsterCode.PIG: return true;
+                    case MonsterClassType.HUMAN: return true;
+                    case MonsterClassType.SPONGE: return true;
+                    case MonsterClassType.GHOST: return true;
+                    case MonsterClassType.SLIME: return true;
+                    case MonsterClassType.SMALL_SLIME: return true;
+                    case MonsterClassType.TINY_SLIME: return true;
+                    case MonsterClassType.DEER: return true;
+                    case MonsterClassType.PIG: return true;
                     default: return false;
                 }
 
                 case TerrainCode.DIRT:
                 switch (monster.monsterCode)
                 {
-                    case MonsterCode.HUMAN: return true;
-                    case MonsterCode.SPONGE: return true;
-                    case MonsterCode.GHOST: return true;
-                    case MonsterCode.SLIME: return true;
-                    case MonsterCode.SMALL_SLIME: return true;
-                    case MonsterCode.TINY_SLIME: return true;
-                    case MonsterCode.DEER: return true;
-                    case MonsterCode.PIG: return true;
+                    case MonsterClassType.HUMAN: return true;
+                    case MonsterClassType.SPONGE: return true;
+                    case MonsterClassType.GHOST: return true;
+                    case MonsterClassType.SLIME: return true;
+                    case MonsterClassType.SMALL_SLIME: return true;
+                    case MonsterClassType.TINY_SLIME: return true;
+                    case MonsterClassType.DEER: return true;
+                    case MonsterClassType.PIG: return true;
                     default: return false;
                 }
 
                 case TerrainCode.ROCK:
                 switch (monster.monsterCode)
                 {
-                    case MonsterCode.HUMAN: return false;
-                    case MonsterCode.SPONGE: return false;
-                    case MonsterCode.GHOST: return true;
-                    case MonsterCode.SLIME: return false;
-                    case MonsterCode.SMALL_SLIME: return false;
-                    case MonsterCode.TINY_SLIME: return false;
-                    case MonsterCode.DEER: return false;
-                    case MonsterCode.PIG: return false;
+                    case MonsterClassType.HUMAN: return false;
+                    case MonsterClassType.SPONGE: return false;
+                    case MonsterClassType.GHOST: return true;
+                    case MonsterClassType.SLIME: return false;
+                    case MonsterClassType.SMALL_SLIME: return false;
+                    case MonsterClassType.TINY_SLIME: return false;
+                    case MonsterClassType.DEER: return false;
+                    case MonsterClassType.PIG: return false;
                     default: return false;
                 }
 
                 case TerrainCode.STREAM_BED:
                 switch (monster.monsterCode)
                 {
-                    case MonsterCode.HUMAN: return true;
-                    case MonsterCode.SPONGE: return true;
-                    case MonsterCode.GHOST: return true;
-                    case MonsterCode.SLIME: return true;
-                    case MonsterCode.SMALL_SLIME: return false;
-                    case MonsterCode.TINY_SLIME: return false;
-                    case MonsterCode.DEER: return true;
-                    case MonsterCode.PIG: return true;
+                    case MonsterClassType.HUMAN: return true;
+                    case MonsterClassType.SPONGE: return true;
+                    case MonsterClassType.GHOST: return true;
+                    case MonsterClassType.SLIME: return true;
+                    case MonsterClassType.SMALL_SLIME: return false;
+                    case MonsterClassType.TINY_SLIME: return false;
+                    case MonsterClassType.DEER: return true;
+                    case MonsterClassType.PIG: return true;
                     default: return false;
                 }
 
                 case TerrainCode.GRASS:
                 switch (monster.monsterCode)
                 {
-                    case MonsterCode.HUMAN: return true;
-                    case MonsterCode.SPONGE: return true;
-                    case MonsterCode.GHOST: return true;
-                    case MonsterCode.SLIME: return true;
-                    case MonsterCode.SMALL_SLIME: return true;
-                    case MonsterCode.TINY_SLIME: return true;
-                    case MonsterCode.DEER: return true;
-                    case MonsterCode.PIG: return true;
+                    case MonsterClassType.HUMAN: return true;
+                    case MonsterClassType.SPONGE: return true;
+                    case MonsterClassType.GHOST: return true;
+                    case MonsterClassType.SLIME: return true;
+                    case MonsterClassType.SMALL_SLIME: return true;
+                    case MonsterClassType.TINY_SLIME: return true;
+                    case MonsterClassType.DEER: return true;
+                    case MonsterClassType.PIG: return true;
                     default: return false;
                 }
 
                 case TerrainCode.STONE_WALL:
                 switch (monster.monsterCode)
                 {
-                    case MonsterCode.HUMAN: return false;
-                    case MonsterCode.SPONGE: return false;
-                    case MonsterCode.GHOST: return true;
-                    case MonsterCode.SLIME: return false;
-                    case MonsterCode.SMALL_SLIME: return false;
-                    case MonsterCode.TINY_SLIME: return false;
-                    case MonsterCode.DEER: return false;
-                    case MonsterCode.PIG: return false;
+                    case MonsterClassType.HUMAN: return false;
+                    case MonsterClassType.SPONGE: return false;
+                    case MonsterClassType.GHOST: return true;
+                    case MonsterClassType.SLIME: return false;
+                    case MonsterClassType.SMALL_SLIME: return false;
+                    case MonsterClassType.TINY_SLIME: return false;
+                    case MonsterClassType.DEER: return false;
+                    case MonsterClassType.PIG: return false;
                     default: return false;
                 }
 
                 case TerrainCode.STONE_FLOOR:
                 switch (monster.monsterCode)
                 {
-                    case MonsterCode.HUMAN: return true;
-                    case MonsterCode.SPONGE: return true;
-                    case MonsterCode.GHOST: return true;
-                    case MonsterCode.SLIME: return true;
-                    case MonsterCode.SMALL_SLIME: return true;
-                    case MonsterCode.TINY_SLIME: return true;
-                    case MonsterCode.DEER: return true;
-                    case MonsterCode.PIG: return true;
+                    case MonsterClassType.HUMAN: return true;
+                    case MonsterClassType.SPONGE: return true;
+                    case MonsterClassType.GHOST: return true;
+                    case MonsterClassType.SLIME: return true;
+                    case MonsterClassType.SMALL_SLIME: return true;
+                    case MonsterClassType.TINY_SLIME: return true;
+                    case MonsterClassType.DEER: return true;
+                    case MonsterClassType.PIG: return true;
                     default: return false;
                 }
 
                 case TerrainCode.FERTILE_LAND:
                 switch (monster.monsterCode)
                 {
-                    case MonsterCode.HUMAN: return true;
-                    case MonsterCode.SPONGE: return true;
-                    case MonsterCode.GHOST: return true;
-                    case MonsterCode.SLIME: return true;
-                    case MonsterCode.SMALL_SLIME: return true;
-                    case MonsterCode.TINY_SLIME: return true;
-                    case MonsterCode.DEER: return true;
-                    case MonsterCode.PIG: return true;
+                    case MonsterClassType.HUMAN: return true;
+                    case MonsterClassType.SPONGE: return true;
+                    case MonsterClassType.GHOST: return true;
+                    case MonsterClassType.SLIME: return true;
+                    case MonsterClassType.SMALL_SLIME: return true;
+                    case MonsterClassType.TINY_SLIME: return true;
+                    case MonsterClassType.DEER: return true;
+                    case MonsterClassType.PIG: return true;
                     default: return false;
                 }
             }

@@ -133,7 +133,7 @@ namespace LumberjackRL.Core
                                 && !TerrainManager.hasParameter(region.getTerrain(dx, dy), TerrainParameter.HAS_TREE))
                                 {
                                     Item apple = new Item();
-                                    apple.itemClass = ItemClass.APPLE;
+                                    apple.itemClass = ItemClassType.APPLE;
                                     apple.setPosition(dx, dy);
                                     apple.itemState = ItemState.GROUND;
                                     apple.stackSize = RandomNumber.RandomInteger(apple.maxStackSize - 1) + 1;
@@ -913,7 +913,7 @@ namespace LumberjackRL.Core
                 {
                     message = "You talk to yourself.";
                 }
-                else if(tempMon.role == MonsterRole.BROTHER)
+                else if(tempMon.role == MonsterRoleType.BROTHER)
                 {
                     message = "You found me, brother! Congratulations!";
                     quinoa.getUI().getScreen().displayDialog();
@@ -1036,7 +1036,7 @@ namespace LumberjackRL.Core
             {
                 foreach(Monster tempMon in quinoa.getMap().getCurrentRegionHeader().getRegion().getMonsters())
                 {
-                    if(tempMon.role == MonsterRole.BROTHER)
+                    if(tempMon.role == MonsterRoleType.BROTHER)
                     {
                         return true;
                     }
@@ -1187,8 +1187,8 @@ namespace LumberjackRL.Core
             //get a list of how many monsters are on the map
             Region region = quinoa.getCurrentRegionHeader().getRegion();
             quinoa.getLightMap().calculate(region);
-            Dictionary<MonsterCode, Int32> monsterCount = new Dictionary<MonsterCode, Int32>();
-            foreach(MonsterCode mc in Enum.GetValues(typeof(MonsterCode)))
+            Dictionary<MonsterClassType, Int32> monsterCount = new Dictionary<MonsterClassType, Int32>();
+            foreach(MonsterClassType mc in Enum.GetValues(typeof(MonsterClassType)))
             {
                 int newCount = TerrainManager.getMonsterCount(region, mc);
                 monsterCount.Add(mc, newCount);
@@ -1211,16 +1211,16 @@ namespace LumberjackRL.Core
                             GraveCode gc = (GraveCode)Enum.Parse(typeof(GraveCode),(TerrainManager.getParameter(terrain, TerrainParameter.HAS_GRAVE)));
                             if(gc == GraveCode.BROKEN || (gc == GraveCode.SPECIAL && RandomNumber.RandomDouble() < 0.1))
                             {
-                                if(RandomNumber.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterCode.GHOST)
-                                && monsterCount[MonsterCode.GHOST] < MonsterActionManager.getMaxMonsterPerRegion(MonsterCode.GHOST))
+                                if(RandomNumber.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterClassType.GHOST)
+                                && monsterCount[MonsterClassType.GHOST] < MonsterActionManager.getMaxMonsterPerRegion(MonsterClassType.GHOST))
                                 {
                                     //spawn a ghost
                                     Monster newMon = new Monster();
-                                    newMon.monsterCode = MonsterCode.GHOST;
+                                    newMon.monsterCode = MonsterClassType.GHOST;
                                     MonsterActionManager.initialize(newMon);
                                     newMon.setPosition(x, y);
                                     quinoa.getActions().addMonster(newMon);
-                                    IncrementMonsterCount(monsterCount, MonsterCode.GHOST);
+                                    IncrementMonsterCount(monsterCount, MonsterClassType.GHOST);
                                 }
                             }
                         }
@@ -1229,32 +1229,32 @@ namespace LumberjackRL.Core
                         if(terrain.getWater() > 0)
                         {
                             if(terrain.getWater() > TerrainManager.DEEP_WATER
-                            && RandomNumber.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterCode.SPONGE)
-                            && monsterCount[MonsterCode.SPONGE] < MonsterActionManager.getMaxMonsterPerRegion(MonsterCode.SPONGE))
+                            && RandomNumber.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterClassType.SPONGE)
+                            && monsterCount[MonsterClassType.SPONGE] < MonsterActionManager.getMaxMonsterPerRegion(MonsterClassType.SPONGE))
                             {
                                 //spawn a sponge
                                 Monster newMon = new Monster();
-                                newMon.monsterCode = MonsterCode.SPONGE;
+                                newMon.monsterCode = MonsterClassType.SPONGE;
                                 MonsterActionManager.initialize(newMon);
                                 newMon.setPosition(x, y);
                                 quinoa.getActions().addMonster(newMon);
-                                IncrementMonsterCount(monsterCount, MonsterCode.SPONGE);
+                                IncrementMonsterCount(monsterCount, MonsterClassType.SPONGE);
                             }
                         }
 
                         //SLIME spawn
                         if(TerrainManager.hasParameter(terrain, TerrainParameter.HAS_MOSS))
                         {
-                            if(RandomNumber.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterCode.SLIME)
-                            && monsterCount[MonsterCode.SLIME] < MonsterActionManager.getMaxMonsterPerRegion(MonsterCode.SLIME))
+                            if(RandomNumber.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterClassType.SLIME)
+                            && monsterCount[MonsterClassType.SLIME] < MonsterActionManager.getMaxMonsterPerRegion(MonsterClassType.SLIME))
                             {
                                 //spawn a slime
                                 Monster newMon = new Monster();
-                                newMon.monsterCode = MonsterCode.SLIME;
+                                newMon.monsterCode = MonsterClassType.SLIME;
                                 MonsterActionManager.initialize(newMon);
                                 newMon.setPosition(x, y);
                                 quinoa.getActions().addMonster(newMon);
-                                IncrementMonsterCount(monsterCount, MonsterCode.SLIME);
+                                IncrementMonsterCount(monsterCount, MonsterClassType.SLIME);
                             }
                         }
                     
@@ -1266,48 +1266,48 @@ namespace LumberjackRL.Core
                         //TINY_SLIME spawn
                         if(TerrainManager.hasParameter(terrain, TerrainParameter.HAS_MOSS))
                         {
-                            if(RandomNumber.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterCode.TINY_SLIME)
-                            && monsterCount[MonsterCode.TINY_SLIME] < MonsterActionManager.getMaxMonsterPerRegion(MonsterCode.TINY_SLIME))
+                            if(RandomNumber.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterClassType.TINY_SLIME)
+                            && monsterCount[MonsterClassType.TINY_SLIME] < MonsterActionManager.getMaxMonsterPerRegion(MonsterClassType.TINY_SLIME))
                             {
                                 //spawn a tiny slime
                                 Monster newMon = new Monster();
-                                newMon.monsterCode = MonsterCode.TINY_SLIME;
+                                newMon.monsterCode = MonsterClassType.TINY_SLIME;
                                 MonsterActionManager.initialize(newMon);
                                 newMon.setPosition(x, y);
                                 quinoa.getActions().addMonster(newMon);
-                                IncrementMonsterCount(monsterCount, MonsterCode.TINY_SLIME);
+                                IncrementMonsterCount(monsterCount, MonsterClassType.TINY_SLIME);
                             }
                         }
 
                         //PIG spawn
-                        if(TerrainManager.hasParameter(terrain, TerrainParameter.HAS_MUSHROOM_SPORES) && region.getLightingModel() == LightingModel.ABOVE_GROUND)
+                        if(TerrainManager.hasParameter(terrain, TerrainParameter.HAS_MUSHROOM_SPORES) && region.getLightingModel() == LightingModelType.ABOVE_GROUND)
                         {
-                            if(RandomNumber.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterCode.PIG)
-                            && monsterCount[MonsterCode.PIG] < MonsterActionManager.getMaxMonsterPerRegion(MonsterCode.PIG))
+                            if(RandomNumber.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterClassType.PIG)
+                            && monsterCount[MonsterClassType.PIG] < MonsterActionManager.getMaxMonsterPerRegion(MonsterClassType.PIG))
                             {
                                 //spawn a pig
                                 Monster newMon = new Monster();
-                                newMon.monsterCode = MonsterCode.PIG;
+                                newMon.monsterCode = MonsterClassType.PIG;
                                 MonsterActionManager.initialize(newMon);
                                 newMon.setPosition(x, y);
                                 quinoa.getActions().addMonster(newMon);
-                                IncrementMonsterCount(monsterCount, MonsterCode.PIG);
+                                IncrementMonsterCount(monsterCount, MonsterClassType.PIG);
                             }
                         }
 
                         //DEER spawn
-                        if(TerrainManager.hasParameter(terrain, TerrainParameter.HAS_CLOVER) && region.getLightingModel() == LightingModel.ABOVE_GROUND)
+                        if(TerrainManager.hasParameter(terrain, TerrainParameter.HAS_CLOVER) && region.getLightingModel() == LightingModelType.ABOVE_GROUND)
                         {
-                            if(RandomNumber.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterCode.DEER)
-                            && monsterCount[MonsterCode.DEER] < MonsterActionManager.getMaxMonsterPerRegion(MonsterCode.DEER))
+                            if(RandomNumber.RandomDouble() < MonsterActionManager.getSpawnRate(MonsterClassType.DEER)
+                            && monsterCount[MonsterClassType.DEER] < MonsterActionManager.getMaxMonsterPerRegion(MonsterClassType.DEER))
                             {
                                 //spawn a deer
                                 Monster newMon = new Monster();
-                                newMon.monsterCode = MonsterCode.DEER;
+                                newMon.monsterCode = MonsterClassType.DEER;
                                 MonsterActionManager.initialize(newMon);
                                 newMon.setPosition(x, y);
                                 quinoa.getActions().addMonster(newMon);
-                                IncrementMonsterCount(monsterCount, MonsterCode.DEER);
+                                IncrementMonsterCount(monsterCount, MonsterClassType.DEER);
                             }
                         }
                     }
@@ -1338,7 +1338,7 @@ namespace LumberjackRL.Core
         /// </summary>
         /// <param name="dictionary">Dictionary to increment.</param>
         /// <param name="monsterCode">Monster code.</param>
-        public void IncrementMonsterCount(Dictionary<MonsterCode, Int32> dictionary, MonsterCode monsterCode)
+        public void IncrementMonsterCount(Dictionary<MonsterClassType, Int32> dictionary, MonsterClassType monsterCode)
         {
             if(dictionary.ContainsKey(monsterCode))
             {

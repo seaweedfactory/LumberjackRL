@@ -5,13 +5,6 @@ using System.Text;
 
 namespace LumberjackRL.Core.Generator
 {
-    public enum ChamberType 
-    { 
-        NULL,
-        OPEN, 
-        FLOODED, 
-        MUSHROOM 
-    }
 
     public class Chamber
     {

@@ -22,6 +22,7 @@ namespace LumberjackRL
         {
             Quinoa gameObject = new Quinoa();
             gameObject.getUI().getForm().ShowDialog(this);
+            Close();
         }
 
         private void StartForm_Load(object sender, EventArgs e)

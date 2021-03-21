@@ -8,15 +8,6 @@ using LumberjackRL.Core.Monsters;
 
 namespace LumberjackRL.Core.Map
 {
-    /// <summary>
-    /// Different kinds of lighting models
-    /// </summary>
-    public enum LightingModel 
-    { 
-        ABOVE_GROUND, 
-        CAVE 
-    }
-
     public class LightMap
     {
         public static int MAX_LEVEL=13; //How many transparency levels do we have, including full?
@@ -32,7 +23,7 @@ namespace LumberjackRL.Core.Map
         private double[,] calc; //Raw light values
         private List<Light> lights; //Point light sources
         private Quinoa quinoa; //Reference to main structure
-        private LightingModel lightingModel; //Current lighting model
+        private LightingModelType lightingModel; //Current lighting model
 
 
         public LightMap(Quinoa quinoa)
@@ -147,7 +138,7 @@ namespace LumberjackRL.Core.Map
                 double itemRadiance = 0.0;
 
                 //Check for items the monster is carrying that make light
-                foreach(ItemSlot tempSlot in Enum.GetValues(typeof(ItemSlot)))
+                foreach(MonsterItemSlotType tempSlot in Enum.GetValues(typeof(MonsterItemSlotType)))
                 {
                     Item tempItem = tempMon.inventory.getItem(tempSlot);
                     if(tempItem != null)
@@ -342,7 +333,7 @@ namespace LumberjackRL.Core.Map
         {
             switch(lightingModel)
             {
-                case LightingModel.ABOVE_GROUND:
+                case LightingModelType.ABOVE_GROUND:
                 int hour = quinoa.getHour();
                 double minute = Double.Parse(quinoa.getMinute()+"");
 
@@ -385,7 +376,7 @@ namespace LumberjackRL.Core.Map
                     return MIN_LIGHT + 0.1;
                 }
 
-                case LightingModel.CAVE:
+                case LightingModelType.CAVE:
                 return MIN_LIGHT + 0.01;
 
                 default:

@@ -17,7 +17,7 @@ namespace LumberjackRL.Core.Map
         private List<Monster> monsters;     //Holds monster data
         private List<Item> items;           //Holds item data
         private List<Building> buildings;   //Holds building data
-        private LightingModel lightingModel;//What kind of lighting to use
+        private LightingModelType lightingModel;//What kind of lighting to use
 
         public Region(int width , int height)
         {
@@ -27,7 +27,7 @@ namespace LumberjackRL.Core.Map
             monsters = new List<Monster>();
             items = new List<Item>();
             buildings = new List<Building>();
-            lightingModel = LightingModel.ABOVE_GROUND;
+            lightingModel = LightingModelType.ABOVE_GROUND;
 
             for(int x=0; x < width; x++)
             {
@@ -187,7 +187,7 @@ namespace LumberjackRL.Core.Map
                 newBuild.LoadObject(inStream);
                 getBuildings().Add(newBuild);
             }
-            this.lightingModel = (LightingModel)Enum.Parse(typeof(LightingModel), inStream.ReadLine());
+            this.lightingModel = (LightingModelType)Enum.Parse(typeof(LightingModelType), inStream.ReadLine());
         }
 
         /**
@@ -229,14 +229,14 @@ namespace LumberjackRL.Core.Map
         /**
          * @return the lightingModel
          */
-        public LightingModel getLightingModel() {
+        public LightingModelType getLightingModel() {
             return lightingModel;
         }
 
         /**
          * @param lightingModel the lightingModel to set
          */
-        public void setLightingModel(LightingModel lightingModel) {
+        public void setLightingModel(LightingModelType lightingModel) {
             this.lightingModel = lightingModel;
         }
     }

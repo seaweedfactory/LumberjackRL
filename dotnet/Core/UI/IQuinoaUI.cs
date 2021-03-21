@@ -7,11 +7,6 @@ using System.Windows.Forms;
 
 namespace LumberjackRL.Core.UI
 {
-    public enum InterfaceMode 
-    { 
-        MENU, 
-        ADVENTURE 
-    }
 
     public interface IQuinoaUI
     {

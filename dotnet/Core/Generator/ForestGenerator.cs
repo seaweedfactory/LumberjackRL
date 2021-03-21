@@ -19,7 +19,7 @@ namespace LumberjackRL.Core.Generator
             header = new RegionHeader(name);
             region = new Region(width, height);
             header.setRegion(region);
-            region.setLightingModel(LightingModel.ABOVE_GROUND);
+            region.setLightingModel(LightingModelType.ABOVE_GROUND);
             this.quinoa = quinoa;
             this.treeDensity = treeDensity;
 

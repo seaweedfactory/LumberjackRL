@@ -25,11 +25,11 @@ namespace LumberjackRL.Core.Generator
             header = new RegionHeader(name);
             region = new Region(width, height);
             header.setRegion(region);
-            entrance = new RegionExit(width / 2, height / 2, 0, 0, "", ExitDecorator.UP_STAIR);
-            exit = new RegionExit(width / 2, (height / 2) + 1, 0, 0, "", ExitDecorator.DOWN_STAIR);
+            entrance = new RegionExit(width / 2, height / 2, 0, 0, "", RegionExitDecoratorType.UP_STAIR);
+            exit = new RegionExit(width / 2, (height / 2) + 1, 0, 0, "", RegionExitDecoratorType.DOWN_STAIR);
             header.getExits().Add(entrance);
             header.getExits().Add(exit);
-            region.setLightingModel(LightingModel.CAVE);
+            region.setLightingModel(LightingModelType.CAVE);
             this.quinoa = quinoa;
             this.fillPercentage = fillPercentage;
             this.smoothness = smoothness;
@@ -252,7 +252,7 @@ namespace LumberjackRL.Core.Generator
                         Position pos = rockFloor[RandomNumber.RandomInteger(rockFloor.Count - 1)];
 
                         Item tempItem = new Item();
-                        tempItem.itemClass = ItemClass.TORCH;
+                        tempItem.itemClass = ItemClassType.TORCH;
                         tempItem.itemState = ItemState.GROUND;
                         tempItem.setPosition(pos.x, pos.y);
                         region.getItems().Add(tempItem);

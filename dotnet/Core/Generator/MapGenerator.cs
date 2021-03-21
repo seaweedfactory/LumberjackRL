@@ -33,14 +33,14 @@ namespace LumberjackRL.Core.Generator
             }
 
             Monster monster = new Monster();
-            monster.monsterCode = MonsterCode.HUMAN;
+            monster.monsterCode = MonsterClassType.HUMAN;
             MonsterActionManager.initialize(monster);
-            monster.role = MonsterRole.BROTHER;
+            monster.role = MonsterRoleType.BROTHER;
             monster.setPosition(pos.x, pos.y);
 
             Item lantern = new Item();
-            lantern.itemClass = ItemClass.LANTERN;
-            monster.inventory.equipItem(lantern, ItemSlot.BELT_1);
+            lantern.itemClass = ItemClassType.LANTERN;
+            monster.inventory.equipItem(lantern, MonsterItemSlotType.BELT_1);
 
             header.getRegion().getMonsters().Add(monster);
 
@@ -255,88 +255,88 @@ namespace LumberjackRL.Core.Generator
         public void initializePlayer(Quinoa quinoa)
         {
             quinoa.setPlayer(new Monster());
-            quinoa.getPlayer().monsterCode = MonsterCode.HUMAN;
+            quinoa.getPlayer().monsterCode = MonsterClassType.HUMAN;
             quinoa.getPlayer().ID = MonsterActionManager.PLAYER_ID;
             quinoa.getPlayer().setPosition(50, 50);
 
             Item boots = new Item();
-            boots.itemClass = ItemClass.BOOTS;
+            boots.itemClass = ItemClassType.BOOTS;
             quinoa.getPlayer().inventory.addItem(boots);
 
             Item jacket = new Item();
-            jacket.itemClass = ItemClass.JACKET;
+            jacket.itemClass = ItemClassType.JACKET;
             quinoa.getPlayer().inventory.addItem(jacket);
 
             Item axe = new Item();
-            axe.itemClass = ItemClass.AXE;
+            axe.itemClass = ItemClassType.AXE;
             quinoa.getPlayer().inventory.addItem(axe);
 
             Item pickaxe = new Item();
-            pickaxe.itemClass = ItemClass.PICKAXE;
+            pickaxe.itemClass = ItemClassType.PICKAXE;
             quinoa.getPlayer().inventory.addItem(pickaxe);
 
             Item flapjacks = new Item();
-            flapjacks.itemClass = ItemClass.FLAPJACKS;
+            flapjacks.itemClass = ItemClassType.FLAPJACKS;
             flapjacks.stackSize = 4;
             quinoa.getPlayer().inventory.addItem(flapjacks);
 
             Item lantern = new Item();
-            lantern.itemClass = ItemClass.LANTERN;
+            lantern.itemClass = ItemClassType.LANTERN;
             quinoa.getPlayer().inventory.addItem(lantern);
 
             Item hat = new Item();
-            hat.itemClass = ItemClass.HAT;
+            hat.itemClass = ItemClassType.HAT;
             quinoa.getPlayer().inventory.addItem(hat);
 
             Item torch = new Item();
-            torch.itemClass = ItemClass.TORCH;
+            torch.itemClass = ItemClassType.TORCH;
             torch.stackSize = 25;
             quinoa.getPlayer().inventory.addItem(torch);
 
             Item bucket = new Item();
-            bucket.itemClass = ItemClass.BUCKET;
+            bucket.itemClass = ItemClassType.BUCKET;
             quinoa.getPlayer().inventory.addItem(bucket);
 
             Item shovel = new Item();
-            shovel.itemClass = ItemClass.SHOVEL;
+            shovel.itemClass = ItemClassType.SHOVEL;
             quinoa.getPlayer().inventory.addItem(shovel);
 
             Item tent = new Item();
-            tent.itemClass = ItemClass.TENT;
+            tent.itemClass = ItemClassType.TENT;
             quinoa.getPlayer().inventory.addItem(tent);
 
             Item ash = new Item();
-            ash.itemClass = ItemClass.ASH;
+            ash.itemClass = ItemClassType.ASH;
             ash.stackSize = 35;
             quinoa.getPlayer().inventory.addItem(ash);
 
             Item corn = new Item();
-            corn.itemClass = ItemClass.CORN;
+            corn.itemClass = ItemClassType.CORN;
             corn.stackSize = corn.maxStackSize;
             quinoa.getPlayer().inventory.addItem(corn);
 
             Item cornSeed = new Item();
-            cornSeed.itemClass = ItemClass.CORN_SEED;
+            cornSeed.itemClass = ItemClassType.CORN_SEED;
             cornSeed.stackSize = 10;
             quinoa.getPlayer().inventory.addItem(cornSeed);
 
             Item pumpkin = new Item();
-            pumpkin.itemClass = ItemClass.PUMPKIN;
+            pumpkin.itemClass = ItemClassType.PUMPKIN;
             pumpkin.stackSize = 1;
             quinoa.getPlayer().inventory.addItem(pumpkin);
 
             Item pumpkinSeed = new Item();
-            pumpkinSeed.itemClass = ItemClass.PUMPKIN_SEED;
+            pumpkinSeed.itemClass = ItemClassType.PUMPKIN_SEED;
             pumpkinSeed.stackSize = 10;
             quinoa.getPlayer().inventory.addItem(pumpkinSeed);
 
             Item floodgate = new Item();
-            floodgate.itemClass = ItemClass.FLOODGATE;
+            floodgate.itemClass = ItemClassType.FLOODGATE;
             floodgate.stackSize = floodgate.maxStackSize;
             quinoa.getPlayer().inventory.addItem(floodgate);
 
             Item mop = new Item();
-            mop.itemClass = ItemClass.MOP;
+            mop.itemClass = ItemClassType.MOP;
             mop.stackSize = mop.maxStackSize;
             quinoa.getPlayer().inventory.addItem(mop);  
         }
@@ -358,7 +358,7 @@ namespace LumberjackRL.Core.Generator
                 exitY = 0;
                 dX = (int)(owc2.header.getRegion().getWidth() / 2);
                 dY = owc2.header.getRegion().getHeight() - 2;
-                owc1.header.getExits().Add(new RegionExit(exitX, exitY,dX,dY,owc2.header.getId(), ExitDecorator.NONE));
+                owc1.header.getExits().Add(new RegionExit(exitX, exitY,dX,dY,owc2.header.getId(), RegionExitDecoratorType.NONE));
                 break;
             
                 case Direction.E:
@@ -366,7 +366,7 @@ namespace LumberjackRL.Core.Generator
                 exitY = (owc1.header.getRegion().getHeight() / 2);
                 dX = 1;
                 dY = (owc2.header.getRegion().getHeight() / 2);
-                owc1.header.getExits().Add(new RegionExit(exitX, exitY,dX,dY,owc2.header.getId(), ExitDecorator.NONE));
+                owc1.header.getExits().Add(new RegionExit(exitX, exitY,dX,dY,owc2.header.getId(), RegionExitDecoratorType.NONE));
                 break;
             
                 case Direction.S:
@@ -374,7 +374,7 @@ namespace LumberjackRL.Core.Generator
                 exitY = owc1.header.getRegion().getHeight() - 1;
                 dX = (int)(owc2.header.getRegion().getWidth() / 2);
                 dY = 1;
-                owc1.header.getExits().Add(new RegionExit(exitX, exitY,dX,dY,owc2.header.getId(), ExitDecorator.NONE));
+                owc1.header.getExits().Add(new RegionExit(exitX, exitY,dX,dY,owc2.header.getId(), RegionExitDecoratorType.NONE));
                 break;
             
                 case Direction.W:
@@ -382,7 +382,7 @@ namespace LumberjackRL.Core.Generator
                 exitY = (owc1.header.getRegion().getHeight() / 2);
                 dX = owc2.header.getRegion().getWidth() - 2;
                 dY = (owc2.header.getRegion().getHeight() / 2);
-                owc1.header.getExits().Add(new RegionExit(exitX, exitY,dX,dY,owc2.header.getId(), ExitDecorator.NONE));
+                owc1.header.getExits().Add(new RegionExit(exitX, exitY,dX,dY,owc2.header.getId(), RegionExitDecoratorType.NONE));
                 break;
             }
 
@@ -408,7 +408,7 @@ namespace LumberjackRL.Core.Generator
             //choose a random spot to be town, set as cross
             int townX = owWidth / 2 + ((int)(RandomNumber.RandomDouble() * 3) - 1);
             int townY = owHeight / 2 + ((int)(RandomNumber.RandomDouble() * 3) - 1);
-            owc[townX,townY].cellType = CellType.MAIN_TOWN;
+            owc[townX,townY].cellType = OverworldCellType.MAIN_TOWN;
             owc[townX,townY].nExit = true;
             owc[townX,townY].eExit = true;
             owc[townX,townY].sExit = true;
@@ -425,7 +425,7 @@ namespace LumberjackRL.Core.Generator
             {
                 for(int y=0; y < owHeight; y++)
                 {
-                    if(owc[x,y].cellType == CellType.MAIN_TOWN)
+                    if(owc[x,y].cellType == OverworldCellType.MAIN_TOWN)
                     {
                         TownGenerator townGen = new TownGenerator(100, 100, "main", 3, 0.75, 0.01, owc[x,y], quinoa);
                         townGen.generate();
@@ -434,7 +434,7 @@ namespace LumberjackRL.Core.Generator
                         this.addCaveBranch(townGen.header, 14, 14, 3 + (int)(RandomNumber.RandomDouble() * 3), quinoa);
                         quinoa.getMap().addRegionHeader(owc[x,y].header);
                     }
-                    else if(owc[x,y].cellType == CellType.TOWN)
+                    else if(owc[x,y].cellType == OverworldCellType.TOWN)
                     {
                         TownGenerator townGen = new TownGenerator(100, 100, "town" + RandomNumber.RandomUUID().ToString(), 3, 0.75, 0.01, owc[x,y], quinoa);
                         townGen.generate();
@@ -442,7 +442,7 @@ namespace LumberjackRL.Core.Generator
                         townGen.header.storeRegion(true);
                         quinoa.getMap().addRegionHeader(owc[x,y].header);
                     }
-                    else if(owc[x,y].cellType == CellType.FOREST)
+                    else if(owc[x,y].cellType == OverworldCellType.FOREST)
                     {
                         String forestName = "forest" + RandomNumber.RandomUUID().ToString();
 
@@ -543,14 +543,14 @@ namespace LumberjackRL.Core.Generator
         {
             int townCountdown = townCounter;
 
-            if(owc[x,y].cellType != CellType.NULL)
+            if(owc[x,y].cellType != OverworldCellType.NULL)
             {
                 return;
             }
             else
             {
                 //figure out vital connections
-                owc[x,y].cellType = CellType.FOREST;
+                owc[x,y].cellType = OverworldCellType.FOREST;
                 owc[x,y].depth = depth;
                 if(y > 0 && owc[x,y-1].sExit)
                 {
@@ -595,7 +595,7 @@ namespace LumberjackRL.Core.Generator
 
                 if(townCountdown == 0)
                 {
-                    owc[x,y].cellType = CellType.TOWN;
+                    owc[x,y].cellType = OverworldCellType.TOWN;
                     townCountdown = 6 + (int)(RandomNumber.RandomDouble() * 3);
                 }
 
@@ -720,7 +720,7 @@ namespace LumberjackRL.Core.Generator
                     caveGen.getEntrance().setDy(topY+1);
                     caveGen.getEntrance().setDestinationRegionID(topLevel.getId());
 
-                    topLevel.getExits().Add(new RegionExit(topX,topY,caveGen.getEntrance().getX(),caveGen.getEntrance().getY()+1,caveGen.header.getId(), ExitDecorator.CAVE));
+                    topLevel.getExits().Add(new RegionExit(topX,topY,caveGen.getEntrance().getX(),caveGen.getEntrance().getY()+1,caveGen.header.getId(), RegionExitDecoratorType.CAVE));
                 }
                 else
                 {

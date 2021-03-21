@@ -8,38 +8,6 @@ using LumberjackRL.Core.Map;
 
 namespace LumberjackRL.Core.Monsters
 {
-    public enum MonsterCode 
-    { 
-        HUMAN, 
-        SPONGE, 
-        GHOST,
-        SLIME, 
-        SMALL_SLIME, 
-        TINY_SLIME, 
-        DEER, 
-        PIG 
-    }
-
-    public enum MonsterCommandCode 
-    { 
-        NULL,
-        MOVE, 
-        ATTACK, 
-        PICKUP, 
-        DROP, 
-        EQUIP, 
-        UNEQUIP, 
-        ITEM_VERB
-    }
-
-    public enum MonsterRole 
-    { 
-        NULL, 
-        BANKER, 
-        CHEF, 
-        HANDYMAN, 
-        BROTHER 
-    }
 
     public class MonsterActionManager
     {
@@ -54,7 +22,7 @@ namespace LumberjackRL.Core.Monsters
         {
             switch(monster.monsterCode)
             {
-                case MonsterCode.HUMAN:
+                case MonsterClassType.HUMAN:
                     monster.stats.setHealth(3);
                     monster.stats.setMight(2);
                     monster.stats.setEndurance(2);
@@ -66,7 +34,7 @@ namespace LumberjackRL.Core.Monsters
                     monster.stats.setRadiance(0.25);
                     break;
 
-                case MonsterCode.GHOST:
+                case MonsterClassType.GHOST:
                     monster.stats.setHealth(1);
                     monster.stats.setMight(1);
                     monster.stats.setEndurance(1);
@@ -78,7 +46,7 @@ namespace LumberjackRL.Core.Monsters
                     monster.stats.setRadiance(0.5);
                     break;
 
-                case MonsterCode.SPONGE:
+                case MonsterClassType.SPONGE:
                     monster.stats.setHealth(1);
                     monster.stats.setMight(1);
                     monster.stats.setEndurance(1);
@@ -90,7 +58,7 @@ namespace LumberjackRL.Core.Monsters
                     monster.stats.setRadiance(0.1);
                     break;
 
-                case MonsterCode.SLIME:
+                case MonsterClassType.SLIME:
                     monster.stats.setHealth(4);
                     monster.stats.setMight(1);
                     monster.stats.setEndurance(1);
@@ -102,7 +70,7 @@ namespace LumberjackRL.Core.Monsters
                     monster.stats.setRadiance(LightMap.MAX_LIGHT);
                     break;
 
-                case MonsterCode.SMALL_SLIME:
+                case MonsterClassType.SMALL_SLIME:
                     monster.stats.setHealth(2);
                     monster.stats.setMight(1);
                     monster.stats.setEndurance(1);
@@ -114,7 +82,7 @@ namespace LumberjackRL.Core.Monsters
                     monster.stats.setRadiance(LightMap.MAX_LIGHT * 0.75);
                     break;
 
-                case MonsterCode.TINY_SLIME:
+                case MonsterClassType.TINY_SLIME:
                     monster.stats.setHealth(1);
                     monster.stats.setMight(1);
                     monster.stats.setEndurance(1);
@@ -127,7 +95,7 @@ namespace LumberjackRL.Core.Monsters
                     break;
 
 
-                case MonsterCode.DEER:
+                case MonsterClassType.DEER:
                     monster.stats.setHealth(10);
                     monster.stats.setMight(1);
                     monster.stats.setEndurance(1);
@@ -139,7 +107,7 @@ namespace LumberjackRL.Core.Monsters
                     monster.stats.setRadiance(0.0);
                     break;
 
-                case MonsterCode.PIG:
+                case MonsterClassType.PIG:
                     monster.stats.setHealth(8);
                     monster.stats.setMight(2);
                     monster.stats.setEndurance(1);
@@ -156,26 +124,26 @@ namespace LumberjackRL.Core.Monsters
             MonsterActionManager.addDrops(monster);
         }
 
-        public static double getSpawnRate(MonsterCode monsterCode)
+        public static double getSpawnRate(MonsterClassType monsterCode)
         {
             switch(monsterCode)
             {
-                case MonsterCode.GHOST:
+                case MonsterClassType.GHOST:
                 return 0.25;
 
-                case MonsterCode.SPONGE:
+                case MonsterClassType.SPONGE:
                 return 0.005;
 
-                case MonsterCode.SLIME:
+                case MonsterClassType.SLIME:
                 return 0.005;
 
-                case MonsterCode.TINY_SLIME:
+                case MonsterClassType.TINY_SLIME:
                 return 0.005;
 
-                case MonsterCode.DEER:
+                case MonsterClassType.DEER:
                 return 0.25;
 
-                case MonsterCode.PIG:
+                case MonsterClassType.PIG:
                 return 0.15;
 
                 default:
@@ -183,26 +151,26 @@ namespace LumberjackRL.Core.Monsters
             }
         }
 
-        public static int getMaxMonsterPerRegion(MonsterCode monsterCode)
+        public static int getMaxMonsterPerRegion(MonsterClassType monsterCode)
         {
             switch(monsterCode)
             {
-                case MonsterCode.GHOST:
+                case MonsterClassType.GHOST:
                 return 6;
 
-                case MonsterCode.SPONGE:
+                case MonsterClassType.SPONGE:
                 return 3;
 
-                case MonsterCode.SLIME:
+                case MonsterClassType.SLIME:
                 return 3;
 
-                case MonsterCode.TINY_SLIME:
+                case MonsterClassType.TINY_SLIME:
                 return 8;
 
-                case MonsterCode.DEER:
+                case MonsterClassType.DEER:
                 return 6;
 
-                case MonsterCode.PIG:
+                case MonsterClassType.PIG:
                 return 4;
 
                 default:
@@ -216,33 +184,33 @@ namespace LumberjackRL.Core.Monsters
             Item tempItem = null;
             switch(monster.monsterCode)
             {
-                case MonsterCode.SLIME:
-                case MonsterCode.GHOST:
-                case MonsterCode.SPONGE:
+                case MonsterClassType.SLIME:
+                case MonsterClassType.GHOST:
+                case MonsterClassType.SPONGE:
                 if(RandomNumber.RandomDouble() > 0.75)
                 {
                     tempItem = new Item();
-                    tempItem.itemClass = ItemClass.COINS;
+                    tempItem.itemClass = ItemClassType.COINS;
                     tempItem.stackSize = (1 + (int)(RandomNumber.RandomDouble() * 15));
                     monster.inventory.addItem(tempItem);
                 }
                 break;
 
-                case MonsterCode.PIG:
+                case MonsterClassType.PIG:
                 tempItem = new Item();
-                tempItem.itemClass = ItemClass.BACON;
+                tempItem.itemClass = ItemClassType.BACON;
                 tempItem.stackSize = (1 + (int)(RandomNumber.RandomDouble() * (tempItem.maxStackSize - 1)));
                 monster.inventory.addItem(tempItem);
 
                 tempItem = new Item();
-                tempItem.itemClass = ItemClass.BONES;
+                tempItem.itemClass = ItemClassType.BONES;
                 tempItem.stackSize = 1;
                 monster.inventory.addItem(tempItem);
                 break;
 
-                case MonsterCode.DEER:
+                case MonsterClassType.DEER:
                 tempItem = new Item();
-                tempItem.itemClass = ItemClass.BONES;
+                tempItem.itemClass = ItemClassType.BONES;
                 tempItem.stackSize = 1;
                 monster.inventory.addItem(tempItem);
                 break;
@@ -322,12 +290,12 @@ namespace LumberjackRL.Core.Monsters
         {
             switch(monster.monsterCode)
             {
-                case MonsterCode.TINY_SLIME:
+                case MonsterClassType.TINY_SLIME:
                 //kills small slimes
                 monster.stats.setCurrentHealth(0);
                 break;
 
-                case MonsterCode.SPONGE:
+                case MonsterClassType.SPONGE:
                 //heals sponges
                 if(RandomNumber.RandomDouble() > 0.75)
                 {
@@ -346,7 +314,7 @@ namespace LumberjackRL.Core.Monsters
         {
             //get speed divider based on items
             double firePercent=0;
-            foreach(ItemSlot tempSlot in Enum.GetValues(typeof(ItemSlot)).Cast<ItemSlot>())
+            foreach(MonsterItemSlotType tempSlot in Enum.GetValues(typeof(MonsterItemSlotType)).Cast<MonsterItemSlotType>())
             {
                 Item tempItem = monster.inventory.getItem(tempSlot);
                 if(tempItem != null)
@@ -423,22 +391,22 @@ namespace LumberjackRL.Core.Monsters
             //Any monster specific items
             switch(victim.monsterCode)
             {
-                case MonsterCode.HUMAN:
+                case MonsterClassType.HUMAN:
                 break;
 
-                case MonsterCode.GHOST:
+                case MonsterClassType.GHOST:
                 playerFeedback = "The " + victim.monsterCode.ToString() + " fades away...";
                 break;
 
-                case MonsterCode.SPONGE:
+                case MonsterClassType.SPONGE:
                 playerFeedback = "The " + victim.monsterCode.ToString() + " crumbles.";
                 break;
 
-                case MonsterCode.SLIME:
+                case MonsterClassType.SLIME:
                 for(int i=0; i < 2; i++)
                 {
                     Monster newMon = new Monster();
-                    newMon.monsterCode = MonsterCode.SMALL_SLIME;
+                    newMon.monsterCode = MonsterClassType.SMALL_SLIME;
                     MonsterActionManager.initialize(newMon);
                     newMon.setPosition(victim.x + RandomNumber.RandomInteger(5) - 2, victim.y + RandomNumber.RandomInteger(5) - 2);
                     quinoa.getActions().addMonster(newMon);
@@ -446,11 +414,11 @@ namespace LumberjackRL.Core.Monsters
                 playerFeedback = "The " + victim.monsterCode.ToString() + " splits!";
                 break;
 
-                case MonsterCode.SMALL_SLIME:
+                case MonsterClassType.SMALL_SLIME:
                 for(int i=0; i < 2; i++)
                 {
                     Monster newMon = new Monster();
-                    newMon.monsterCode = MonsterCode.TINY_SLIME;
+                    newMon.monsterCode = MonsterClassType.TINY_SLIME;
                     MonsterActionManager.initialize(newMon);
                     newMon.setPosition(victim.x + RandomNumber.RandomInteger(7) - 4, victim.y + RandomNumber.RandomInteger(7) - 4);
                     quinoa.getActions().addMonster(newMon);
@@ -458,12 +426,12 @@ namespace LumberjackRL.Core.Monsters
                 playerFeedback = "The " + victim.monsterCode.ToString() + " splits!";
                 break;
 
-                case MonsterCode.TINY_SLIME:
+                case MonsterClassType.TINY_SLIME:
                 playerFeedback = "The " + victim.monsterCode.ToString() + " evaporates!";
                 break;
 
-                case MonsterCode.DEER:
-                case MonsterCode.PIG:
+                case MonsterClassType.DEER:
+                case MonsterClassType.PIG:
                 playerFeedback = "The " + victim.monsterCode.ToString() + " collapses.";
                 break;
 
@@ -498,7 +466,7 @@ namespace LumberjackRL.Core.Monsters
 
             //get item stats defense
             double itemDef = 0.0;
-            foreach(ItemSlot tempSlot in Enum.GetValues(typeof(ItemSlot)).Cast<ItemSlot>())
+            foreach(MonsterItemSlotType tempSlot in Enum.GetValues(typeof(MonsterItemSlotType)).Cast<MonsterItemSlotType>())
             {
                 Item tempItem = monster.inventory.getItem(tempSlot);
                 if(tempItem != null)
@@ -523,7 +491,7 @@ namespace LumberjackRL.Core.Monsters
 
             //get item stats attack
             double itemAtk = 0.0;
-            foreach(ItemSlot tempSlot in Enum.GetValues(typeof(ItemSlot)).Cast<ItemSlot>())
+            foreach(MonsterItemSlotType tempSlot in Enum.GetValues(typeof(MonsterItemSlotType)).Cast<MonsterItemSlotType>())
             {
                 Item tempItem = monster.inventory.getItem(tempSlot);
                 if(tempItem != null)
@@ -548,7 +516,7 @@ namespace LumberjackRL.Core.Monsters
 
             //get speed divider based on items
             double spdPercent=0;
-            foreach(ItemSlot tempSlot in Enum.GetValues(typeof(ItemSlot)).Cast<ItemSlot>())
+            foreach(MonsterItemSlotType tempSlot in Enum.GetValues(typeof(MonsterItemSlotType)).Cast<MonsterItemSlotType>())
             {
                 Item tempItem = monster.inventory.getItem(tempSlot);
                 if(tempItem != null)
@@ -583,7 +551,7 @@ namespace LumberjackRL.Core.Monsters
 
             //get speed divider based on items
             double hrPercent=0;
-            foreach(ItemSlot tempSlot in Enum.GetValues(typeof(ItemSlot)).Cast<ItemSlot>())
+            foreach(MonsterItemSlotType tempSlot in Enum.GetValues(typeof(MonsterItemSlotType)).Cast<MonsterItemSlotType>())
             {
                 Item tempItem = monster.inventory.getItem(tempSlot);
                 if(tempItem != null)
@@ -701,14 +669,14 @@ namespace LumberjackRL.Core.Monsters
         {
             switch(command.commandCode)
             {
-                case MonsterCommandCode.NULL: break; //do nothing
-                case MonsterCommandCode.MOVE: executeMoveCommand(monster, command, quinoa); break;
-                case MonsterCommandCode.ATTACK: executeAttackCommand(monster, command, quinoa); break;
-                case MonsterCommandCode.PICKUP: executePickupCommand(monster, command, quinoa); break;
-                case MonsterCommandCode.DROP: executeDropCommand(monster, command, quinoa); break;
-                case MonsterCommandCode.EQUIP: executeEquipCommand(monster, command, quinoa); break;
-                case MonsterCommandCode.UNEQUIP: executeUnequipCommand(monster, command, quinoa); break;
-                case MonsterCommandCode.ITEM_VERB: executeItemVerbCommand(monster, command, quinoa); break;
+                case MonsterCommandType.NULL: break; //do nothing
+                case MonsterCommandType.MOVE: executeMoveCommand(monster, command, quinoa); break;
+                case MonsterCommandType.ATTACK: executeAttackCommand(monster, command, quinoa); break;
+                case MonsterCommandType.PICKUP: executePickupCommand(monster, command, quinoa); break;
+                case MonsterCommandType.DROP: executeDropCommand(monster, command, quinoa); break;
+                case MonsterCommandType.EQUIP: executeEquipCommand(monster, command, quinoa); break;
+                case MonsterCommandType.UNEQUIP: executeUnequipCommand(monster, command, quinoa); break;
+                case MonsterCommandType.ITEM_VERB: executeItemVerbCommand(monster, command, quinoa); break;
                 default: break; //do nothing
             }
         }
@@ -716,7 +684,7 @@ namespace LumberjackRL.Core.Monsters
         public static void setNullCommand(Monster monster)
         {
             MonsterCommand newCommand = new MonsterCommand();
-            newCommand.commandCode = MonsterCommandCode.NULL;
+            newCommand.commandCode = MonsterCommandType.NULL;
             newCommand.counter = 1;
             monster.setCommand(newCommand);
         }
@@ -724,16 +692,16 @@ namespace LumberjackRL.Core.Monsters
         public static void setMoveCommand(Monster monster, Direction direction)
         {
             MonsterCommand newCommand = new MonsterCommand();
-            newCommand.commandCode = MonsterCommandCode.MOVE;
+            newCommand.commandCode = MonsterCommandType.MOVE;
             newCommand.counter = MonsterActionManager.getSpeed(monster);
             newCommand.addParameter("direction", direction.ToString());
             monster.setCommand(newCommand);
         }
 
-        public static void setItemVerbCommand(Monster monster, Item item, ItemVerb verb, int x, int y)
+        public static void setItemVerbCommand(Monster monster, Item item, ItemVerbType verb, int x, int y)
         {
             MonsterCommand newCommand = new MonsterCommand();
-            newCommand.commandCode = MonsterCommandCode.ITEM_VERB;
+            newCommand.commandCode = MonsterCommandType.ITEM_VERB;
             newCommand.counter = MonsterActionManager.getSpeed(monster);
             if(item != null)
             {
@@ -752,7 +720,7 @@ namespace LumberjackRL.Core.Monsters
         public static void setAttackCommand(Monster monster, String monsterID)
         {
             MonsterCommand newCommand = new MonsterCommand();
-            newCommand.commandCode = MonsterCommandCode.ATTACK;
+            newCommand.commandCode = MonsterCommandType.ATTACK;
             newCommand.counter = MonsterActionManager.getSpeed(monster)/2;
             newCommand.addParameter("monsterID", monsterID);
             monster.setCommand(newCommand);
@@ -761,7 +729,7 @@ namespace LumberjackRL.Core.Monsters
         public static void setPickupCommand(Monster monster)
         {
             MonsterCommand newCommand = new MonsterCommand();
-            newCommand.commandCode = MonsterCommandCode.PICKUP;
+            newCommand.commandCode = MonsterCommandType.PICKUP;
             newCommand.counter = MonsterActionManager.getSpeed(monster)/4;
             monster.setCommand(newCommand);
         }
@@ -769,7 +737,7 @@ namespace LumberjackRL.Core.Monsters
         public static void setDropCommand(Monster monster, String itemID)
         {
             MonsterCommand newCommand = new MonsterCommand();
-            newCommand.commandCode = MonsterCommandCode.DROP;
+            newCommand.commandCode = MonsterCommandType.DROP;
             newCommand.counter = MonsterActionManager.getSpeed(monster)/4;
             newCommand.addParameter("itemID", itemID);
             monster.setCommand(newCommand);
@@ -778,7 +746,7 @@ namespace LumberjackRL.Core.Monsters
         public static void setEquipCommand(Monster monster, String itemID)
         {
             MonsterCommand newCommand = new MonsterCommand();
-            newCommand.commandCode = MonsterCommandCode.EQUIP;
+            newCommand.commandCode = MonsterCommandType.EQUIP;
             newCommand.counter = MonsterActionManager.getSpeed(monster)/2;
             newCommand.addParameter("itemID", itemID);
             monster.setCommand(newCommand);
@@ -787,7 +755,7 @@ namespace LumberjackRL.Core.Monsters
         public static void setUnequipCommand(Monster monster, String itemID)
         {
             MonsterCommand newCommand = new MonsterCommand();
-            newCommand.commandCode = MonsterCommandCode.UNEQUIP;
+            newCommand.commandCode = MonsterCommandType.UNEQUIP;
             newCommand.counter = MonsterActionManager.getSpeed(monster)/2;
             newCommand.addParameter("itemID", itemID);
             monster.setCommand(newCommand);
@@ -837,7 +805,7 @@ namespace LumberjackRL.Core.Monsters
         public static void executeItemVerbCommand(Monster monster, MonsterCommand command, Quinoa quinoa)
         {
             Item item = monster.inventory.getItem(command.getParameter("itemID"));
-            ItemVerb verb = (ItemVerb)Enum.Parse(typeof(ItemVerb), command.getParameter("verb"));
+            ItemVerbType verb = (ItemVerbType)Enum.Parse(typeof(ItemVerbType), command.getParameter("verb"));
             Region region = quinoa.getCurrentRegionHeader().getRegion();
             int x = Int32.Parse(command.getParameter("x"));
             int y = Int32.Parse(command.getParameter("y"));
@@ -846,7 +814,7 @@ namespace LumberjackRL.Core.Monsters
             {
                 switch(verb)
                 {
-                    case ItemVerb.EAT:
+                    case ItemVerbType.EAT:
                     foreach(ItemAttribute attribute in item.attributes)
                     {
                         if(attribute.type == ItemAttributeType.NUTRITION)
@@ -889,11 +857,11 @@ namespace LumberjackRL.Core.Monsters
                     removeItem = true;
                     break;
 
-                    case ItemVerb.PLACE:
+                    case ItemVerbType.PLACE:
                     removeItem = MonsterActionManager.place(monster, item, x, y, region, quinoa);
                     break;
 
-                    case ItemVerb.USE:
+                    case ItemVerbType.USE:
                     removeItem = use(monster, item, x, y, region, quinoa);
                     break;
 
@@ -916,11 +884,11 @@ namespace LumberjackRL.Core.Monsters
                 //Non-item verbs
                 switch(verb)
                 {
-                    case ItemVerb.ACTIVATE:
+                    case ItemVerbType.ACTIVATE:
                     MonsterActionManager.activate(monster, x, y, region, quinoa);
                     break;
 
-                    case ItemVerb.TALK:
+                    case ItemVerbType.TALK:
                     if(isPlayer(monster))
                     {
                         quinoa.getActions().talk(x, y);
@@ -928,7 +896,7 @@ namespace LumberjackRL.Core.Monsters
                     }
                     break;
 
-                    case ItemVerb.LOOK:
+                    case ItemVerbType.LOOK:
                     if(isPlayer(monster))
                     {
                         quinoa.getActions().look(x, y);
@@ -936,14 +904,14 @@ namespace LumberjackRL.Core.Monsters
                     }
                     break;
 
-                    case ItemVerb.TRADE:
+                    case ItemVerbType.TRADE:
                     if(isPlayer(monster))
                     {
                         quinoa.getActions().trade(x, y);
                     }
                     break;
 
-                    case ItemVerb.SLEEP:
+                    case ItemVerbType.SLEEP:
                     Item terrainItem = region.getItem(x, y);
 
                     if(terrainItem != null)
@@ -1040,7 +1008,7 @@ namespace LumberjackRL.Core.Monsters
             Terrain terrain = region.getTerrain(x,y);
             switch(item.itemClass)
             {
-                case ItemClass.FLOODGATE:
+                case ItemClassType.FLOODGATE:
                 if(terrain.getCode() == TerrainCode.STREAM_BED)
                 {
                     terrain.getParameters().Add(TerrainParameter.HAS_FLOODGATE, DoorCode.CLOSED.ToString());
@@ -1055,7 +1023,7 @@ namespace LumberjackRL.Core.Monsters
                     return false;
                 }
 
-                case ItemClass.BONES:
+                case ItemClassType.BONES:
                 if(TerrainManager.hasParameter(terrain, TerrainParameter.HAS_GRAVE))
                 {
                     GraveCode gc = (GraveCode)Enum.Parse(typeof(GraveCode), TerrainManager.getParameter(terrain, TerrainParameter.HAS_GRAVE));
@@ -1076,7 +1044,7 @@ namespace LumberjackRL.Core.Monsters
                 return false;
 
 
-                case ItemClass.APPLE:
+                case ItemClassType.APPLE:
                 if(RandomNumber.RandomDouble() < TerrainManager.APPLE_TREE_FROM_APPLE_CHANCE
                 && !TerrainManager.hasParameter(terrain, TerrainParameter.HAS_TREE)
                 && !TerrainManager.hasParameter(terrain, TerrainParameter.HAS_SIGN)
@@ -1117,7 +1085,7 @@ namespace LumberjackRL.Core.Monsters
             Terrain terrain = region.getTerrain(x,y);
             switch(item.itemClass)
             {
-                case ItemClass.AXE:
+                case ItemClassType.AXE:
                 if(TerrainManager.hasParameter(region.getTerrain(x, y), TerrainParameter.HAS_TREE))
                 {
                     TreeCode tc = (TreeCode)Enum.Parse(typeof(TreeCode), TerrainManager.getParameter(region.getTerrain(x, y), TerrainParameter.HAS_TREE));
@@ -1149,7 +1117,7 @@ namespace LumberjackRL.Core.Monsters
                         region.getTerrain(x, y).getParameters().Remove(TerrainParameter.HAS_TREE);
                         region.getTerrain(x, y).getParameters().Remove(TerrainParameter.DAMAGE);
                         Item log = new Item();
-                        log.itemClass = ItemClass.LOG;
+                        log.itemClass = ItemClassType.LOG;
                         log.itemState = ItemState.GROUND;
                         log.setPosition(x, y);
                         region.getItems().Add(log);
@@ -1163,12 +1131,12 @@ namespace LumberjackRL.Core.Monsters
                 return false;
 
 
-                case ItemClass.LANTERN:
-                case ItemClass.TORCH:
+                case ItemClassType.LANTERN:
+                case ItemClassType.TORCH:
                 return MonsterActionManager.setFire(monster, item, region, x, y, quinoa);
 
 
-                case ItemClass.ASH:
+                case ItemClassType.ASH:
                 //check for mushrooms spores
                 if(TerrainManager.hasParameter(terrain, TerrainParameter.HAS_MUSHROOM_SPORES))
                 {
@@ -1258,13 +1226,13 @@ namespace LumberjackRL.Core.Monsters
                 }
 
 
-                case ItemClass.BUCKET:
+                case ItemClassType.BUCKET:
                 if(terrain.getWater() > 0)
                 {
                     int waterLevel = terrain.getWater();
                     if(waterLevel > TerrainManager.DEEP_WATER)
                     {
-                        item.itemClass = ItemClass.WATER_BUCKET;
+                        item.itemClass = ItemClassType.WATER_BUCKET;
                         terrain.setWater(waterLevel - TerrainManager.DEEP_WATER);
                         if(isPlayer(monster))
                         {
@@ -1281,13 +1249,13 @@ namespace LumberjackRL.Core.Monsters
                 }
                 return false;
 
-                case ItemClass.WATER_BUCKET:
+                case ItemClassType.WATER_BUCKET:
                 int waterValue = ItemManager.WATER_LEVEL_BUCKET_FULL;
 
                 //Turn the item back to a bucket after all uses are gone
                 if(ItemManager.decreaseUse(item))
                 {
-                    item.itemClass = ItemClass.BUCKET;
+                    item.itemClass = ItemClassType.BUCKET;
                 }
 
                 //Check for fire extinguishing
@@ -1316,7 +1284,7 @@ namespace LumberjackRL.Core.Monsters
                 return false;
 
 
-                case ItemClass.SHOVEL:
+                case ItemClassType.SHOVEL:
                 if(TerrainManager.diggable(terrain))
                 {
                     TerrainManager.dig(terrain, x, y, quinoa);
@@ -1342,7 +1310,7 @@ namespace LumberjackRL.Core.Monsters
                 }
                 return false;
 
-                case ItemClass.PICKAXE:
+                case ItemClassType.PICKAXE:
                 if(TerrainManager.mineable(terrain))
                 {
                     TerrainManager.mine(terrain, x, y, quinoa);
@@ -1362,7 +1330,7 @@ namespace LumberjackRL.Core.Monsters
                 return false;
 
 
-                case ItemClass.CORN_SEED:
+                case ItemClassType.CORN_SEED:
                 if(terrain.getCode() == TerrainCode.FERTILE_LAND)
                 {
                     if(!TerrainManager.hasParameter(terrain, TerrainParameter.HAS_SEED))
@@ -1385,7 +1353,7 @@ namespace LumberjackRL.Core.Monsters
                 }
                 return true;
 
-                case ItemClass.PUMPKIN_SEED:
+                case ItemClassType.PUMPKIN_SEED:
                 if(terrain.getCode() == TerrainCode.FERTILE_LAND)
                 {
                     if(!TerrainManager.hasParameter(terrain, TerrainParameter.HAS_SEED))
@@ -1410,7 +1378,7 @@ namespace LumberjackRL.Core.Monsters
                 return true;
 
 
-                case ItemClass.MOP:
+                case ItemClassType.MOP:
                 if(TerrainManager.hasParameter(terrain, TerrainParameter.HAS_MOSS))
                 {
                     terrain.getParameters().Remove(TerrainParameter.HAS_MOSS);
@@ -1585,8 +1553,8 @@ namespace LumberjackRL.Core.Monsters
             if(itemToEquip != null)
             {
                 //check for a free slot
-                ItemSlot freeSlot = ItemManager.getFreeItemSlot(monster, itemToEquip);
-                if(freeSlot != ItemSlot.NULL)
+                MonsterItemSlotType freeSlot = ItemManager.getFreeItemSlot(monster, itemToEquip);
+                if(freeSlot != MonsterItemSlotType.NULL)
                 {
                     Item newItem = (Item)itemToEquip.CopyObject();
                     monster.inventory.removeItem(itemID);
@@ -1613,8 +1581,8 @@ namespace LumberjackRL.Core.Monsters
             Item itemToEquip = monster.inventory.getItem(itemID);
 
             //Find the slot that the item is equiped in
-            ItemSlot equipSlot = ItemSlot.NULL;
-            foreach (ItemSlot tempSlot in Enum.GetValues(typeof(ItemSlot)).Cast<ItemSlot>())
+            MonsterItemSlotType equipSlot = MonsterItemSlotType.NULL;
+            foreach (MonsterItemSlotType tempSlot in Enum.GetValues(typeof(MonsterItemSlotType)).Cast<MonsterItemSlotType>())
             {
                 Item testItem = monster.inventory.getItem(tempSlot);
                 if(testItem != null && testItem.ID.Equals(itemID))
@@ -1623,7 +1591,7 @@ namespace LumberjackRL.Core.Monsters
                 }
             }
 
-            if(equipSlot != ItemSlot.NULL)
+            if(equipSlot != MonsterItemSlotType.NULL)
             {
                 if(!monster.inventory.Full)
                 {
@@ -1656,17 +1624,17 @@ namespace LumberjackRL.Core.Monsters
 
 
         //Does this role trade?
-        public static bool tradingRole(MonsterRole role)
+        public static bool tradingRole(MonsterRoleType role)
         {
             switch(role)
             {
-                case MonsterRole.NULL:
-                case MonsterRole.BROTHER:
+                case MonsterRoleType.NULL:
+                case MonsterRoleType.BROTHER:
                 return false;
 
-                case MonsterRole.BANKER:
-                case MonsterRole.CHEF:
-                case MonsterRole.HANDYMAN:
+                case MonsterRoleType.BANKER:
+                case MonsterRoleType.CHEF:
+                case MonsterRoleType.HANDYMAN:
                 return true;
             }
             return false;
@@ -1679,10 +1647,10 @@ namespace LumberjackRL.Core.Monsters
             int hour = quinoa.getHour();
             switch(monster.role)
             {
-                case MonsterRole.NULL:
+                case MonsterRoleType.NULL:
                 break;
 
-                case MonsterRole.BROTHER:
+                case MonsterRoleType.BROTHER:
                 //don't let them starve
                 if(monster.stats.getCurrentHunger() > MonsterStats.MAX_HUNGER / 2)
                 {
@@ -1690,7 +1658,7 @@ namespace LumberjackRL.Core.Monsters
                 }
                 break;
 
-                case MonsterRole.BANKER:
+                case MonsterRoleType.BANKER:
                 if(monster.inventory.wealth < (monster.inventory.maxWealth / 2))
                 {
                     monster.inventory.wealth = (monster.inventory.maxWealth / 2);
@@ -1703,7 +1671,7 @@ namespace LumberjackRL.Core.Monsters
                 }
                 break;
 
-                case MonsterRole.CHEF:
+                case MonsterRoleType.CHEF:
                 //Have food for sale at certain times of day
                 if(hour == 5 || hour == 11 || hour == 17)
                 {
@@ -1740,7 +1708,7 @@ namespace LumberjackRL.Core.Monsters
                 }
                 break;
 
-                case MonsterRole.HANDYMAN:
+                case MonsterRoleType.HANDYMAN:
                 if(monster.inventory.getItems().Count == 0 || hour == 11)
                 {
                     monster.inventory.getItems().Clear();

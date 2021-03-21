@@ -14,14 +14,14 @@ namespace LumberjackRL.Core.Monsters
         {
             switch (monster.monsterCode)
             {
-                case MonsterCode.HUMAN: humanAI(monster, quinoa); break;
-                case MonsterCode.GHOST: followerAI(monster, quinoa); break;
-                case MonsterCode.SPONGE: spongeAI(monster, quinoa); break;
-                case MonsterCode.SLIME: followerAI(monster, quinoa); break;
-                case MonsterCode.SMALL_SLIME: followerAI(monster, quinoa); break;
-                case MonsterCode.TINY_SLIME: followerAI(monster, quinoa); break;
-                case MonsterCode.DEER: deerAI(monster, quinoa); break;
-                case MonsterCode.PIG: pigAI(monster, quinoa); break;
+                case MonsterClassType.HUMAN: humanAI(monster, quinoa); break;
+                case MonsterClassType.GHOST: followerAI(monster, quinoa); break;
+                case MonsterClassType.SPONGE: spongeAI(monster, quinoa); break;
+                case MonsterClassType.SLIME: followerAI(monster, quinoa); break;
+                case MonsterClassType.SMALL_SLIME: followerAI(monster, quinoa); break;
+                case MonsterClassType.TINY_SLIME: followerAI(monster, quinoa); break;
+                case MonsterClassType.DEER: deerAI(monster, quinoa); break;
+                case MonsterClassType.PIG: pigAI(monster, quinoa); break;
             }
         }
 

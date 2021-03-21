@@ -7,19 +7,11 @@ using LumberjackRL.Core.Utilities;
 
 namespace LumberjackRL.Core.Map
 {
-    public enum CellType 
-    {
-        NULL,
-        FOREST, 
-        MAIN_TOWN, 
-        TOWN
-    }
-
     public class OverworldCell : IStoreObject
     {
         public RegionHeader header; //non-peristant, only used during generation
 
-        public CellType cellType;
+        public OverworldCellType cellType;
         public bool nExit;
         public bool eExit;
         public bool sExit;
@@ -29,7 +21,7 @@ namespace LumberjackRL.Core.Map
         public OverworldCell()
         {
             header = null;
-            cellType = CellType.NULL;
+            cellType = OverworldCellType.NULL;
 
             nExit = false;
             eExit = false;
@@ -50,7 +42,7 @@ namespace LumberjackRL.Core.Map
 
         public void LoadObject(StreamReader inStream)
         {
-            cellType = (CellType)Enum.Parse(typeof(CellType), inStream.ReadLine());
+            cellType = (OverworldCellType)Enum.Parse(typeof(OverworldCellType), inStream.ReadLine());
             nExit = Boolean.Parse(inStream.ReadLine());
             eExit = Boolean.Parse(inStream.ReadLine());
             sExit = Boolean.Parse(inStream.ReadLine());

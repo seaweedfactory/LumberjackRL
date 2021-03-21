@@ -79,7 +79,7 @@ namespace LumberjackRL.Core.UI
                 quinoa.getActions().newGame();
                 quinoa.getUI().setInterfaceMode(InterfaceMode.ADVENTURE);
                 AdventureScreen adv = (AdventureScreen)quinoa.getUI().getScreen();
-                adv.setMode(AdventureScreenMode.HELP);
+                adv.setMode(AdventureScreenModeType.HELP);
             }
             quinoa.cycle();
         }

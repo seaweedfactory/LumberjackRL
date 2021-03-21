@@ -16,26 +16,26 @@ namespace LumberjackRL.Core.UI
         {
             switch(monster.monsterCode)
             {
-                case MonsterCode.HUMAN:
+                case MonsterClassType.HUMAN:
                 switch(monster.role)
                 {
-                    case MonsterRole.NULL:
+                    case MonsterRoleType.NULL:
                     g.DrawImage(gm.getImage(GraphicsManager.LUMBERJACK, 0), x, y);
                     break;
 
-                    case MonsterRole.CHEF:
+                    case MonsterRoleType.CHEF:
                     g.DrawImage(gm.getImage(GraphicsManager.LUMBERJACK, 1), x, y);
                     break;
 
-                    case MonsterRole.HANDYMAN:
+                    case MonsterRoleType.HANDYMAN:
                     g.DrawImage(gm.getImage(GraphicsManager.LUMBERJACK, 2), x, y);
                     break;
 
-                    case MonsterRole.BANKER:
+                    case MonsterRoleType.BANKER:
                     g.DrawImage(gm.getImage(GraphicsManager.LUMBERJACK, 3), x, y);
                     break;
 
-                    case MonsterRole.BROTHER:
+                    case MonsterRoleType.BROTHER:
                     g.DrawImage(gm.getImage(GraphicsManager.LUMBERJACK, 0), x, y);
                     break;
 
@@ -47,27 +47,27 @@ namespace LumberjackRL.Core.UI
                 }
                 break;
 
-                case MonsterCode.SPONGE:
+                case MonsterClassType.SPONGE:
                 g.DrawImage(gm.getImage(GraphicsManager.SPONGE), x, y);
                 break;
 
-                case MonsterCode.GHOST:
+                case MonsterClassType.GHOST:
                 g.DrawImage(gm.getImage(GraphicsManager.GHOST), x, y);
                 break;
 
-                case MonsterCode.SLIME:
+                case MonsterClassType.SLIME:
                 g.DrawImage(gm.getImage(GraphicsManager.SLIME, 0), x, y);
                 break;
 
-                case MonsterCode.SMALL_SLIME:
+                case MonsterClassType.SMALL_SLIME:
                 g.DrawImage(gm.getImage(GraphicsManager.SLIME, 1), x, y);
                 break;
 
-                case MonsterCode.TINY_SLIME:
+                case MonsterClassType.TINY_SLIME:
                 g.DrawImage(gm.getImage(GraphicsManager.SLIME, 2), x, y);
                 break;
 
-                case MonsterCode.DEER:
+                case MonsterClassType.DEER:
                 if(monster.isSleeping())
                 {
                     g.DrawImage(gm.getImage(GraphicsManager.DEER, 1), x, y);
@@ -78,7 +78,7 @@ namespace LumberjackRL.Core.UI
                 }
                 break;
 
-                case MonsterCode.PIG:
+                case MonsterClassType.PIG:
                 if(monster.isSleeping())
                 {
                     g.DrawImage(gm.getImage(GraphicsManager.PIG, 1), x, y);
@@ -100,67 +100,67 @@ namespace LumberjackRL.Core.UI
         {
             switch(item.itemClass)
             {
-                case ItemClass.BONES:
+                case ItemClassType.BONES:
                 g.DrawImage(gm.getImage(GraphicsManager.BONES), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.MOP:
+                case ItemClassType.MOP:
                 g.DrawImage(gm.getImage(GraphicsManager.MOP), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.MOSS:
+                case ItemClassType.MOSS:
                 g.DrawImage(gm.getImage(GraphicsManager.MOSS, 1), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.FLOODGATE:
+                case ItemClassType.FLOODGATE:
                 g.DrawImage(gm.getImage(GraphicsManager.FLOODGATE, 0), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.DEATH_CAP:
+                case ItemClassType.DEATH_CAP:
                 g.DrawImage(gm.getImage(GraphicsManager.MUSHROOM, 1), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.PUFFBALL:
+                case ItemClassType.PUFFBALL:
                 g.DrawImage(gm.getImage(GraphicsManager.MUSHROOM, 2), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.FLY_AGARIC:
+                case ItemClassType.FLY_AGARIC:
                 g.DrawImage(gm.getImage(GraphicsManager.MUSHROOM, 3), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.MOREL:
+                case ItemClassType.MOREL:
                 g.DrawImage(gm.getImage(GraphicsManager.MUSHROOM, 4), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.BUTTON_MUSHROOM:
+                case ItemClassType.BUTTON_MUSHROOM:
                 g.DrawImage(gm.getImage(GraphicsManager.MUSHROOM, 5), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.GHOST_FUNGUS:
+                case ItemClassType.GHOST_FUNGUS:
                 g.DrawImage(gm.getImage(GraphicsManager.MUSHROOM, 6), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.APPLE:
+                case ItemClassType.APPLE:
                 g.DrawImage(gm.getImage(GraphicsManager.APPLE), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.CORN:
+                case ItemClassType.CORN:
                 g.DrawImage(gm.getImage(GraphicsManager.CORN), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.CORN_SEED:
+                case ItemClassType.CORN_SEED:
                 g.DrawImage(gm.getImage(GraphicsManager.CORN, 4), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.PUMPKIN:
+                case ItemClassType.PUMPKIN:
                 g.DrawImage(gm.getImage(GraphicsManager.PUMPKIN), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.PUMPKIN_SEED:
+                case ItemClassType.PUMPKIN_SEED:
                 g.DrawImage(gm.getImage(GraphicsManager.PUMPKIN, 4), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.BACON:
+                case ItemClassType.BACON:
                 if(item.stackSize == 1)
                 {
                     g.DrawImage(gm.getImage(GraphicsManager.BACON,0), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
@@ -179,7 +179,7 @@ namespace LumberjackRL.Core.UI
                 }
                 break;
 
-                case ItemClass.FLAPJACKS:
+                case ItemClassType.FLAPJACKS:
                 if(item.stackSize == 1)
                 {
                     g.DrawImage(gm.getImage(GraphicsManager.FLAPJACKS,0), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
@@ -198,19 +198,19 @@ namespace LumberjackRL.Core.UI
                 }
                 break;
 
-                case ItemClass.KEY:
+                case ItemClassType.KEY:
                 g.DrawImage(gm.getImage(GraphicsManager.KEY), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.AXE:
+                case ItemClassType.AXE:
                 g.DrawImage(gm.getImage(GraphicsManager.AXE), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.PICKAXE:
+                case ItemClassType.PICKAXE:
                 g.DrawImage(gm.getImage(GraphicsManager.PICKAXE), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.COINS:
+                case ItemClassType.COINS:
                 if(item.stackSize == 1)
                 {
                     g.DrawImage(gm.getImage(GraphicsManager.COINS,0), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
@@ -233,43 +233,43 @@ namespace LumberjackRL.Core.UI
                 }
                 break;
 
-                case ItemClass.JACKET:
+                case ItemClassType.JACKET:
                 g.DrawImage(gm.getImage(GraphicsManager.JACKET), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.HAT:
+                case ItemClassType.HAT:
                 g.DrawImage(gm.getImage(GraphicsManager.HAT), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.BOOTS:
+                case ItemClassType.BOOTS:
                 g.DrawImage(gm.getImage(GraphicsManager.BOOTS), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.LOG:
+                case ItemClassType.LOG:
                 g.DrawImage(gm.getImage(GraphicsManager.LOG), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.ASH:
+                case ItemClassType.ASH:
                 g.DrawImage(gm.getImage(GraphicsManager.ASH), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.LANTERN:
+                case ItemClassType.LANTERN:
                 g.DrawImage(gm.getImage(GraphicsManager.LANTERN), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.BUCKET:
+                case ItemClassType.BUCKET:
                 g.DrawImage(gm.getImage(GraphicsManager.BUCKET, 0), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.WATER_BUCKET:
+                case ItemClassType.WATER_BUCKET:
                 g.DrawImage(gm.getImage(GraphicsManager.BUCKET, 1), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.SHOVEL:
+                case ItemClassType.SHOVEL:
                 g.DrawImage(gm.getImage(GraphicsManager.SHOVEL), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.TORCH:
+                case ItemClassType.TORCH:
                 if(RandomNumber.RandomDouble() < 0.33)
                 {
                     g.DrawImage(gm.getImage(GraphicsManager.TORCH, 0), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
@@ -284,27 +284,27 @@ namespace LumberjackRL.Core.UI
                 }
                 break;
 
-                case ItemClass.SAPPHIRE:
+                case ItemClassType.SAPPHIRE:
                 g.DrawImage(gm.getImage(GraphicsManager.GEM, 0), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.EMERALD:
+                case ItemClassType.EMERALD:
                 g.DrawImage(gm.getImage(GraphicsManager.GEM, 1), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.RUBY:
+                case ItemClassType.RUBY:
                 g.DrawImage(gm.getImage(GraphicsManager.GEM, 2), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.AMETHYST:
+                case ItemClassType.AMETHYST:
                 g.DrawImage(gm.getImage(GraphicsManager.GEM, 3), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.DIAMOND:
+                case ItemClassType.DIAMOND:
                 g.DrawImage(gm.getImage(GraphicsManager.GEM, 4), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 
-                case ItemClass.TENT:
+                case ItemClassType.TENT:
                 g.DrawImage(gm.getImage(GraphicsManager.BED, 1), x, y, (int)(gm.getTileSize() * scale), (int)(gm.getTileSize() * scale));
                 break;
 

@@ -7,80 +7,6 @@ using LumberjackRL.Core.Monsters;
 
 namespace LumberjackRL.Core.Items
 {
-    public enum ItemCategory
-    { 
-        FOOD, 
-        WEAPON, 
-        TOOL, 
-        HELMET, 
-        ARMOR, 
-        BOOTS, 
-        MONEY, 
-        LIGHT, 
-        MATERIAL
-    }
-
-    public enum ItemClass
-    {
-        APPLE, 
-        KEY, 
-        AXE, 
-        COINS, 
-        JACKET, 
-        HAT, 
-        BOOTS, 
-        LOG, 
-        FLAPJACKS,
-        LANTERN, 
-        ASH, 
-        BUCKET,
-        WATER_BUCKET,
-        SHOVEL,
-        TORCH,
-        PICKAXE,
-        SAPPHIRE,
-        RUBY,
-        EMERALD,
-        DIAMOND,
-        AMETHYST,
-        BACON,
-        TENT,
-        DEATH_CAP,
-        PUFFBALL, 
-        FLY_AGARIC, 
-        MOREL, 
-        BUTTON_MUSHROOM, 
-        GHOST_FUNGUS,
-        CORN, 
-        CORN_SEED,
-        PUMPKIN, 
-        PUMPKIN_SEED, 
-        FLOODGATE, 
-        MOSS, 
-        MOP, 
-        BONES
-    }
-
-    public enum ItemState 
-    { 
-        DESTROYED, 
-        GROUND, 
-        INVENTORY 
-    }
-
-    public enum ItemVerb 
-    { 
-        NULL,
-        EAT, 
-        USE, 
-        ACTIVATE, 
-        TALK, 
-        LOOK, 
-        TRADE,
-        PLACE, 
-        SLEEP 
-    }
-
     public class ItemManager
     {
         public static int WATER_LEVEL_BUCKET_FULL = 250;
@@ -90,31 +16,31 @@ namespace LumberjackRL.Core.Items
             item.attributes.Clear();
             switch (item.itemClass)
             {
-                case ItemClass.BONES:
+                case ItemClassType.BONES:
                     item.maxStackSize = 10;
                     item.itemCategory = ItemCategory.MATERIAL;
                     item.worth = 1.00;
                     break;
 
-                case ItemClass.MOP:
+                case ItemClassType.MOP:
                     item.maxStackSize = 1;
                     item.itemCategory = ItemCategory.TOOL;
                     item.worth = 2.00;
                     break;
 
-                case ItemClass.MOSS:
+                case ItemClassType.MOSS:
                     item.maxStackSize = 200;
                     item.itemCategory = ItemCategory.MATERIAL;
                     item.worth = 0.01;
                     break;
 
-                case ItemClass.FLOODGATE:
+                case ItemClassType.FLOODGATE:
                     item.maxStackSize = 1;
                     item.itemCategory = ItemCategory.MATERIAL;
                     item.worth = 20.00;
                     break;
 
-                case ItemClass.CORN:
+                case ItemClassType.CORN:
                     item.maxStackSize = 25;
                     item.itemCategory = ItemCategory.FOOD;
                     item.worth = 1.00;
@@ -122,13 +48,13 @@ namespace LumberjackRL.Core.Items
                     item.attributes.Add(new ItemAttribute(ItemAttributeType.HEALS, "1"));
                     break;
 
-                case ItemClass.CORN_SEED:
+                case ItemClassType.CORN_SEED:
                     item.maxStackSize = 200;
                     item.itemCategory = ItemCategory.TOOL;
                     item.worth = 0.03;
                     break;
 
-                case ItemClass.PUMPKIN:
+                case ItemClassType.PUMPKIN:
                     item.maxStackSize = 5;
                     item.itemCategory = ItemCategory.FOOD;
                     item.worth = 3.00;
@@ -136,13 +62,13 @@ namespace LumberjackRL.Core.Items
                     item.attributes.Add(new ItemAttribute(ItemAttributeType.HEALS, "2"));
                     break;
 
-                case ItemClass.PUMPKIN_SEED:
+                case ItemClassType.PUMPKIN_SEED:
                     item.maxStackSize = 200;
                     item.itemCategory = ItemCategory.TOOL;
                     item.worth = 0.03;
                     break;
 
-                case ItemClass.DEATH_CAP:
+                case ItemClassType.DEATH_CAP:
                     item.maxStackSize = 100;
                     item.itemCategory = ItemCategory.FOOD;
                     item.worth = 0.50;
@@ -150,7 +76,7 @@ namespace LumberjackRL.Core.Items
                     item.attributes.Add(new ItemAttribute(ItemAttributeType.HEALS, "-100"));
                     break;
 
-                case ItemClass.PUFFBALL:
+                case ItemClassType.PUFFBALL:
                     item.maxStackSize = 100;
                     item.itemCategory = ItemCategory.FOOD;
                     item.worth = 1.00;
@@ -158,7 +84,7 @@ namespace LumberjackRL.Core.Items
                     item.attributes.Add(new ItemAttribute(ItemAttributeType.HEALS, "1"));
                     break;
 
-                case ItemClass.FLY_AGARIC:
+                case ItemClassType.FLY_AGARIC:
                     item.maxStackSize = 100;
                     item.itemCategory = ItemCategory.FOOD;
                     item.worth = 2.50;
@@ -166,7 +92,7 @@ namespace LumberjackRL.Core.Items
                     item.attributes.Add(new ItemAttribute(ItemAttributeType.HEALS, "-5"));
                     break;
 
-                case ItemClass.MOREL:
+                case ItemClassType.MOREL:
                     item.maxStackSize = 100;
                     item.itemCategory = ItemCategory.FOOD;
                     item.worth = 1.00;
@@ -174,14 +100,14 @@ namespace LumberjackRL.Core.Items
                     item.attributes.Add(new ItemAttribute(ItemAttributeType.HEALS, "2"));
                     break;
 
-                case ItemClass.BUTTON_MUSHROOM:
+                case ItemClassType.BUTTON_MUSHROOM:
                     item.maxStackSize = 100;
                     item.itemCategory = ItemCategory.FOOD;
                     item.worth = 0.75;
                     item.attributes.Add(new ItemAttribute(ItemAttributeType.NUTRITION, "50"));
                     break;
 
-                case ItemClass.GHOST_FUNGUS:
+                case ItemClassType.GHOST_FUNGUS:
                     item.maxStackSize = 100;
                     item.itemCategory = ItemCategory.FOOD;
                     item.worth = 5.00;
@@ -190,37 +116,37 @@ namespace LumberjackRL.Core.Items
                     item.attributes.Add(new ItemAttribute(ItemAttributeType.MAKES_LIGHT, "0.25"));
                     break;
 
-                case ItemClass.SAPPHIRE:
+                case ItemClassType.SAPPHIRE:
                     item.maxStackSize = 100;
                     item.itemCategory = ItemCategory.MATERIAL;
                     item.worth = 50.00;
                     break;
 
-                case ItemClass.RUBY:
+                case ItemClassType.RUBY:
                     item.maxStackSize = 100;
                     item.itemCategory = ItemCategory.MATERIAL;
                     item.worth = 500.00;
                     break;
 
-                case ItemClass.EMERALD:
+                case ItemClassType.EMERALD:
                     item.maxStackSize = 100;
                     item.itemCategory = ItemCategory.MATERIAL;
                     item.worth = 50.00;
                     break;
 
-                case ItemClass.DIAMOND:
+                case ItemClassType.DIAMOND:
                     item.maxStackSize = 100;
                     item.itemCategory = ItemCategory.MATERIAL;
                     item.worth = 1000.00;
                     break;
 
-                case ItemClass.AMETHYST:
+                case ItemClassType.AMETHYST:
                     item.maxStackSize = 100;
                     item.itemCategory = ItemCategory.MATERIAL;
                     item.worth = 30.00;
                     break;
 
-                case ItemClass.APPLE:
+                case ItemClassType.APPLE:
                     item.maxStackSize = 10;
                     item.itemCategory = ItemCategory.FOOD;
                     item.worth = 0.25;
@@ -228,7 +154,7 @@ namespace LumberjackRL.Core.Items
                     item.attributes.Add(new ItemAttribute(ItemAttributeType.HEALS, "1"));
                     break;
 
-                case ItemClass.BACON:
+                case ItemClassType.BACON:
                     item.maxStackSize = 6;
                     item.itemCategory = ItemCategory.FOOD;
                     item.worth = 2.00;
@@ -236,7 +162,7 @@ namespace LumberjackRL.Core.Items
                     item.attributes.Add(new ItemAttribute(ItemAttributeType.HEALS, "2"));
                     break;
 
-                case ItemClass.FLAPJACKS:
+                case ItemClassType.FLAPJACKS:
                     item.maxStackSize = 4;
                     item.itemCategory = ItemCategory.FOOD;
                     item.worth = 1.00;
@@ -244,39 +170,39 @@ namespace LumberjackRL.Core.Items
                     item.attributes.Add(new ItemAttribute(ItemAttributeType.HEALS, "5"));
                     break;
 
-                case ItemClass.AXE:
+                case ItemClassType.AXE:
                     item.maxStackSize = 1;
                     item.itemCategory = ItemCategory.TOOL;
                     item.attributes.Add(new ItemAttribute(ItemAttributeType.PROTECT_AGAINST_FIRE, "100%"));
                     item.worth = 5.00;
                     break;
 
-                case ItemClass.TENT:
+                case ItemClassType.TENT:
                     item.maxStackSize = 1;
                     item.itemCategory = ItemCategory.TOOL;
                     item.attributes.Add(new ItemAttribute(ItemAttributeType.SLEEPS_FOR, "2 hours"));
                     item.worth = 50.00;
                     break;
 
-                case ItemClass.PICKAXE:
+                case ItemClassType.PICKAXE:
                     item.maxStackSize = 1;
                     item.itemCategory = ItemCategory.TOOL;
                     item.worth = 5.50;
                     break;
 
-                case ItemClass.KEY:
+                case ItemClassType.KEY:
                     item.maxStackSize = 10;
                     item.itemCategory = ItemCategory.TOOL;
                     item.worth = 1.00;
                     break;
 
-                case ItemClass.COINS:
+                case ItemClassType.COINS:
                     item.maxStackSize = 100;
                     item.itemCategory = ItemCategory.MONEY;
                     item.worth = 0.01;
                     break;
 
-                case ItemClass.JACKET:
+                case ItemClassType.JACKET:
                     item.maxStackSize = 1;
                     item.itemCategory = ItemCategory.ARMOR;
                     item.attributes.Add(new ItemAttribute(ItemAttributeType.BONUS_TO_DEFENSE, "7"));
@@ -284,7 +210,7 @@ namespace LumberjackRL.Core.Items
                     item.worth = 30.00;
                     break;
 
-                case ItemClass.HAT:
+                case ItemClassType.HAT:
                     item.maxStackSize = 1;
                     item.itemCategory = ItemCategory.HELMET;
                     item.attributes.Add(new ItemAttribute(ItemAttributeType.BONUS_TO_DEFENSE, "3"));
@@ -292,7 +218,7 @@ namespace LumberjackRL.Core.Items
                     item.worth = 5.00;
                     break;
 
-                case ItemClass.BOOTS:
+                case ItemClassType.BOOTS:
                     item.maxStackSize = 1;
                     item.itemCategory = ItemCategory.BOOTS;
                     item.attributes.Add(new ItemAttribute(ItemAttributeType.BONUS_TO_DEFENSE, "2"));
@@ -300,19 +226,19 @@ namespace LumberjackRL.Core.Items
                     item.worth = 10.00;
                     break;
 
-                case ItemClass.LOG:
+                case ItemClassType.LOG:
                     item.maxStackSize = 3;
                     item.itemCategory = ItemCategory.MATERIAL;
                     item.worth = 2.00;
                     break;
 
-                case ItemClass.ASH:
+                case ItemClassType.ASH:
                     item.maxStackSize = 200;
                     item.itemCategory = ItemCategory.MATERIAL;
                     item.worth = 0.05;
                     break;
 
-                case ItemClass.LANTERN:
+                case ItemClassType.LANTERN:
                     item.maxStackSize = 1;
                     item.itemCategory = ItemCategory.LIGHT;
                     item.attributes.Add(new ItemAttribute(ItemAttributeType.MAKES_LIGHT, "0.90"));
@@ -320,26 +246,26 @@ namespace LumberjackRL.Core.Items
                     item.worth = 10.00;
                     break;
 
-                case ItemClass.BUCKET:
+                case ItemClassType.BUCKET:
                     item.maxStackSize = 1;
                     item.itemCategory = ItemCategory.TOOL;
                     item.worth = 5.25;
                     break;
 
-                case ItemClass.WATER_BUCKET:
+                case ItemClassType.WATER_BUCKET:
                     item.maxStackSize = 1;
                     item.itemCategory = ItemCategory.TOOL;
                     item.attributes.Add(new ItemAttribute(ItemAttributeType.USES, "10"));
                     item.worth = 6.25;
                     break;
 
-                case ItemClass.SHOVEL:
+                case ItemClassType.SHOVEL:
                     item.maxStackSize = 1;
                     item.itemCategory = ItemCategory.TOOL;
                     item.worth = 3.00;
                     break;
 
-                case ItemClass.TORCH:
+                case ItemClassType.TORCH:
                     item.maxStackSize = 50;
                     item.itemCategory = ItemCategory.LIGHT;
                     item.attributes.Add(new ItemAttribute(ItemAttributeType.MAKES_LIGHT, "0.90"));
@@ -358,23 +284,23 @@ namespace LumberjackRL.Core.Items
         /// <returns></returns>
         public static Item getRandomItem(ItemCategory itemCategory, bool shop)
         {
-            List<ItemClass> ics = new List<ItemClass>();
+            List<ItemClassType> ics = new List<ItemClassType>();
             switch (itemCategory)
             {
                 case ItemCategory.FOOD:
-                    ics.Add(ItemClass.APPLE);
-                    ics.Add(ItemClass.FLAPJACKS);
-                    ics.Add(ItemClass.BACON);
-                    ics.Add(ItemClass.PUFFBALL);
-                    ics.Add(ItemClass.MOREL);
-                    ics.Add(ItemClass.BUTTON_MUSHROOM);
-                    ics.Add(ItemClass.CORN);
-                    ics.Add(ItemClass.PUMPKIN);
+                    ics.Add(ItemClassType.APPLE);
+                    ics.Add(ItemClassType.FLAPJACKS);
+                    ics.Add(ItemClassType.BACON);
+                    ics.Add(ItemClassType.PUFFBALL);
+                    ics.Add(ItemClassType.MOREL);
+                    ics.Add(ItemClassType.BUTTON_MUSHROOM);
+                    ics.Add(ItemClassType.CORN);
+                    ics.Add(ItemClassType.PUMPKIN);
                     if (!shop)
                     {
-                        ics.Add(ItemClass.DEATH_CAP);
-                        ics.Add(ItemClass.FLY_AGARIC);
-                        ics.Add(ItemClass.GHOST_FUNGUS);
+                        ics.Add(ItemClassType.DEATH_CAP);
+                        ics.Add(ItemClassType.FLY_AGARIC);
+                        ics.Add(ItemClassType.GHOST_FUNGUS);
                     }
                     break;
 
@@ -382,50 +308,50 @@ namespace LumberjackRL.Core.Items
                     return null;
 
                 case ItemCategory.TOOL:
-                    ics.Add(ItemClass.AXE);
-                    ics.Add(ItemClass.BUCKET);
-                    ics.Add(ItemClass.KEY);
-                    ics.Add(ItemClass.PICKAXE);
-                    ics.Add(ItemClass.SHOVEL);
-                    ics.Add(ItemClass.WATER_BUCKET);
-                    ics.Add(ItemClass.TENT);
-                    ics.Add(ItemClass.CORN_SEED);
-                    ics.Add(ItemClass.PUMPKIN_SEED);
-                    ics.Add(ItemClass.MOP);
+                    ics.Add(ItemClassType.AXE);
+                    ics.Add(ItemClassType.BUCKET);
+                    ics.Add(ItemClassType.KEY);
+                    ics.Add(ItemClassType.PICKAXE);
+                    ics.Add(ItemClassType.SHOVEL);
+                    ics.Add(ItemClassType.WATER_BUCKET);
+                    ics.Add(ItemClassType.TENT);
+                    ics.Add(ItemClassType.CORN_SEED);
+                    ics.Add(ItemClassType.PUMPKIN_SEED);
+                    ics.Add(ItemClassType.MOP);
                     break;
 
                 case ItemCategory.HELMET:
-                    ics.Add(ItemClass.HAT);
+                    ics.Add(ItemClassType.HAT);
                     break;
 
                 case ItemCategory.ARMOR:
-                    ics.Add(ItemClass.JACKET);
+                    ics.Add(ItemClassType.JACKET);
                     break;
 
                 case ItemCategory.BOOTS:
-                    ics.Add(ItemClass.BOOTS);
+                    ics.Add(ItemClassType.BOOTS);
                     break;
 
                 case ItemCategory.MONEY:
-                    ics.Add(ItemClass.COINS);
+                    ics.Add(ItemClassType.COINS);
                     break;
 
                 case ItemCategory.LIGHT:
-                    ics.Add(ItemClass.LANTERN);
-                    ics.Add(ItemClass.TORCH);
+                    ics.Add(ItemClassType.LANTERN);
+                    ics.Add(ItemClassType.TORCH);
                     break;
 
                 case ItemCategory.MATERIAL:
-                    ics.Add(ItemClass.ASH);
-                    ics.Add(ItemClass.FLOODGATE);
-                    ics.Add(ItemClass.MOSS);
+                    ics.Add(ItemClassType.ASH);
+                    ics.Add(ItemClassType.FLOODGATE);
+                    ics.Add(ItemClassType.MOSS);
                     if (!shop)
                     {
-                        ics.Add(ItemClass.DIAMOND);
-                        ics.Add(ItemClass.EMERALD);
-                        ics.Add(ItemClass.LOG);
-                        ics.Add(ItemClass.RUBY);
-                        ics.Add(ItemClass.SAPPHIRE);
+                        ics.Add(ItemClassType.DIAMOND);
+                        ics.Add(ItemClassType.EMERALD);
+                        ics.Add(ItemClassType.LOG);
+                        ics.Add(ItemClassType.RUBY);
+                        ics.Add(ItemClassType.SAPPHIRE);
                     }
                     break;
             }
@@ -437,37 +363,35 @@ namespace LumberjackRL.Core.Items
             return newItem;
         }
 
-
         public static Item getTreasure(double scale)
         {
             Item newItem = new Item();
 
             if (scale < 0.01)
             {
-                newItem.itemClass = ItemClass.DIAMOND;
+                newItem.itemClass = ItemClassType.DIAMOND;
             }
             else if (scale < 0.05)
             {
-                newItem.itemClass = ItemClass.RUBY;
+                newItem.itemClass = ItemClassType.RUBY;
             }
             else if (scale < 0.25)
             {
-                newItem.itemClass = ItemClass.COINS;
+                newItem.itemClass = ItemClassType.COINS;
                 newItem.stackSize = ((int)(RandomNumber.RandomDouble() * (newItem.maxStackSize / 2)) + (newItem.maxStackSize / 2));
             }
             else
             {
-                newItem.itemClass = ItemClass.COINS;
+                newItem.itemClass = ItemClassType.COINS;
                 newItem.stackSize = ((int)(RandomNumber.RandomDouble() * (newItem.maxStackSize - 1)) + 1);
             }
 
             return newItem;
         }
 
-
-        public static List<ItemVerb> getVerbs(Item item)
+        public static List<ItemVerbType> getVerbs(Item item)
         {
-            List<ItemVerb> verbs = new List<ItemVerb>();
+            List<ItemVerbType> verbs = new List<ItemVerbType>();
 
             //check if the item is there
             if (item != null)
@@ -475,20 +399,20 @@ namespace LumberjackRL.Core.Items
                 switch (item.itemCategory)
                 {
                     case ItemCategory.FOOD:
-                        verbs.Add(ItemVerb.EAT);
-                        verbs.Add(ItemVerb.PLACE);
+                        verbs.Add(ItemVerbType.EAT);
+                        verbs.Add(ItemVerbType.PLACE);
                         break;
 
                     case ItemCategory.WEAPON:
                         break;
 
                     case ItemCategory.LIGHT:
-                        verbs.Add(ItemVerb.PLACE);
-                        verbs.Add(ItemVerb.USE);
+                        verbs.Add(ItemVerbType.PLACE);
+                        verbs.Add(ItemVerbType.USE);
                         break;
 
                     case ItemCategory.TOOL:
-                        verbs.Add(ItemVerb.USE);
+                        verbs.Add(ItemVerbType.USE);
                         break;
 
                     case ItemCategory.HELMET:
@@ -504,52 +428,52 @@ namespace LumberjackRL.Core.Items
                         break;
 
                     case ItemCategory.MATERIAL:
-                        verbs.Add(ItemVerb.USE);
-                        verbs.Add(ItemVerb.PLACE);
+                        verbs.Add(ItemVerbType.USE);
+                        verbs.Add(ItemVerbType.PLACE);
                         break;
                 }
             }
             else
             {
-                verbs.Add(ItemVerb.ACTIVATE);
-                verbs.Add(ItemVerb.TALK);
-                verbs.Add(ItemVerb.LOOK);
-                verbs.Add(ItemVerb.TRADE);
-                verbs.Add(ItemVerb.SLEEP);
+                verbs.Add(ItemVerbType.ACTIVATE);
+                verbs.Add(ItemVerbType.TALK);
+                verbs.Add(ItemVerbType.LOOK);
+                verbs.Add(ItemVerbType.TRADE);
+                verbs.Add(ItemVerbType.SLEEP);
             }
 
             return verbs;
         }
 
-        public static int verbDistance(ItemVerb verb)
+        public static int verbDistance(ItemVerbType verb)
         {
             switch (verb)
             {
-                case ItemVerb.EAT:
-                case ItemVerb.SLEEP:
+                case ItemVerbType.EAT:
+                case ItemVerbType.SLEEP:
                     return 0;
 
-                case ItemVerb.USE:
-                case ItemVerb.ACTIVATE:
-                case ItemVerb.PLACE:
+                case ItemVerbType.USE:
+                case ItemVerbType.ACTIVATE:
+                case ItemVerbType.PLACE:
                     return 1;
 
-                case ItemVerb.TRADE:
+                case ItemVerbType.TRADE:
                     return 2;
 
-                case ItemVerb.TALK:
+                case ItemVerbType.TALK:
                     return 5;
 
-                case ItemVerb.LOOK:
+                case ItemVerbType.LOOK:
                     return 10;
 
             }
             return 0;
         }
 
-        public static ItemSlot getFreeItemSlot(Monster monster, Item item)
+        public static MonsterItemSlotType getFreeItemSlot(Monster monster, Item item)
         {
-            List<ItemSlot> possibleSlots = new List<ItemSlot>();
+            List<MonsterItemSlotType> possibleSlots = new List<MonsterItemSlotType>();
             switch(item.itemCategory)
             {
                 case ItemCategory.FOOD:
@@ -558,28 +482,28 @@ namespace LumberjackRL.Core.Items
                 case ItemCategory.MATERIAL:
                 case ItemCategory.LIGHT:
                 case ItemCategory.WEAPON:
-                possibleSlots.Add(ItemSlot.BELT_1);
-                possibleSlots.Add(ItemSlot.BELT_2);
-                possibleSlots.Add(ItemSlot.BELT_3);
-                possibleSlots.Add(ItemSlot.BELT_4);
+                possibleSlots.Add(MonsterItemSlotType.BELT_1);
+                possibleSlots.Add(MonsterItemSlotType.BELT_2);
+                possibleSlots.Add(MonsterItemSlotType.BELT_3);
+                possibleSlots.Add(MonsterItemSlotType.BELT_4);
                 break;
 
                 case ItemCategory.HELMET:
-                possibleSlots.Add(ItemSlot.HEAD);
+                possibleSlots.Add(MonsterItemSlotType.HEAD);
                 break;
 
                 case ItemCategory.ARMOR:
-                possibleSlots.Add(ItemSlot.BODY);
+                possibleSlots.Add(MonsterItemSlotType.BODY);
                 break;
 
                 case ItemCategory.BOOTS:
-                possibleSlots.Add(ItemSlot.FEET);
+                possibleSlots.Add(MonsterItemSlotType.FEET);
                 break;
 
             }
 
             //Search through possible slots and try to find a free one
-            foreach(ItemSlot tempSlot in possibleSlots)
+            foreach(MonsterItemSlotType tempSlot in possibleSlots)
             {
                 if(monster.inventory.getItem(tempSlot) == null)
                 {
@@ -587,7 +511,7 @@ namespace LumberjackRL.Core.Items
                 }
             }
 
-            return ItemSlot.NULL;
+            return MonsterItemSlotType.NULL;
         }
 
         /// <summary>

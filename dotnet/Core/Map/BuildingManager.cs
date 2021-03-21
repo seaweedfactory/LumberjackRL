@@ -8,16 +8,6 @@ using LumberjackRL.Core.Utilities;
 
 namespace LumberjackRL.Core.Map
 {
-    public enum BuildingType 
-    { 
-        NULL,
-        BANK, 
-        INN, 
-        FOOD_STORE, 
-        TOOL_STORE, 
-        HOUSE 
-    }
-
     public class BuildingManager
     {
         
@@ -198,23 +188,23 @@ namespace LumberjackRL.Core.Map
                                 switch (building.getBuildingType())
                                 {
                                     case BuildingType.BANK:
-                                        newMon.monsterCode = MonsterCode.HUMAN;
-                                        newMon.role = MonsterRole.BANKER;
+                                        newMon.monsterCode = MonsterClassType.HUMAN;
+                                        newMon.role = MonsterRoleType.BANKER;
                                         break;
 
                                     case BuildingType.INN:
-                                        newMon.monsterCode = MonsterCode.HUMAN;
-                                        newMon.role = MonsterRole.NULL;
+                                        newMon.monsterCode = MonsterClassType.HUMAN;
+                                        newMon.role = MonsterRoleType.NULL;
                                         break;
 
                                     case BuildingType.FOOD_STORE:
-                                        newMon.monsterCode = MonsterCode.HUMAN;
-                                        newMon.role = MonsterRole.CHEF;
+                                        newMon.monsterCode = MonsterClassType.HUMAN;
+                                        newMon.role = MonsterRoleType.CHEF;
                                         break;
 
                                     case BuildingType.TOOL_STORE:
-                                        newMon.monsterCode = MonsterCode.HUMAN;
-                                        newMon.role = MonsterRole.HANDYMAN;
+                                        newMon.monsterCode = MonsterClassType.HUMAN;
+                                        newMon.role = MonsterRoleType.HANDYMAN;
                                         break;
                                 }
                                 MonsterActionManager.initialize(newMon);

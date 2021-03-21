@@ -11,22 +11,6 @@ using System.Windows.Forms;
 
 namespace LumberjackRL.Core.UI
 {
-    public enum AdventureScreenMode 
-    { 
-        MAP, 
-        DIALOG, 
-        MAP_SELECT, 
-        INVENTORY,
-        CHARACTER, 
-        VERB_PICK, 
-        TRADE, 
-        HELP 
-    }
-
-    public enum MapSelectAction 
-    { 
-        VERB 
-    }
 
     public class AdventureScreen : IScreen
     {
@@ -70,13 +54,13 @@ namespace LumberjackRL.Core.UI
         private int tradeTargetX, tradeTargetY;
         private int characterIndex;
         private Item verbItem;
-        private ItemVerb verb;
+        private ItemVerbType verb;
         private int verbIndex;
         private String lastHungerStatus;
         private Monster tradeMonster;
         private bool tradePageIsPlayer;
-        private MapSelectAction mapSelectAction;
-        private AdventureScreenMode mode;
+        private AdvenureScreenMapSelectAction mapSelectAction;
+        private AdventureScreenModeType mode;
         private int regionCycleCounter;
     
         public AdventureScreen(Quinoa quinoa, Form parent)
@@ -95,10 +79,10 @@ namespace LumberjackRL.Core.UI
             this.tradeTargetY = 0;
             this.characterIndex = 0;
             this.targetY = 0;
-            this.mapSelectAction = MapSelectAction.VERB;
-            this.mode = AdventureScreenMode.MAP;
+            this.mapSelectAction = AdvenureScreenMapSelectAction.VERB;
+            this.mode = AdventureScreenModeType.MAP;
             this.lastHungerStatus = "";
-            this.verb = ItemVerb.NULL;
+            this.verb = ItemVerbType.NULL;
             this.verbItem = null;
             this.verbIndex = 0;
             this.tradeMonster = null;
@@ -106,26 +90,26 @@ namespace LumberjackRL.Core.UI
             this.regionCycleCounter = Quinoa.REGION_CYCLE_FREQUENCY;
         }
 
-        public void setMode(AdventureScreenMode newMode)
+        public void setMode(AdventureScreenModeType newMode)
         {
             switch(newMode)
             {
-                case AdventureScreenMode.MAP:
-                    this.mode = AdventureScreenMode.MAP;
+                case AdventureScreenModeType.MAP:
+                    this.mode = AdventureScreenModeType.MAP;
                     quinoa.getUI().refresh();
                     break;
 
-                case AdventureScreenMode.HELP:
-                    this.mode = AdventureScreenMode.HELP;
+                case AdventureScreenModeType.HELP:
+                    this.mode = AdventureScreenModeType.HELP;
                     quinoa.getUI().refresh();
                     break;
 
-                case AdventureScreenMode.DIALOG:
-                    this.mode = AdventureScreenMode.DIALOG;
+                case AdventureScreenModeType.DIALOG:
+                    this.mode = AdventureScreenModeType.DIALOG;
                     quinoa.getUI().refresh();
                     break;
 
-                case AdventureScreenMode.MAP_SELECT:
+                case AdventureScreenModeType.MAP_SELECT:
                     targetX = quinoa.getPlayer().x;
                     targetY = quinoa.getPlayer().y;
 
@@ -160,38 +144,38 @@ namespace LumberjackRL.Core.UI
                         break;
                     }
 
-                    this.mode = AdventureScreenMode.MAP_SELECT;
+                    this.mode = AdventureScreenModeType.MAP_SELECT;
                     quinoa.getMessageManager().addMessage("Press " + charToStr(ENTER_KEY) + " to select an area.");
                     quinoa.getUI().refresh();
                     break;
 
-                case AdventureScreenMode.INVENTORY:
-                    this.mode = AdventureScreenMode.INVENTORY;
+                case AdventureScreenModeType.INVENTORY:
+                    this.mode = AdventureScreenModeType.INVENTORY;
                     this.inventoryTargetX = 0;
                     this.inventoryTargetY = 0;
                     quinoa.getUI().refresh();
                     break;
 
-                case AdventureScreenMode.CHARACTER:
-                    this.mode = AdventureScreenMode.CHARACTER;
+                case AdventureScreenModeType.CHARACTER:
+                    this.mode = AdventureScreenModeType.CHARACTER;
                     quinoa.getUI().refresh();
                     break;
 
-                case AdventureScreenMode.VERB_PICK:
-                    this.mode = AdventureScreenMode.VERB_PICK;
+                case AdventureScreenModeType.VERB_PICK:
+                    this.mode = AdventureScreenModeType.VERB_PICK;
                     quinoa.getMessageManager().addMessage("Press " + charToStr(ENTER_KEY) + " select an action.");
-                    this.verb = ItemVerb.NULL;
+                    this.verb = ItemVerbType.NULL;
                     this.verbIndex = 0;
                     quinoa.getUI().refresh();
                     break;
 
-                case AdventureScreenMode.TRADE:
+                case AdventureScreenModeType.TRADE:
                     this.tradeTargetX = 0;
                     this.tradeTargetY = 0;
                     this.tradePageIsPlayer = true;
                     quinoa.getMessageManager().addMessage("Press " + charToStr(ENTER_KEY) + " to sell or buy the selected item.");
                     quinoa.getMessageManager().addMessage("Press " + charToStr(EXIT_KEY) + " to stop trading.");
-                    this.mode = AdventureScreenMode.TRADE;
+                    this.mode = AdventureScreenModeType.TRADE;
                     quinoa.getUI().refresh();
                     break;
             }
@@ -202,7 +186,7 @@ namespace LumberjackRL.Core.UI
             this.tradeMonster = monster;
         }
     
-        public void setMapSelectAction(MapSelectAction msa)
+        public void setMapSelectAction(AdvenureScreenMapSelectAction msa)
         {
             this.mapSelectAction = msa;
         }
@@ -244,7 +228,7 @@ namespace LumberjackRL.Core.UI
                 
             switch (mode)
             {
-                case AdventureScreenMode.MAP:
+                case AdventureScreenModeType.MAP:
                     this.centerOnPoint(quinoa.getPlayer().x, quinoa.getPlayer().y);
                     if (quinoa.getPlayer() != null && !quinoa.getPlayer().isSleeping())
                     {
@@ -255,7 +239,7 @@ namespace LumberjackRL.Core.UI
                     drawMessages(g);
                     break;
 
-                case AdventureScreenMode.HELP:
+                case AdventureScreenModeType.HELP:
                     this.centerOnPoint(quinoa.getPlayer().x, quinoa.getPlayer().y);
                     if (quinoa.getPlayer() != null && !quinoa.getPlayer().isSleeping())
                     {
@@ -266,14 +250,14 @@ namespace LumberjackRL.Core.UI
                     drawHelpSideBar(g);
                     break;
 
-                case AdventureScreenMode.INVENTORY:
+                case AdventureScreenModeType.INVENTORY:
                     this.centerOnPoint(quinoa.getPlayer().x, quinoa.getPlayer().y);
                     drawMap(g);
                     drawInventory(g);
                     drawMessages(g);
                     break;
 
-                case AdventureScreenMode.DIALOG:
+                case AdventureScreenModeType.DIALOG:
                     this.centerOnPoint(quinoa.getPlayer().x, quinoa.getPlayer().y);
                     drawMap(g);
                     drawMapSideBar(g);
@@ -281,7 +265,7 @@ namespace LumberjackRL.Core.UI
                     drawDialog(g);
                     break;
 
-                case AdventureScreenMode.MAP_SELECT:
+                case AdventureScreenModeType.MAP_SELECT:
                     this.centerOnPoint(targetX, targetY);
                     drawMap(g);
                     drawMapSideBar(g);
@@ -290,14 +274,14 @@ namespace LumberjackRL.Core.UI
                     drawMessages(g);
                     break;
 
-                case AdventureScreenMode.CHARACTER:
+                case AdventureScreenModeType.CHARACTER:
                     this.centerOnPoint(quinoa.getPlayer().x, quinoa.getPlayer().y);
                     drawMap(g);
                     drawCharacter(g);
                     drawMessages(g);
                     break;
 
-                case AdventureScreenMode.VERB_PICK:
+                case AdventureScreenModeType.VERB_PICK:
                     this.centerOnPoint(quinoa.getPlayer().x, quinoa.getPlayer().y);
                     drawMap(g);
                     drawMapSideBar(g);
@@ -306,7 +290,7 @@ namespace LumberjackRL.Core.UI
                     drawPickVerb(g);
                     break;
 
-                case AdventureScreenMode.TRADE:
+                case AdventureScreenModeType.TRADE:
                     this.centerOnPoint(quinoa.getPlayer().x, quinoa.getPlayer().y);
                     drawMap(g);
                     drawTrade(g);
@@ -451,19 +435,19 @@ namespace LumberjackRL.Core.UI
                         int drawY = MAP_PIXEL_Y_OFFSET + (quinoa.getUI().getGraphicsManager().getTileSize() * exitY);
                         switch(tempExit.getExitDecorator())
                         {
-                            case ExitDecorator.UP_STAIR:
+                            case RegionExitDecoratorType.UP_STAIR:
                             g.DrawImage(quinoa.getUI().getGraphicsManager().getImage(GraphicsManager.EXIT, 0), drawX, drawY, quinoa.getUI().getGraphicsManager().getTileSize(), quinoa.getUI().getGraphicsManager().getTileSize());
                             break;
 
-                            case ExitDecorator.DOWN_STAIR:
+                            case RegionExitDecoratorType.DOWN_STAIR:
                             g.DrawImage(quinoa.getUI().getGraphicsManager().getImage(GraphicsManager.EXIT, 1), drawX, drawY, quinoa.getUI().getGraphicsManager().getTileSize(), quinoa.getUI().getGraphicsManager().getTileSize());
                             break;
 
-                            case ExitDecorator.CAVE:
+                            case RegionExitDecoratorType.CAVE:
                             g.DrawImage(quinoa.getUI().getGraphicsManager().getImage(GraphicsManager.EXIT, 2), drawX, drawY, quinoa.getUI().getGraphicsManager().getTileSize(), quinoa.getUI().getGraphicsManager().getTileSize());
                             break;
 
-                            case ExitDecorator.NONE:
+                            case RegionExitDecoratorType.NONE:
                             g.DrawImage(quinoa.getUI().getGraphicsManager().getImage(GraphicsManager.SPARKLE, RandomNumber.RandomInteger(3)), drawX, drawY, quinoa.getUI().getGraphicsManager().getTileSize(), quinoa.getUI().getGraphicsManager().getTileSize());
                             break;
                         }
@@ -544,21 +528,21 @@ namespace LumberjackRL.Core.UI
                     bool drawRoads =false;
                     switch(cell.cellType)
                     {
-                        case CellType.NULL:
+                        case OverworldCellType.NULL:
                         g.FillRectangle(Brushes.DarkGreen, sideBarXOffset + x * gridSize, sideBarYOffset + y * gridSize, gridSize, gridSize);
                         break;
 
-                        case CellType.FOREST:
+                        case OverworldCellType.FOREST:
                         g.FillRectangle(Brushes.Green, sideBarXOffset + x * gridSize, sideBarYOffset + y * gridSize, gridSize, gridSize);
                         drawRoads = true;
                         break;
 
-                        case CellType.TOWN:
+                        case OverworldCellType.TOWN:
                         g.FillRectangle(Brushes.Magenta, sideBarXOffset + x * gridSize, sideBarYOffset + y * gridSize, gridSize, gridSize);
                         drawRoads = true;
                         break;
 
-                        case CellType.MAIN_TOWN:
+                        case OverworldCellType.MAIN_TOWN:
                         g.FillRectangle(Brushes.Orange, sideBarXOffset + x * gridSize, sideBarYOffset + y * gridSize, gridSize, gridSize);
                         drawRoads = true;
                         break;
@@ -600,7 +584,7 @@ namespace LumberjackRL.Core.UI
             int sideBarYOffset = MAP_PIXEL_Y_OFFSET;
             for(int i=0; i < 4; i++)
             {
-                ItemSlot tempSlot = (ItemSlot)Enum.Parse(typeof(ItemSlot), "BELT_" + (i +1));
+                MonsterItemSlotType tempSlot = (MonsterItemSlotType)Enum.Parse(typeof(MonsterItemSlotType), "BELT_" + (i +1));
                 int ts = quinoa.getUI().getGraphicsManager().getTileSize();
                 g.DrawRectangle(Pens.LightGray, itemOffsetX + sideBarXOffset + (int)(i * ts * 2.222), itemOffsetY + sideBarYOffset, ts * 2, ts * 2);
                 dtm.drawString((i+1) + "", 1.0, g, itemOffsetX + sideBarXOffset + (int)(i * ts * 2.222) + ts, itemOffsetY + sideBarYOffset + (ts * 2) + 5, quinoa.getUI().getGraphicsManager());
@@ -651,9 +635,9 @@ namespace LumberjackRL.Core.UI
 
             //draw item slots
             int slotYOffset = MAP_PIXEL_Y_OFFSET;
-            for(int i=0; i < Enum.GetValues(typeof(ItemSlot)).Length; i++)
+            for(int i=0; i < Enum.GetValues(typeof(MonsterItemSlotType)).Length; i++)
             {
-                ItemSlot tempSlot = (ItemSlot)Enum.GetValues(typeof(ItemSlot)).GetValue(i);
+                MonsterItemSlotType tempSlot = (MonsterItemSlotType)Enum.GetValues(typeof(MonsterItemSlotType)).GetValue(i);
                 int ts = quinoa.getUI().getGraphicsManager().getTileSize();
                 g.DrawRectangle(Pens.LightGray, inventoryXOffset + (int)(i * ts * 2.222), slotYOffset, ts * 2, ts * 2);
                 Item tempItem = quinoa.getPlayer().inventory.getItem(tempSlot);
@@ -692,8 +676,8 @@ namespace LumberjackRL.Core.UI
             int itemHeaderOffsetY=0;
             if(inventoryTargetY == -1)
             {
-                selectedItem = quinoa.getPlayer().inventory.getItem((ItemSlot)Enum.GetValues(typeof(ItemSlot)).GetValue(inventoryTargetX));
-                String slotName = ((ItemSlot)Enum.GetValues(typeof(ItemSlot)).GetValue(inventoryTargetX)).ToString();
+                selectedItem = quinoa.getPlayer().inventory.getItem((MonsterItemSlotType)Enum.GetValues(typeof(MonsterItemSlotType)).GetValue(inventoryTargetX));
+                String slotName = ((MonsterItemSlotType)Enum.GetValues(typeof(MonsterItemSlotType)).GetValue(inventoryTargetX)).ToString();
                 dtm.drawString(slotName, 2.0, g, itemInfoX + 5, itemHeaderOffsetY + itemInfoY + 7, quinoa.getUI().getGraphicsManager());
                 itemHeaderOffsetY = 16;
             }
@@ -818,7 +802,7 @@ namespace LumberjackRL.Core.UI
 
         public void drawPickVerb(Graphics g)
         {
-            List<ItemVerb> itemVerbs = ItemManager.getVerbs(verbItem);
+            List<ItemVerbType> itemVerbs = ItemManager.getVerbs(verbItem);
             int vWidth = 200;
             int vHeight = ((itemVerbs.Count) * 20) + 20;
             int dx = (Parent.Size.Width / 2) - (vWidth / 2);
@@ -828,7 +812,7 @@ namespace LumberjackRL.Core.UI
             g.DrawRectangle(Pens.LightGray,dx, dy, vWidth, vHeight);
 
             int ivCounter=0;
-            foreach(ItemVerb iv in itemVerbs)
+            foreach(ItemVerbType iv in itemVerbs)
             {
                 g.FillRectangle((ivCounter == verbIndex) ? Brushes.White : Brushes.LightGray, dx + 10, dy + (ivCounter * 20) + 10, 10, 10);
                 dtm.drawString(iv.ToString(), 2.0, g, dx + 25, dy + 10 + (ivCounter * 20), quinoa.getUI().getGraphicsManager());
@@ -876,7 +860,7 @@ namespace LumberjackRL.Core.UI
             {
                 name = "YOU";
             }
-            else if(monster.role != MonsterRole.NULL)
+            else if(monster.role != MonsterRoleType.NULL)
             {
                 name = monster.role.ToString();
             }
@@ -1008,20 +992,20 @@ namespace LumberjackRL.Core.UI
 
         public void displayDialog()
         {
-            this.setMode(AdventureScreenMode.DIALOG);
+            this.setMode(AdventureScreenModeType.DIALOG);
         }
 
         public void displayTrade(Monster monster)
         {
             this.setTradeMonster(monster);
-            this.setMode(AdventureScreenMode.TRADE);
+            this.setMode(AdventureScreenModeType.TRADE);
         }
 
         public void doUseItem(Item item)
         {
             if(item != null)
             {
-                List<ItemVerb> itemVerbs = ItemManager.getVerbs(item);
+                List<ItemVerbType> itemVerbs = ItemManager.getVerbs(item);
                 if(itemVerbs.Count == 0)
                 {
                     //do nothing
@@ -1034,15 +1018,15 @@ namespace LumberjackRL.Core.UI
                     targetMaxDistance = ItemManager.verbDistance(verb);
                     if(targetMaxDistance > 0)
                     {
-                        this.mapSelectAction = MapSelectAction.VERB;
+                        this.mapSelectAction = AdvenureScreenMapSelectAction.VERB;
                         this.setMapSelectMaxDistance(targetMaxDistance);
-                        this.setMode(AdventureScreenMode.MAP_SELECT);
+                        this.setMode(AdventureScreenModeType.MAP_SELECT);
                         quinoa.getUI().refresh();
                     }
                     else
                     {
                         MonsterActionManager.setItemVerbCommand(quinoa.getPlayer(), verbItem, verb, 0, 0);
-                        this.setMode(AdventureScreenMode.MAP);
+                        this.setMode(AdventureScreenModeType.MAP);
                         quinoa.getUI().refresh();
                         quinoa.cycle();
                     }
@@ -1050,7 +1034,7 @@ namespace LumberjackRL.Core.UI
                 else if(itemVerbs.Count > 1)
                 {
                     verbItem = item;
-                    this.setMode(AdventureScreenMode.VERB_PICK);
+                    this.setMode(AdventureScreenModeType.VERB_PICK);
                     quinoa.getUI().refresh();
                 }
             }
@@ -1109,12 +1093,12 @@ namespace LumberjackRL.Core.UI
         {
             if(newY == -1)
             {
-                if(newX >= Enum.GetValues(typeof(ItemSlot)).Length)
+                if(newX >= Enum.GetValues(typeof(MonsterItemSlotType)).Length)
                 {
-                    newX = Enum.GetValues(typeof(ItemSlot)).Length - 1;
+                    newX = Enum.GetValues(typeof(MonsterItemSlotType)).Length - 1;
                 }
 
-                if (newX >= 0 && newX < Enum.GetValues(typeof(ItemSlot)).Length)
+                if (newX >= 0 && newX < Enum.GetValues(typeof(MonsterItemSlotType)).Length)
                 {
                     inventoryTargetX = newX;
                     inventoryTargetY = newY;
@@ -1181,7 +1165,7 @@ namespace LumberjackRL.Core.UI
         {
             if(inventoryTargetY == -1)
             {
-                return quinoa.getPlayer().inventory.getItem((ItemSlot)Enum.GetValues(typeof(ItemSlot)).GetValue(inventoryTargetX));
+                return quinoa.getPlayer().inventory.getItem((MonsterItemSlotType)Enum.GetValues(typeof(MonsterItemSlotType)).GetValue(inventoryTargetX));
             }
             else
             {
@@ -1206,35 +1190,35 @@ namespace LumberjackRL.Core.UI
         {
             switch(mode)
             {
-                case AdventureScreenMode.MAP:
+                case AdventureScreenModeType.MAP:
                 processKeyMap(key,shift,alt);
                 break;
 
-                case AdventureScreenMode.HELP:
+                case AdventureScreenModeType.HELP:
                 processKeyHelp(key,shift,alt);
                 break;
 
-                case AdventureScreenMode.DIALOG:
+                case AdventureScreenModeType.DIALOG:
                 processKeyDialog(key,shift,alt);
                 break;
 
-                case AdventureScreenMode.MAP_SELECT:
+                case AdventureScreenModeType.MAP_SELECT:
                 processKeyMapSelect(key,shift,alt);
                 break;
 
-                case AdventureScreenMode.INVENTORY:
+                case AdventureScreenModeType.INVENTORY:
                 processKeyInventory(key,shift,alt);
                 break;
 
-                case AdventureScreenMode.CHARACTER:
+                case AdventureScreenModeType.CHARACTER:
                 processKeyCharacter(key,shift,alt);
                 break;
 
-                case AdventureScreenMode.VERB_PICK:
+                case AdventureScreenModeType.VERB_PICK:
                 processKeyVerbPick(key,shift,alt);
                 break;
 
-                case AdventureScreenMode.TRADE:
+                case AdventureScreenModeType.TRADE:
                 processKeyTrade(key,shift,alt);
                 break;
 
@@ -1286,17 +1270,17 @@ namespace LumberjackRL.Core.UI
             }
             else if(key == AdventureScreen.INVENTORY_KEY)
             {
-                this.setMode(AdventureScreenMode.INVENTORY);
+                this.setMode(AdventureScreenModeType.INVENTORY);
                 quinoa.getUI().refresh();
             }
             else if(key == AdventureScreen.CHARACTER_KEY)
             {
-                this.setMode(AdventureScreenMode.CHARACTER);
+                this.setMode(AdventureScreenModeType.CHARACTER);
                 quinoa.getUI().refresh();
             }
             else if(key == AdventureScreen.HELP_KEY)
             {
-                this.setMode(AdventureScreenMode.HELP);
+                this.setMode(AdventureScreenModeType.HELP);
                 quinoa.getUI().refresh();
             }
             else if(key == '-')
@@ -1307,30 +1291,30 @@ namespace LumberjackRL.Core.UI
             else if(key == AdventureScreen.MESSAGES_KEY)
             {
                 quinoa.getMessageManager().dialogLastMessages();
-                this.setMode(AdventureScreenMode.DIALOG);
+                this.setMode(AdventureScreenModeType.DIALOG);
                 quinoa.getUI().refresh();
             }
             else if(key == AdventureScreen.BELT_1_KEY)
             {
-                doUseItem(quinoa.getPlayer().inventory.getItem(ItemSlot.BELT_1));
+                doUseItem(quinoa.getPlayer().inventory.getItem(MonsterItemSlotType.BELT_1));
             }
             else if(key == AdventureScreen.BELT_2_KEY)
             {
-                doUseItem(quinoa.getPlayer().inventory.getItem(ItemSlot.BELT_2));
+                doUseItem(quinoa.getPlayer().inventory.getItem(MonsterItemSlotType.BELT_2));
             }
             else if(key == AdventureScreen.BELT_3_KEY)
             {
-                doUseItem(quinoa.getPlayer().inventory.getItem(ItemSlot.BELT_3));
+                doUseItem(quinoa.getPlayer().inventory.getItem(MonsterItemSlotType.BELT_3));
             }
             else if(key == AdventureScreen.BELT_4_KEY)
             {
-                doUseItem(quinoa.getPlayer().inventory.getItem(ItemSlot.BELT_4));
+                doUseItem(quinoa.getPlayer().inventory.getItem(MonsterItemSlotType.BELT_4));
             }
             else if(key == AdventureScreen.ACTION_KEY)
             {
                 verbItem = null;
                 verbIndex = 0;
-                this.setMode(AdventureScreenMode.VERB_PICK);
+                this.setMode(AdventureScreenModeType.VERB_PICK);
                 quinoa.getUI().refresh();
             }
         }
@@ -1346,7 +1330,7 @@ namespace LumberjackRL.Core.UI
                 }
                 else
                 {
-                    this.setMode(AdventureScreenMode.MAP);
+                    this.setMode(AdventureScreenModeType.MAP);
                     quinoa.cycle();
                 }
             }
@@ -1356,7 +1340,7 @@ namespace LumberjackRL.Core.UI
         {
             if(key == AdventureScreen.EXIT_KEY)
             {
-                this.setMode(AdventureScreenMode.MAP);
+                this.setMode(AdventureScreenModeType.MAP);
             }
         }
     
@@ -1364,20 +1348,20 @@ namespace LumberjackRL.Core.UI
         {
             if(key == AdventureScreen.ENTER_KEY)
             {
-                List<ItemVerb> itemVerbs = ItemManager.getVerbs(verbItem);
+                List<ItemVerbType> itemVerbs = ItemManager.getVerbs(verbItem);
                 verb = itemVerbs[verbIndex];
                 this.targetMaxDistance = ItemManager.verbDistance(verb);
                 if(targetMaxDistance > 0)
                 {
-                    this.mapSelectAction = MapSelectAction.VERB;
+                    this.mapSelectAction = AdvenureScreenMapSelectAction.VERB;
                     this.setMapSelectMaxDistance(targetMaxDistance);
-                    this.setMode(AdventureScreenMode.MAP_SELECT);
+                    this.setMode(AdventureScreenModeType.MAP_SELECT);
                     quinoa.getUI().refresh();
                 }
                 else
                 {
                     MonsterActionManager.setItemVerbCommand(quinoa.getPlayer(), verbItem, verb, quinoa.getPlayer().x, quinoa.getPlayer().y);
-                    this.setMode(AdventureScreenMode.MAP);
+                    this.setMode(AdventureScreenModeType.MAP);
                     quinoa.getUI().refresh();
                     quinoa.cycle();
                 }
@@ -1392,7 +1376,7 @@ namespace LumberjackRL.Core.UI
             }
             else if (key == AdventureScreen.DOWN_KEY)
             {
-                List<ItemVerb> itemVerbs = ItemManager.getVerbs(verbItem);
+                List<ItemVerbType> itemVerbs = ItemManager.getVerbs(verbItem);
                 if(verbIndex < itemVerbs.Count - 1)
                 {
                     verbIndex++;
@@ -1423,7 +1407,7 @@ namespace LumberjackRL.Core.UI
             {
                 switch(mapSelectAction)
                 {
-                    case MapSelectAction.VERB:
+                    case AdvenureScreenMapSelectAction.VERB:
 
                     //reset facing
                     if(targetY > quinoa.getPlayer().y)
@@ -1444,7 +1428,7 @@ namespace LumberjackRL.Core.UI
                     }
 
                     MonsterActionManager.setItemVerbCommand(quinoa.getPlayer(), verbItem, verb, targetX, targetY);
-                    this.setMode(AdventureScreenMode.MAP);
+                    this.setMode(AdventureScreenModeType.MAP);
                     quinoa.cycle();
                     break;
                 }
@@ -1455,12 +1439,12 @@ namespace LumberjackRL.Core.UI
         {
             if(key == AdventureScreen.EXIT_KEY)
             {
-                this.setMode(AdventureScreenMode.MAP);
+                this.setMode(AdventureScreenModeType.MAP);
                 quinoa.getUI().refresh();
             }
             else if(key == AdventureScreen.CHARACTER_KEY)
             {
-                this.setMode(AdventureScreenMode.CHARACTER);
+                this.setMode(AdventureScreenModeType.CHARACTER);
                 quinoa.getUI().refresh();
             }
             else if(key == AdventureScreen.UP_KEY)
@@ -1511,7 +1495,7 @@ namespace LumberjackRL.Core.UI
         {
             if(key == AdventureScreen.EXIT_KEY)
             {
-                this.setMode(AdventureScreenMode.MAP);
+                this.setMode(AdventureScreenModeType.MAP);
                 quinoa.getUI().refresh();
             }
             else if(key == AdventureScreen.UP_KEY)
@@ -1552,12 +1536,12 @@ namespace LumberjackRL.Core.UI
         {
             if(key == AdventureScreen.EXIT_KEY)
             {
-                this.setMode(AdventureScreenMode.MAP);
+                this.setMode(AdventureScreenModeType.MAP);
                 quinoa.getUI().refresh();
             }
             else if(key == AdventureScreen.INVENTORY_KEY)
             {
-                this.setMode(AdventureScreenMode.INVENTORY);
+                this.setMode(AdventureScreenModeType.INVENTORY);
                 quinoa.getUI().refresh();
             }
             else if(key == AdventureScreen.UP_KEY)

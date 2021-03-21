@@ -9,7 +9,7 @@ namespace LumberjackRL.Core.Items
 {
     public class Item : IRemoveObject, IStoreObject, ICopyObject
     {
-        private ItemClass m_itemClass;
+        private ItemClassType m_itemClass;
 
         public ItemCategory itemCategory
         {
@@ -17,7 +17,7 @@ namespace LumberjackRL.Core.Items
             set;
         }
 
-        public ItemClass itemClass
+        public ItemClassType itemClass
         {
             get
             {
@@ -98,7 +98,7 @@ namespace LumberjackRL.Core.Items
             stackSize = 1;
             worth = 0.01;
             attributes = new List<ItemAttribute>();
-            itemClass = ItemClass.LOG;
+            itemClass = ItemClassType.LOG;
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace LumberjackRL.Core.Items
         public void LoadObject(StreamReader inStream)
         {
             this.itemCategory = (ItemCategory)Enum.Parse(typeof(ItemCategory), inStream.ReadLine());
-            this.itemClass = (ItemClass)Enum.Parse(typeof(ItemClass), inStream.ReadLine());
+            this.itemClass = (ItemClassType)Enum.Parse(typeof(ItemClassType), inStream.ReadLine());
             this.itemState = (ItemState)Enum.Parse(typeof(ItemState), inStream.ReadLine());
             this.x = Int32.Parse(inStream.ReadLine());
             this.y = Int32.Parse(inStream.ReadLine());

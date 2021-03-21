@@ -9,7 +9,7 @@ namespace LumberjackRL.Core.Monsters
 {
     public class MonsterCommand : IStoreObject, ICopyObject
     {
-        public MonsterCommandCode commandCode
+        public MonsterCommandType commandCode
         {
             get;
             set;
@@ -29,7 +29,7 @@ namespace LumberjackRL.Core.Monsters
 
         public MonsterCommand()
         {
-            commandCode = MonsterCommandCode.NULL;
+            commandCode = MonsterCommandType.NULL;
             counter = 0;
             parameters = new Dictionary<String, String>();
         }
@@ -71,7 +71,7 @@ namespace LumberjackRL.Core.Monsters
 
         public void LoadObject(StreamReader inStream)
         {
-            commandCode = (MonsterCommandCode)Enum.Parse(typeof(MonsterCommandCode), inStream.ReadLine());
+            commandCode = (MonsterCommandType)Enum.Parse(typeof(MonsterCommandType), inStream.ReadLine());
             counter = Int32.Parse(inStream.ReadLine());
             parameters = new Dictionary<String, String>();
             int parametersSize = Int32.Parse(inStream.ReadLine());

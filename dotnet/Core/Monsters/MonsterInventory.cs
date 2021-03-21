@@ -7,17 +7,6 @@ using System.IO;
 
 namespace LumberjackRL.Core.Monsters
 {
-    public enum ItemSlot 
-    {
-        NULL,
-        BELT_1, 
-        BELT_2, 
-        BELT_3, 
-        BELT_4, 
-        HEAD, 
-        BODY, 
-        FEET
-    }
 
     public class MonsterInventory : IStoreObject, ICopyObject
     {
@@ -137,7 +126,7 @@ namespace LumberjackRL.Core.Monsters
                 }
             }
 
-            foreach(ItemSlot tempSlot in Enum.GetValues(typeof(ItemSlot)).Cast<ItemSlot>())
+            foreach(MonsterItemSlotType tempSlot in Enum.GetValues(typeof(MonsterItemSlotType)).Cast<MonsterItemSlotType>())
             {
                 if(getItem(tempSlot) != null && getItem(tempSlot).ID.Equals(itemID))
                 {
@@ -160,29 +149,29 @@ namespace LumberjackRL.Core.Monsters
             return null;
         }
 
-        public Item getItem(ItemSlot slot)
+        public Item getItem(MonsterItemSlotType slot)
         {
             switch(slot)
             {
-                case ItemSlot.BELT_1:
+                case MonsterItemSlotType.BELT_1:
                 return this.beltSlot1;
 
-                case ItemSlot.BELT_2:
+                case MonsterItemSlotType.BELT_2:
                 return this.beltSlot2;
 
-                case ItemSlot.BELT_3:
+                case MonsterItemSlotType.BELT_3:
                 return this.beltSlot3;
 
-                case ItemSlot.BELT_4:
+                case MonsterItemSlotType.BELT_4:
                 return this.beltSlot4;
 
-                case ItemSlot.HEAD:
+                case MonsterItemSlotType.HEAD:
                 return this.headSlot;
 
-                case ItemSlot.BODY:
+                case MonsterItemSlotType.BODY:
                 return this.bodySlot;
 
-                case ItemSlot.FEET:
+                case MonsterItemSlotType.FEET:
                 return this.feetSlot;
 
                 default:
@@ -190,35 +179,35 @@ namespace LumberjackRL.Core.Monsters
             }
         }
 
-        public void equipItem(Item item, ItemSlot slot)
+        public void equipItem(Item item, MonsterItemSlotType slot)
         {
             switch(slot)
             {
-                case ItemSlot.BELT_1:
+                case MonsterItemSlotType.BELT_1:
                 this.beltSlot1 = item;
                 break;
 
-                case ItemSlot.BELT_2:
+                case MonsterItemSlotType.BELT_2:
                 this.beltSlot2 = item;
                 break;
 
-                case ItemSlot.BELT_3:
+                case MonsterItemSlotType.BELT_3:
                 this.beltSlot3 = item;
                 break;
 
-                case ItemSlot.BELT_4:
+                case MonsterItemSlotType.BELT_4:
                 this.beltSlot4 = item;
                 break;
 
-                case ItemSlot.HEAD:
+                case MonsterItemSlotType.HEAD:
                 this.headSlot = item;
                 break;
 
-                case ItemSlot.BODY:
+                case MonsterItemSlotType.BODY:
                 this.bodySlot = item;
                 break;
 
-                case ItemSlot.FEET:
+                case MonsterItemSlotType.FEET:
                 this.feetSlot = item;
                 break;
             }
@@ -268,7 +257,7 @@ namespace LumberjackRL.Core.Monsters
                 }
             }
 
-            foreach(ItemSlot tempSlot in Enum.GetValues(typeof(ItemSlot)).Cast<ItemSlot>())
+            foreach(MonsterItemSlotType tempSlot in Enum.GetValues(typeof(MonsterItemSlotType)).Cast<MonsterItemSlotType>())
             {
                 Item tempItem = getItem(tempSlot);
                 if(tempItem != null && tempItem.ID.Equals(itemID))
@@ -301,7 +290,7 @@ namespace LumberjackRL.Core.Monsters
             }
 
             //remove items in each slot if applicable
-            foreach(ItemSlot tempSlot in Enum.GetValues(typeof(ItemSlot)).Cast<ItemSlot>())
+            foreach(MonsterItemSlotType tempSlot in Enum.GetValues(typeof(MonsterItemSlotType)).Cast<MonsterItemSlotType>())
             {
                 if(getItem(tempSlot) != null && getItem(tempSlot).ShouldBeRemoved)
                 {
@@ -321,11 +310,11 @@ namespace LumberjackRL.Core.Monsters
             {
                 tempItem.SaveObject(outStream);
             }
-            List<ItemSlot> slots = Enum.GetValues(typeof(ItemSlot)).Cast<ItemSlot>().ToList<ItemSlot>();
+            List<MonsterItemSlotType> slots = Enum.GetValues(typeof(MonsterItemSlotType)).Cast<MonsterItemSlotType>().ToList<MonsterItemSlotType>();
             outStream.WriteLine(slots.Count + "");
-            foreach(ItemSlot tempSlot in slots)
+            foreach(MonsterItemSlotType tempSlot in slots)
             {
-                outStream.WriteLine(Enum.GetName(typeof(ItemSlot),tempSlot));
+                outStream.WriteLine(Enum.GetName(typeof(MonsterItemSlotType),tempSlot));
                 if(getItem(tempSlot) != null)
                 {
                     outStream.WriteLine("true");
@@ -354,7 +343,7 @@ namespace LumberjackRL.Core.Monsters
             int slotArrayLength = Int32.Parse(inStream.ReadLine());
             for(int i=0; i < slotArrayLength; i++)
             {
-                ItemSlot tempSlot = (ItemSlot)Enum.Parse(typeof(ItemSlot), inStream.ReadLine());
+                MonsterItemSlotType tempSlot = (MonsterItemSlotType)Enum.Parse(typeof(MonsterItemSlotType), inStream.ReadLine());
                 bool itemExists = Boolean.Parse(inStream.ReadLine());
                 Item newItem = new Item();
                 if(itemExists)
@@ -378,7 +367,7 @@ namespace LumberjackRL.Core.Monsters
                 newMI.addItem((Item)tempItem.CopyObject());
             }
 
-            foreach(ItemSlot tempSlot in Enum.GetValues(typeof(ItemSlot)).Cast<ItemSlot>())
+            foreach(MonsterItemSlotType tempSlot in Enum.GetValues(typeof(MonsterItemSlotType)).Cast<MonsterItemSlotType>())
             {
                 Item newItem = this.getItem(tempSlot);
                 if(newItem != null)

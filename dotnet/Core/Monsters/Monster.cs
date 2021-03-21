@@ -7,26 +7,7 @@ using LumberjackRL.Core.Map;
 using System.IO;
 
 namespace LumberjackRL.Core.Monsters
-{
-    public enum Direction 
-    {
-        N, 
-        NE, 
-        E, 
-        SE, 
-        S, 
-        SW, 
-        W, 
-        NW
-    }
-
-    public enum MonsterState 
-    {
-        DESTROYED, 
-        ACTIVE
-    }
-
-    public class Monster : IStoreObject, ICopyObject, IRemoveObject
+{    public class Monster : IStoreObject, ICopyObject, IRemoveObject
     {
         /// <summary>
         /// X position within the region
@@ -67,7 +48,7 @@ namespace LumberjackRL.Core.Monsters
         /// <summary>
         /// What type of monster is it?
         /// </summary>
-        public MonsterCode monsterCode
+        public MonsterClassType monsterCode
         {
             get;
             set;
@@ -85,7 +66,7 @@ namespace LumberjackRL.Core.Monsters
         /// <summary>
         /// Does the monster have a job?
         /// </summary>
-        public MonsterRole role
+        public MonsterRoleType role
         {
             set;
             get;
@@ -135,8 +116,8 @@ namespace LumberjackRL.Core.Monsters
             y = 0;
             facing = Direction.S;
             state = MonsterState.ACTIVE;
-            monsterCode = MonsterCode.HUMAN;
-            role = MonsterRole.NULL;
+            monsterCode = MonsterClassType.HUMAN;
+            role = MonsterRoleType.NULL;
             ID = RandomNumber.RandomUUID().ToString();
             AIParameters = new Dictionary<String,String>();
             stats = new MonsterStats();
@@ -266,7 +247,7 @@ namespace LumberjackRL.Core.Monsters
             {
                 return true;
             }
-            else if(command.commandCode == MonsterCommandCode.NULL)
+            else if(command.commandCode == MonsterCommandType.NULL)
             {
                 return true;
             }
@@ -331,8 +312,8 @@ namespace LumberjackRL.Core.Monsters
             this.y = Int32.Parse(inStream.ReadLine());
             this.facing = (Direction)Enum.Parse(typeof(Direction), inStream.ReadLine());
             this.state = (MonsterState)Enum.Parse(typeof(MonsterState), inStream.ReadLine());
-            this.monsterCode = (MonsterCode)Enum.Parse(typeof(MonsterCode), inStream.ReadLine());
-            this.role = (MonsterRole)Enum.Parse(typeof(MonsterRole), inStream.ReadLine());
+            this.monsterCode = (MonsterClassType)Enum.Parse(typeof(MonsterClassType), inStream.ReadLine());
+            this.role = (MonsterRoleType)Enum.Parse(typeof(MonsterRoleType), inStream.ReadLine());
             this.ID = inStream.ReadLine();
             this.sleeping = Int32.Parse(inStream.ReadLine());
             this.AIParameters.Clear();

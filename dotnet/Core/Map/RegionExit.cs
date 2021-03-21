@@ -7,20 +7,12 @@ using LumberjackRL.Core.Utilities;
 
 namespace LumberjackRL.Core.Map
 {
-    public enum ExitDecorator 
-    {
-        NONE, 
-        DOWN_STAIR, 
-        UP_STAIR, 
-        CAVE
-    }
-
     public class RegionExit : IStoreObject
     {
         private int x, y;                   //origin of the exit
         private int dx, dy;                 //destination of the exit
         private String destinationRegionID; //what region does the exit lead to?
-        private ExitDecorator exitDecorator; //what does the exit look like?
+        private RegionExitDecoratorType exitDecorator; //what does the exit look like?
 
         public RegionExit()
         {
@@ -29,10 +21,10 @@ namespace LumberjackRL.Core.Map
             dx = 0;
             dy = 0;
             destinationRegionID = "";
-            exitDecorator = ExitDecorator.NONE;
+            exitDecorator = RegionExitDecoratorType.NONE;
         }
 
-        public RegionExit(int x, int y, int dx, int dy, String destinationRegionID, ExitDecorator exitDecorator)
+        public RegionExit(int x, int y, int dx, int dy, String destinationRegionID, RegionExitDecoratorType exitDecorator)
         {
             this.x = x;
             this.y = y;
@@ -59,7 +51,7 @@ namespace LumberjackRL.Core.Map
             setDx(Int32.Parse(inStream.ReadLine()));
             setDy(Int32.Parse(inStream.ReadLine()));
             setDestinationRegionID(inStream.ReadLine());
-            setExitDecorator((ExitDecorator)Enum.Parse(typeof(ExitDecorator),inStream.ReadLine()));
+            setExitDecorator((RegionExitDecoratorType)Enum.Parse(typeof(RegionExitDecoratorType),inStream.ReadLine()));
         }
 
         /**
@@ -135,7 +127,7 @@ namespace LumberjackRL.Core.Map
         /**
          * @return the exitDecorator
          */
-        public ExitDecorator getExitDecorator() 
+        public RegionExitDecoratorType getExitDecorator() 
         {
             return exitDecorator;
         }
@@ -143,7 +135,7 @@ namespace LumberjackRL.Core.Map
         /**
          * @param exitDecorator the exitDecorator to set
          */
-        public void setExitDecorator(ExitDecorator exitDecorator) 
+        public void setExitDecorator(RegionExitDecoratorType exitDecorator) 
         {
             this.exitDecorator = exitDecorator;
         }
